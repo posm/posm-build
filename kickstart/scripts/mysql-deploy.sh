@@ -19,8 +19,6 @@ deploy_mysql_rhel() {
   if [ -n "$mysql_size" ]; then
     cp "/usr/share/mysql/my-$mysql_size.cnf" $mysql_conf
   fi
-  # Set id (used for replication)
-  perl -pi -e 's/^server-id.*/server-id = '$mysql_id'/' $mysql_conf
 
   # Set runlevels
   chkconfig --levels 345 $mysql_svc on
