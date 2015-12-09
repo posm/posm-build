@@ -1,8 +1,10 @@
 #!/bin/sh
 
 ks_fetch() {
-  mkdir -p /root/`dirname "$1"`
-	wget -q -O "/root/${1}" "$KS/${1}"
+  if [ -n "$KS" ]; then
+    mkdir -p /root/`dirname "$1"`
+    wget -q -O "/root/${1}" "$KS/${1}"
+  fi
 }
 
 from_github() {
