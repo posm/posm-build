@@ -11,6 +11,5 @@ Interim PXE Build Process
 =========================
 
  1. Create a PXE boot server for Ubuntu 14.04 LTS
- 2. Put `kickstart/POSM_Server.cfg` inplace on your PXE server wherever is appropriate
- 3. Put this enitre repo at the root of your PXE web server
- 4. PXE boot as approriate to use the `POSM_Server.cfg` preseed, for example, add the following on the kernel line: `auto=true url=http://ks/kickstart/POSM_Server.cfg`
+ 2. Put this enitre repo at the root of your Kickstart / PXE web server
+ 3. PXE boot as approriate to use the `POSM_Server.cfg` preseed, for example, add the following on the kernel line: `auto=true url=http://ks/kickstart/POSM_Server.cfg`
