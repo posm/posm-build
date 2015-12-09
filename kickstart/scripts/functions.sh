@@ -11,7 +11,7 @@ from_github() {
   local url="$1"
   local dst="$2"
   mkdir -p "$dst"
-  curl --silent --location "$url/archive/master.tar.gz" | tar -zxf - -C "$dst" --strip=1
+  wget -q -O - "$url/archive/master.tar.gz" | tar -zxf - -C "$dst" --strip=1
   chown -R root:root "$dst"
   chmod -R o-w "$dst"
 }
