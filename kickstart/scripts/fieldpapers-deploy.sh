@@ -55,7 +55,7 @@ deploy_fp_web() {
   from_github "https://github.com/fieldpapers/fp-web" "$dst/fp-web"
   chown -R fp:fp "$dst/fp-web"
   # FIXME: remove next line
-  sed -i -e 's/2\.2\.2/2.2.3/' $dst/fp-web/.ruby_version $dst/fp-web/Gemfile
+  sed -i -e 's/2\.2\.2/2.2.3/' $dst/fp-web/.ruby-version $dst/fp-web/Gemfile
 
   # configure FP
   cat - <<EOF >"$dst/fp-web/.env"
