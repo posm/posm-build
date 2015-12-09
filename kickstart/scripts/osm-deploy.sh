@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 deploy_osm_ubuntu() {
   apt-get install software-properties-common -y

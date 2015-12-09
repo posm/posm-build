@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ruby_ver="${ruby_ver:-2.2}"
 

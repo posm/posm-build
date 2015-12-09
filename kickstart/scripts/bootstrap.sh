@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ks_fetch() {
   if [ -n "$KS" ]; then

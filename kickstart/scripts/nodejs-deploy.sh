@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 deploy_nodejs_ubuntu() {
   wget -q -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -

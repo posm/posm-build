@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 deploy_gis_ubuntu() {
   apt-get install python-software-properties -y

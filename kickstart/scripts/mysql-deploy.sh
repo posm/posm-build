@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 mysql_ver="${mysql_ver:-5.5}"
 mysql_pw="${mysql_pw:-}"
