@@ -5,12 +5,11 @@ deploy_gis_ubuntu() {
   add-apt-repository ppa:ubuntugis/ppa -y
   apt-get update
   apt-get install -y \
-    freexl \
-    gdal \
-    geos \
-    proj \
-    spatialite \
-    spatialite-tools
+    libfreexl1 libfreexl-dev \
+    gdal-bin libgdal1h libgdal-dev python-gdal \
+    libgeos-3.4.2 libgeos-dev \
+    proj-bin libproj0 libproj-dev \
+    spatialite-bin libspatialite5 libspatialite-dev
 }
 
 deploy_gis_rhel() {
