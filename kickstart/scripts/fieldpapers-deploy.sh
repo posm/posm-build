@@ -4,7 +4,7 @@ dst=/opt/fp
 
 mysql_pw="${mysql_pw:-}"
 
-fieldpapers_deploy_ubuntu() {
+deploy_fieldpapers_ubuntu() {
   # deps
   apt-get install -y \
     build-essential \
@@ -23,28 +23,37 @@ fieldpapers_deploy_ubuntu() {
     sqlite3 \
     zlib1g-dev
 
+  # FP user & env
+  useradd -c 'Field Papers' -d "$dst" -m -r -s /bin/bash -U fp
+  cat - <<"EOF" >"$dst/.bashrc"
+    for d in "$HOME" "$HOME"/fp-*; do
+      if [ -e "$d/bin" ]; then
+        PATH="$PATH:$d/bin"
+      fi
+      if [ -e "$d/.env" ]; then
+        set -a
+        . "$d/.env"
+        set +a
+      fi
+    done
+EOF
+
+  deploy_fieldpapers_common
+}
+
+deploy_fieldpapers_common() {
+  deploy_fp_web
+  deploy_fp_tiler
+}
+
+deploy_fp_web() {
   # gems
   gem install --no-rdoc --no-ri bundler
   gem install --no-rdoc --no-ri foreman
 
-  # FP user & env
-  useradd -c 'Field Papers' -d "$dst" -m -r -s /bin/bash -U fp
-  cat - <<"EOF" >"$dst/.bashrc"
-if [ -e "$HOME/fp-web/.env" ]; then
-  set -a
-  . "$HOME/fp-web/.env"
-  set +a
-fi
-for d in "$HOME/bin" "$HOME"/*/bin; do
-  if [ -d "$d" ]; then
-    PATH="$PATH:$d"
-  fi
-done
-EOF
-
-  # install FP
+  # install FP WEB
   from_github "https://github.com/fieldpapers/fp-web" "$dst/fp-web"
-  chown -R fp:fp "$dst"
+  chown -R fp:fp "$dst/fp-web"
   # FIXME: remove next line
   sed -i -e 's/2\.2\.2/2.2.3/' $dst/fp-web/.ruby_version $dst/fp-web/Gemfile
 
@@ -64,6 +73,16 @@ EOF
   su - fp -c "cd \"$dst/fp-web\" && rake db:create && rake db:schema:load"
 
   echo "==> Start FP-WEB with: sudo su - fp -c \"rails server -b 0.0.0.0\""
+}
+
+deploy_fp_tiler() {
+  # install FP Tiler
+  from_github "https://github.com/fieldpapers/fp-tiler" "$dst/fp-tiler"
+  chown -R fp:fp "$dst/fp-tiler"
+
+  su - fp -c "cd \"$dst/fp-tiler\" && npm install"
+
+  echo "==> Start FP-TILER with: sudo su - fp -c \"cd fp-tiler && npm server\""
 }
 
 deploy fieldpapers
