@@ -34,3 +34,5 @@ deploy_omk_server() {
 
   echo "==> Start OpenMapKit Server with: sudo su - omk -c \"cd OpenMapKitServer && npm start\""
 }
+
+deploy omk
