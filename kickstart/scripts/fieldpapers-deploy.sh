@@ -9,6 +9,7 @@ deploy_fieldpapers_ubuntu() {
   apt-get install -y \
     build-essential \
     ghostscript \
+    git \
     libcurl4-openssl-dev \
     libffi-dev \
     libmysqlclient-dev \
