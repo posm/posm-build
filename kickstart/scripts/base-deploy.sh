@@ -1,6 +1,9 @@
 #!/bin/bash
 
 deploy_base_ubuntu() {
+  apt-get purge -y \
+    whoopsie
+
   apt-get install -y \
     ca-certificates \
     curl \
