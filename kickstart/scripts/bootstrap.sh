@@ -33,6 +33,7 @@ for i in "$@"; do
     continue
   fi
   chmod +x /root/scripts/${i}-deploy.sh
+  echo "==> Deploying: $i"
   if ! . /root/scripts/${i}-deploy.sh; then
     err=1
   fi
