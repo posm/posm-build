@@ -7,20 +7,8 @@ deploy_omk_ubuntu() {
   apt-get install -y \
     build-essential
 
-  # FP user & env
+  # OMK user
   useradd -c 'OpenMapKit Server' -d "$dst" -m -r -s /bin/bash -U omk
-  cat - <<"EOF" >"$dst/.bashrc"
-    for d in "$HOME" "$HOME"/fp-*; do
-      if [ -e "$d/bin" ]; then
-        PATH="$PATH:$d/bin"
-      fi
-      if [ -e "$d/.env" ]; then
-        set -a
-        . "$d/.env"
-        set +a
-      fi
-    done
-EOF
 
   deploy_omk_server
 }
@@ -33,7 +21,9 @@ deploy_omk_server() {
 
   su - omk -c "cd \"$dst/OpenMapKitServer\" && npm install"
 
-  echo "==> Start OpenMapKit Server with: sudo su - omk -c \"cd OpenMapKitServer && npm start\""
+  # start
+  expand etc/omk-server.upstart /etc/init/omk-server.conf
+  start omk-server
 }
 
 deploy omk

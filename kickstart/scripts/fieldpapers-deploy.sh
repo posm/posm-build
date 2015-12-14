@@ -27,6 +27,7 @@ deploy_fieldpapers_ubuntu() {
   # FP user & env
   useradd -c 'Field Papers' -d "$dst" -m -r -s /bin/bash -U fp
   cat - <<"EOF" >"$dst/.bashrc"
+    # this is for interactive shell, not used by upstart!
     for d in "$HOME" "$HOME"/fp-*; do
       if [ -e "$d/bin" ]; then
         PATH="$PATH:$d/bin"
@@ -59,13 +60,7 @@ deploy_fp_web() {
   sed -i -e 's/2\.2\.2/2.2.3/' $dst/fp-web/.ruby-version $dst/fp-web/Gemfile
 
   # configure FP
-  cat - <<EOF >"$dst/fp-web/.env"
-DATABASE_URL="mysql2://root:${mysql_pw}@localhost/fieldpapers_development"
-TEST_DATABASE_URL="mysql2://root:${mysql_pw}@localhost/fieldpapers_test"
-AWS_ACCESS_KEY_ID="redacted"
-AWS_SECRET_ACCESS_KEY="redacted"
-S3_BUCKET_NAME="redacted"
-EOF
+  expand etc/fp-web.env "$dst/fp-web/.env"
 
   # install vendored deps
   su - fp -c "cd \"$dst/fp-web\" && bundle install -j `grep -c rocessor /proc/cpuinfo` --path vendor/bundle"
@@ -73,7 +68,9 @@ EOF
   # init database
   su - fp -c "cd \"$dst/fp-web\" && rake db:create && rake db:schema:load"
 
-  echo "==> Start FP-WEB with: sudo su - fp -c \"rails server -b 0.0.0.0\""
+  # start
+  expand etc/fp-web.upstart /etc/init/fp-web.conf
+  start fp-web
 }
 
 deploy_fp_tiler() {
@@ -83,7 +80,9 @@ deploy_fp_tiler() {
 
   su - fp -c "cd \"$dst/fp-tiler\" && npm install"
 
-  echo "==> Start FP-TILER with: sudo su - fp -c \"cd fp-tiler && npm server\""
+  # start
+  expand etc/fp-tiler.upstart /etc/init/fp-tiler.conf
+  start fp-tiler
 }
 
 deploy fieldpapers

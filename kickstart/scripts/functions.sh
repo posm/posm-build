@@ -5,6 +5,16 @@ ks_fetch() {
     mkdir -p /root/`dirname "$1"`
     wget -q -O "/root/${1}" "$KS/${1}"
   fi
+  if [ -n "$2" ]; then
+    cp -p "/root/${1}" "$2"
+    return $?
+  fi
+  test -e "/root/$1"
+  return $?
+}
+
+expand() {
+  ks_fetch "$1" && /usr/bin/interp < "/root/$1" > "$2"
 }
 
 from_github() {

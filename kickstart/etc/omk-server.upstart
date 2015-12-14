@@ -1,0 +1,26 @@
+# omk-server
+
+description     "OpenMapKit Server (Node.js)"
+author          "James Flemer <james.flemer@ndpgroup.com>"
+
+start on (local-filesystems and net-device-up)
+stop on shutdown
+
+respawn
+#respawn limit 5 60
+
+pre-start script
+    echo "[`date '+%c'`] Starting: omk-server" >> /var/log/omk-server.log
+end script
+
+pre-stop script
+    echo "[`date '+%c'`] Stopping: omk-server" >> /var/log/omk-server.log
+end script
+
+exec start-stop-daemon \
+		--start \
+		--chdir /opt/omk \
+		--chuid omk \
+		--make-pidfile \
+		--pidfile /var/run/omk-server.pid \
+		--exec /usr/bin/nodejs -- /opt/omk/OpenMapKitServer/server.js >> /var/log/omk-server.log 2>&1

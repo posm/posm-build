@@ -1,0 +1,29 @@
+# fp-tiler
+
+description     "FieldPapers Tiler (Node.js)"
+author          "James Flemer <james.flemer@ndpgroup.com>"
+
+start on (local-filesystems and net-device-up)
+stop on shutdown
+
+env API_BASE_URL="{{fp_api_base_url}}"
+export API_BASE_URL
+
+respawn
+#respawn limit 5 60
+
+pre-start script
+    echo "[`date '+%c'`] Starting: fp-tiler" >> /var/log/fp-tiler.log
+end script
+
+pre-stop script
+    echo "[`date '+%c'`] Stopping: fp-tiler" >> /var/log/fp-tiler.log
+end script
+
+exec start-stop-daemon \
+		--start \
+		--chdir /opt/fp \
+		--chuid fp \
+		--make-pidfile \
+		--pidfile /var/run/fp-tiler.pid \
+		--exec /usr/bin/nodejs -- /opt/fp/fp-tiler/server.js >> /var/log/fp-tiler.log 2>&1

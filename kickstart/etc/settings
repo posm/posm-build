@@ -1,0 +1,8 @@
+#!/bin/bash
+
+mysql_pw=posm
+mysql_size=small
+fp_aws_access_key_id=redacted
+fp_aws_secret_access_key=redacted
+fp_s3_bucket_name=redacted
+fp_api_base_url=http://posm.local/

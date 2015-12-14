@@ -5,7 +5,7 @@ Interim Manual Build Process
 
  1. Install Ubuntu 14.04 LTS minimal server however you like
  2.  `wget -q -O - https://github.com/AmericanRedCross/posm-build/archive/master.tar.gz | tar -zxf - -C /root --strip=2`
- 3. `/root/scripts/bootstrap.sh -s "mysql_pw=posm" -s "mysql_size=small" base gis osm mysql ruby postgis nodejs nginx fieldpapers omk`
+ 3. `/root/scripts/bootstrap.sh -s "mysql_pw=posm" -s "mysql_size=small" base nodejs ruby gis osm mysql postgis nginx fieldpapers omk`
 
 Interim PXE Build Process
 =========================
