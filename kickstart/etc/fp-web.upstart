@@ -1,21 +1,15 @@
 # fp-web
 
 description     "FieldPapers Web (Rails)"
-author          "James Flemer <james.flemer@ndpgroup.com>"
 
 start on (local-filesystems and net-device-up)
 stop on shutdown
 
 env DATABASE_URL="mysql2://root:{{mysql_pw}}@localhost/fieldpapers_development"
-export DATABASE_URL
 env TEST_DATABASE_URL="mysql2://root:{{mysql_pw}}@localhost/fieldpapers_test"
-export TEST_DATABASE_URL
 env AWS_ACCESS_KEY_ID="{{fp_aws_access_key_id}}"
-export AWS_ACCESS_KEY_ID
 env AWS_SECRET_ACCESS_KEY="{{fp_aws_secret_access_key}}"
-export AWS_SECRET_ACCESS_KEY
 env S3_BUCKET_NAME="{{fp_s3_bucket_name}}"
-export S3_BUCKET_NAME
 
 respawn
 #respawn limit 5 60
@@ -30,8 +24,8 @@ end script
 
 exec start-stop-daemon \
 		--start \
-		--chdir /opt/fp \
+		--chdir /opt/fp/fp-web \
 		--chuid fp \
 		--make-pidfile \
 		--pidfile /var/run/fp-web.pid \
-		--exec /opt/fp/fp-web/bin/rails server -b 0.0.0.0 >> /var/log/fp-web.log 2>&1
+		--exec /usr/local/bin/bundle -- exec rails server -b 0.0.0.0 >> /var/log/fp-web.log 2>&1
