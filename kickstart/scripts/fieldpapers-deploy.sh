@@ -56,8 +56,6 @@ deploy_fp_web() {
   # install FP WEB
   from_github "https://github.com/fieldpapers/fp-web" "$dst/fp-web"
   chown -R fp:fp "$dst/fp-web"
-  # FIXME: remove next line
-  sed -i -e 's/2\.2\.2/2.2.3/' $dst/fp-web/.ruby-version $dst/fp-web/Gemfile
 
   # configure FP
   expand etc/fp-web.env "$dst/fp-web/.env"
