@@ -46,6 +46,7 @@ EOF
 deploy_fieldpapers_common() {
   deploy_fp_web
   deploy_fp_tiler
+  deploy_fp_tasks
 }
 
 deploy_fp_web() {
@@ -81,6 +82,18 @@ deploy_fp_tiler() {
   # start
   expand etc/fp-tiler.upstart /etc/init/fp-tiler.conf
   start fp-tiler
+}
+
+deploy_fp_tasks() {
+  # install FP Tasks
+  from_github "https://github.com/fieldpapers/fp-tasks" "$dst/fp-tasks"
+  chown -R fp:fp "$dst/fp-tasks"
+
+  su - fp -c "cd \"$dst/fp-tasks\" && npm install"
+
+  # start
+  expand etc/fp-tasks.upstart /etc/init/fp-tasks.conf
+  start fp-tasks
 }
 
 deploy fieldpapers

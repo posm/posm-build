@@ -1,0 +1,32 @@
+# fp-tasks
+
+description     "FieldPapers Tasks (Node.js)"
+
+start on (local-filesystems and net-device-up)
+stop on shutdown
+
+env API_BASE_URL="{{fp_api_base_url}}"
+env PORT="{{fp_tasks_port}}"
+env AWS_DEFAULT_REGION="{{fp_aws_default_region}}"
+env S3_BUCKET_NAME="{{fp_s3_bucket_name}}"
+#env NODE_ENV=production
+#env SENTRY_DSN
+
+respawn
+#respawn limit 5 60
+
+pre-start script
+    echo "[`date '+%c'`] Starting: fp-tasks" >> /var/log/fp-tasks.log
+end script
+
+pre-stop script
+    echo "[`date '+%c'`] Stopping: fp-tasks" >> /var/log/fp-tasks.log
+end script
+
+exec start-stop-daemon \
+		--start \
+		--chdir /opt/fp \
+		--chuid fp \
+		--make-pidfile \
+		--pidfile /var/run/fp-tasks.pid \
+		--exec /usr/bin/nodejs -- /opt/fp/fp-tasks/server.js >> /var/log/fp-tasks.log 2>&1
