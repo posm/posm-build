@@ -29,6 +29,27 @@ from_github() {
   chmod -R o-w "$dst"
 }
 
+ubuntu_backport_install() {
+  local pkg="$1"
+  local src="$2"
+  local workdir="${TMPDIR:-/tmp}/deb-$pkg"
+  apt-get install -y \
+    debhelper \
+    devscripts \
+    dh-autoreconf \
+    dh-make \
+    dh-make-perl \
+    dh-python \
+    dpkg-dev \
+    ubuntu-dev-tools
+  env DEBFULLNAME="James Flemer" DEBEMAIL="james.flemer@ndpgroup.com" UBUMAIL="james.flemer@ndpgroup.com" \
+    backportpackage --update --dont-sign --workdir="$workdir" ${src:+--source=$src} "$pkg"
+  tar -xf "$workdir/$pkg"*.orig.tar* -C "$workdir"
+  tar -xf "$workdir/$pkg"*ubuntu*debian.tar*  -C "$workdir/$pkg"*/
+  (cd "$workdir/$pkg"*/ && dpkg-buildpackage -b -nc -us -uc)
+  dpkg -i "$workdir/$pkg"*.deb
+}
+
 deploy() {
   export DEBIAN_FRONTEND=noninteractive
 

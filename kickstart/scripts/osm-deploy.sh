@@ -6,12 +6,13 @@ deploy_osm_ubuntu() {
   apt-get update
   apt-get install -y \
     osm2pgsql \
-    osmctools \
     osmosis \
     osmpbf-bin libosmpbf-dev \
     python-gdal \
     geotiff-bin \
     ttf-baekmuk
+
+  ubuntu_backport_install osmctools
 }
 
 deploy osm
