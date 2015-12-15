@@ -13,6 +13,9 @@ ks_fetch() {
   return $?
 }
 
+exec &> >(tee -a /root/bootstrap.log)
+echo "[`date '+%c'`] Starting bootstrap: $0 $*"
+
 # first pass
 OPTSTRING="k:s:x"
 while getopts "$OPTSTRING" opt; do
@@ -36,6 +39,9 @@ for i in etc/settings etc/settings.local; do
   test -e "/root/$i" && . "/root/$i"
   set +a
 done
+if [ -n "$debug" ] && [ "$debug" != 0 ]; then
+  set -x
+fi
 
 # second pass (variables)
 OPTIND=0
