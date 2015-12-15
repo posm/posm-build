@@ -20,8 +20,11 @@ expand() {
 from_github() {
   local url="$1"
   local dst="$2"
+  local name="${url##*/}"
   mkdir -p "$dst"
-  wget -q -O - "$url/archive/master.tar.gz" | tar -zxf - -C "$dst" --strip=1
+  mkdir -p /root/sources
+  wget -q -O "/root/sources/$name.tar.gz" "$url/archive/master.tar.gz"
+  tar -zxf "/root/sources/$name.tar.gz" -C "$dst" --strip=1
   chown -R root:root "$dst"
   chmod -R o-w "$dst"
 }
