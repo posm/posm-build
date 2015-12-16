@@ -15,6 +15,7 @@ ks_fetch() {
 
 exec &> >(tee -a /root/bootstrap.log)
 echo "[`date '+%c'`] Starting bootstrap: $0 $*"
+echo "$0 $*" >>/root/.bash_history
 
 # first pass
 OPTSTRING="k:s:x"
