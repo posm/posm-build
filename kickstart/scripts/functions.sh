@@ -41,13 +41,18 @@ ubuntu_backport_install() {
     dh-make-perl \
     dh-python \
     dpkg-dev \
+    equivs \
     ubuntu-dev-tools
   env DEBFULLNAME="James Flemer" DEBEMAIL="james.flemer@ndpgroup.com" UBUMAIL="james.flemer@ndpgroup.com" \
     backportpackage --update --dont-sign --workdir="$workdir" ${src:+--source=$src} "$pkg"
-  tar -xf "$workdir/$pkg"*.orig.tar* -C "$workdir"
-  tar -xf "$workdir/$pkg"*ubuntu*debian.tar*  -C "$workdir/$pkg"*/
-  (cd "$workdir/$pkg"*/ && dpkg-buildpackage -b -nc -us -uc)
+  mkdir -p "$workdir/$pkg.build"
+  tar -xf "$workdir/$pkg"*.orig.tar* --strip=1 -C "$workdir/$pkg.build"
+  tar -xf "$workdir/$pkg"*ubuntu*debian.tar* -C "$workdir/$pkg.build"
+  mk-build-deps "$workdir/$pkg.build/debian/control"
+  (cd "$workdir/$pkg.build/" && dpkg-buildpackage -b -nc -us -uc)
+  mkdir -p /root/sources
   dpkg -i "$workdir/$pkg"*.deb
+  cp "$workdir/$pkg"*.deb /root/sources/
 }
 
 deploy() {
