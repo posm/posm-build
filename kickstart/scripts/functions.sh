@@ -47,12 +47,18 @@ ubuntu_backport_install() {
     backportpackage --update --dont-sign --workdir="$workdir" ${src:+--source=$src} "$pkg"
   mkdir -p "$workdir/$pkg.build"
   tar -xf "$workdir/$pkg"*.orig.tar* --strip=1 -C "$workdir/$pkg.build"
-  tar -xf "$workdir/$pkg"*ubuntu*debian.tar* -C "$workdir/$pkg.build"
-  mk-build-deps "$workdir/$pkg.build/debian/control"
-  (cd "$workdir/$pkg.build/" && dpkg-buildpackage -b -nc -us -uc)
-  mkdir -p /root/sources
-  dpkg -i "$workdir/$pkg"*.deb
-  cp "$workdir/$pkg"*.deb /root/sources/
+  tar -xf "$workdir/$pkg"*ubuntu*.tar.gz -C "$workdir/$pkg.build"
+  local d
+  for d in "$workdir/$pkg.build/debian" "$workdir/$pkg.build"/*/debian; do
+    if [ -d "$d" ]; then
+      echo "y" | mk-build-deps -i -r "$d/control"
+      (cd "$d/.." && dpkg-buildpackage -b -nc -us -uc)
+      dpkg -i "$d"/../../*.deb
+      mkdir -p /root/sources
+      cp "$d"/../../*.deb /root/sources/
+      break
+    fi
+  done
 }
 
 deploy() {
