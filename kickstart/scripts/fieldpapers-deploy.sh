@@ -132,13 +132,7 @@ deploy_fp_legacy() {
   chown -R fp:fp "$dst/fp-legacy"
 
   su - fp -c "make -C \"$dst/fp-legacy\" VERB=1 C_LDFLAGS='-Wl,--rpath,\\\$\$ORIGIN/ -L./bin/a64 -lvl -lm'"
-  su - fp -c "virtualenv \"$dst/fp-legacy/env\" --system-site-packages"
-  su - fp -c "env PATH='$dst/fp-legacy/env/bin:$PATH' pip install -r \"$dst/fp-legacy/requirements.txt\""
-  su - fp -c "env PATH='$dst/fp-legacy/env/bin:$PATH' pip install celery redis BeautifulSoup"
-
-  # start
-  expand etc/fp-legacy.upstart /etc/init/fp-legacy.conf
-  start fp-legacy
+  su - fp -c "cd \"$dst/fp-legacy\" && virtualenv env --system-site-packages && env PATH='$dst/fp-legacy/env/bin:$PATH' pip install -r requirements.txt"
 }
 
 deploy fieldpapers
