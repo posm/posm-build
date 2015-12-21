@@ -47,6 +47,7 @@ deploy_fieldpapers_common() {
   deploy_fp_web
   deploy_fp_tiler
   deploy_fp_tasks
+  deploy_fp_legacy
 }
 
 deploy_fp_web() {
@@ -94,6 +95,44 @@ deploy_fp_tasks() {
   # start
   expand etc/fp-tasks.upstart /etc/init/fp-tasks.conf
   start fp-tasks
+}
+
+deploy_fp_legacy() {
+  # System dependencies
+  apt-get install -y \
+    gdal-bin \
+    imagemagick \
+    php5-cli \
+    python-cairo \
+    python-dev \
+    python-gdal \
+    python-imaging \
+    python-numpy \
+    python-pip \
+    python-requests \
+    python-virtualenv \
+    zbar-tools
+  # Application dependencies
+  apt-get install -y \
+    python-cairo \
+    python-gdal \
+    python-imaging \
+    python-numpy
+
+  mkdir -p "$dst/fp-legacy/bin"
+  mkdir -p /root/sources
+  wget -q -O /root/sources/fp-legacy.tar.gz "https://github.com/fieldpapers/fp-legacy/archive/modernize.tar.gz"
+  wget -q -O /root/sources/vlfeat.tar.gz "https://github.com/migurski/vlfeat/archive/3340e74126434aa8c9a4175f8c88ce3ee5450b73.tar.gz"
+  tar -zxf /root/sources/fp-legacy.tar.gz -C "$dst/fp-legacy" --strip=2 --wildcards "*/decoder"
+  tar -zxf /root/sources/vlfeat.tar.gz -C "$dst/fp-legacy/vlfeat" --strip=1
+
+  # configure FP
+  expand etc/fp-legacy.env "$dst/fp-legacy/.env"
+
+  chown -R fp:fp "$dst/fp-legacy"
+
+  su - fp -c "make -C \"$dst/fp-legacy\" VERB=1 C_LDFLAGS='-Wl,--rpath,\\\$\$ORIGIN/ -L./bin/a64 -lvl -lm'"
+  su - fp -c "cd \"$dst/fp-legacy\" && virtualenv env --system-site-packages && env PATH='$dst/fp-legacy/env/bin:$PATH' pip install -r requirements.txt"
 }
 
 deploy fieldpapers
