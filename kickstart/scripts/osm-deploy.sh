@@ -5,6 +5,7 @@ deploy_osm_ubuntu() {
   add-apt-repository ppa:kakrueger/openstreetmap -y
   apt-get update
   apt-get install -y \
+    libmapnik2.2 \
     osmosis \
     osmpbf-bin libosmpbf-dev \
     python-gdal \
