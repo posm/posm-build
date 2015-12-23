@@ -6,6 +6,7 @@ osm_pg_owner="${osm_pg_owner:-gis}"
 pgsql_ver="${pgsql_ver:-9.3}"
 postgis_ver="${postgis_ver:-2.1}"
 osm_pg_users="${osm_pg_users:-}"
+osm2pg_style="${osm2pg_style:-}"
 
 dst="/opt/$osm_pg_owner"
 
@@ -36,7 +37,14 @@ deploy_demo_data_ubuntu() {
   local pbf="${TMPDIR:-/tmp}/demo_data.pbf"
   wget -q -O "$pbf" "$demo_data_pbf"
 
-  su - "$osm_pg_owner" -c "osm2pgsql --slim -C $mem --number-processes $cpu '$pbf'"
+  case "$osm2pg_style" in
+    *://*)
+      wget -q -O "$dst/${osm2pg_style##*/}" "$osm2pg_style"
+      osm2pg_style="$dst/${osm2pg_style##*/}"
+      ;;
+  esac
+
+  su - "$osm_pg_owner" -c "osm2pgsql --drop --hstore-all ${osm2pg_style:+--style="$osm2pg_style"} --slim -C $mem --number-processes $cpu '$pbf'"
 }
 
 deploy demo_data

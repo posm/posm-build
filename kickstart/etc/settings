@@ -15,3 +15,4 @@ demo_data_pbf="http://download.geofabrik.de/north-america/us/colorado-latest.osm
 osm_pg_dbname="gis"
 osm_pg_owner="gis"
 osm_pg_users="root fp omk"
+osm2pg_style="https://gist.githubusercontent.com/mojodna/10551920/raw/hstore.style"
