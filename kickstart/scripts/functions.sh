@@ -56,7 +56,7 @@ ubuntu_backport_install() {
   for d in "$workdir/$pkg.build/debian" "$workdir/$pkg.build"/*/debian; do
     if [ -d "$d" ]; then
       echo "y" | mk-build-deps -i -r "$d/control"
-      (cd "$d/.." && dpkg-buildpackage -b -nc -us -uc)
+      (cd "$d/.." && dpkg-buildpackage -jauto -b -nc -us -uc)
       dpkg -i "$d"/../../*.deb
       mkdir -p "${BOOTSTRAP_HOME}/sources"
       cp "$d"/../../*.deb "${BOOTSTRAP_HOME}/sources/"
