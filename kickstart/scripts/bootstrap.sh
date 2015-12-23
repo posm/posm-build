@@ -1,28 +1,112 @@
 #!/bin/bash
 
+if [ -z "$BOOTSTRAP_HOME" ]; then
+  BOOTSTRAP_HOME="$(dirname "$0")"
+  export BOOTSTRAP_HOME="$(dirname "$BOOTSTRAP_HOME")"
+fi
+
 ks_fetch() {
   if [ -n "$KS" ]; then
-    mkdir -p /root/`dirname "$1"`
-    wget -q -O "/root/${1}" "$KS/${1}"
+    mkdir -p "${BOOTSTRAP_HOME}/`dirname "$1"`"
+    wget -q -O "${BOOTSTRAP_HOME}/${1}" "$KS/${1}"
   fi
   if [ -n "$2" ]; then
-    cp -p "/root/${1}" "$2"
+    cp -p "${BOOTSTRAP_HOME}/${1}" "$2"
     return $?
   fi
-  test -e "/root/$1"
+  test -e "${BOOTSTRAP_HOME}/$1"
   return $?
 }
 
-exec &> >(tee -a /root/bootstrap.log)
-echo "[`date '+%c'`] Starting bootstrap: $0 $*"
-echo "$0 $*" >>/root/.bash_history
+usage() {
+  cat - <<EOF
+usage: $0 [options] component1 ... componentN
+
+  options:
+    -n           dry-run
+    -f           delay bootstrap execution until firstboot
+    -k URL       kickstart server url (for settings and compoent scripts)
+    -r           reboot when done
+    -s VAR=val   override a setting variable
+    -x           turn on debug (bash -x)
+
+  Additional configuration can be achieved through:
+    etc/settings
+    etc/settings.local
+EOF
+  exit 64
+}
+
+bootstrap_firstboot() {
+  local opt
+  printf -v opt " %q" "$@"
+  cat - <<EOF >/etc/init/posm-firstboot.conf
+# posm firstboot
+
+description     "POSM First Boot"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+
+pre-start script
+  if [ ! -e "${BOOTSTRAP_HOME}/.posm-firstboot.done" ]; then
+    echo "[\`date '+%c'\`] Starting: posm firstboot" >> "${BOOTSTAP_HOME}/posm-firstboot.log"
+    env BOOTSTRAP_HOME="${BOOTSTRAP_HOME}" "${BOOTSTRAP_HOME}/scripts/bootstrap.sh" -F$opt
+    date '+%c' > "${BOOTSTRAP_HOME}/.posm-firstboot.done"
+  fi
+end script
+EOF
+}
+
+bootstrap_init() {
+  ks_fetch "scripts/functions.sh" && . "${BOOTSTRAP_HOME}/scripts/functions.sh"
+
+  local i
+  for i in etc/settings etc/settings.local; do
+    ks_fetch "$i"
+    set -a
+    test -e "${BOOTSTRAP_HOME}/$i" && . "${BOOTSTRAP_HOME}/$i"
+    set +a
+  done
+  if [ -n "$debug" ] && [ "$debug" != 0 ]; then
+    set -x
+  fi
+}
+
+bootstrap() {
+  local err=0
+  local i
+  for i in "$@"; do
+    if ! ks_fetch "scripts/${i}-deploy.sh"; then
+      err=1
+      continue
+    fi
+    chmod +x "${BOOTSTRAP_HOME}/scripts/${i}-deploy.sh"
+    echo "==> Deploying: $i"
+    if [ -z "$dryrun" ]; then
+      if ! . "${BOOTSTRAP_HOME}/scripts/${i}-deploy.sh"; then
+        err=1
+      fi
+    fi
+  done
+  return $err
+}
 
 # first pass
-OPTSTRING="k:s:x"
+OPTSTRING="Ffhk:nrs:x"
 while getopts "$OPTSTRING" opt; do
   case $opt in
+    f)
+      firstboot=1
+      ;;
+    h)
+      usage
+      exit
+      ;;
     k)
       export KS="$OPTARG"
+      ;;
+    n)
+      dryrun=1
       ;;
     x)
       debug=1
@@ -31,42 +115,53 @@ while getopts "$OPTSTRING" opt; do
   esac
 done
 
-err=0
-ks_fetch "scripts/functions.sh" && . /root/scripts/functions.sh
+exec &> >(tee -a "${BOOTSTRAP_HOME}/bootstrap.log")
+echo "[`date '+%c'`] Starting bootstrap: $0 $*"
+echo "$0 $*" >>/root/.bash_history
+echo -e '\n********** POSM BOOTSTRAP IS RUNNING!!! **********\n' >/etc/motd
 
-for i in etc/settings etc/settings.local; do
-  ks_fetch "$i"
-  set -a
-  test -e "/root/$i" && . "/root/$i"
-  set +a
-done
-if [ -n "$debug" ] && [ "$debug" != 0 ]; then
-  set -x
-fi
+bootstrap_init
 
 # second pass (variables)
 OPTIND=0
 while getopts "$OPTSTRING" opt; do
   case $opt in
+    F)
+      firstboot=0
+      ;;
     s)
       set -a
       eval "$OPTARG"
       set +a
       ;;
+    r)
+      reboot=1
+      ;;
   esac
 done
-shift $(expr $OPTIND - 1)
 
-for i in "$@"; do
-  if ! ks_fetch "scripts/${i}-deploy.sh"; then
-    err=1
-    continue
-  fi
-  chmod +x /root/scripts/${i}-deploy.sh
-  echo "==> Deploying: $i"
-  if ! . /root/scripts/${i}-deploy.sh; then
-    err=1
-  fi
-done
+if [ x"$firstboot" = x"1" ]; then
+  bootstrap_firstboot "$@"
+  err=$?
+  reboot=0
+else
+  shift $(expr $OPTIND - 1)
+  bootstrap "$@"
+  err=$?
+fi
+
+echo "[`date '+%c'`] Bootstrap complete: $err"
+rm /etc/motd
+
+case "$reboot" in
+  1|[Yy]*|[Tt]*)
+    echo "[`date '+%c'`] Rebooting..."
+    if [ -z "$dryrun "]; then
+      /sbin/shutdown -r now "BOOTSTRAP RESTART"
+      sleep 900
+      /sbin/reboot -f
+    fi
+    ;;
+esac
 
 exit $err

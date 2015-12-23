@@ -1,20 +1,22 @@
 #!/bin/bash
 
+BOOTSTRAP_HOME="${BOOTSTRAP_HOME:-/root}"
+
 ks_fetch() {
   if [ -n "$KS" ]; then
-    mkdir -p /root/`dirname "$1"`
-    wget -q -O "/root/${1}" "$KS/${1}"
+    mkdir -p "${BOOTSTRAP_HOME}/`dirname "$1"`"
+    wget -q -O "${BOOTSTRAP_HOME}/${1}" "$KS/${1}"
   fi
   if [ -n "$2" ]; then
-    cp -p "/root/${1}" "$2"
+    cp -p "${BOOTSTRAP_HOME}/${1}" "$2"
     return $?
   fi
-  test -e "/root/$1"
+  test -e "${BOOTSTRAP_HOME}/$1"
   return $?
 }
 
 expand() {
-  ks_fetch "$1" && /usr/bin/interp < "/root/$1" > "$2"
+  ks_fetch "$1" && /usr/bin/interp < "${BOOTSTRAP_HOME}/$1" > "$2"
 }
 
 from_github() {
@@ -24,9 +26,9 @@ from_github() {
   shift
   local name="${url##*/}"
   mkdir -p "$dst"
-  mkdir -p /root/sources
-  wget -q -O "/root/sources/$name.tar.gz" "$url/archive/master.tar.gz"
-  tar -zxf "/root/sources/$name.tar.gz" -C "$dst" --strip=1 "$@"
+  mkdir -p "${BOOTSTRAP_HOME}/sources"
+  wget -q -O "${BOOTSTRAP_HOME}/sources/$name.tar.gz" "$url/archive/master.tar.gz"
+  tar -zxf "${BOOTSTRAP_HOME}/sources/$name.tar.gz" -C "$dst" --strip=1 "$@"
   chown -R root:root "$dst"
   chmod -R o-w "$dst"
 }
@@ -56,8 +58,8 @@ ubuntu_backport_install() {
       echo "y" | mk-build-deps -i -r "$d/control"
       (cd "$d/.." && dpkg-buildpackage -b -nc -us -uc)
       dpkg -i "$d"/../../*.deb
-      mkdir -p /root/sources
-      cp "$d"/../../*.deb /root/sources/
+      mkdir -p "${BOOTSTRAP_HOME}/sources"
+      cp "$d"/../../*.deb "${BOOTSTRAP_HOME}/sources/"
       break
     fi
   done
