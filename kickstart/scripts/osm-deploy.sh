@@ -6,6 +6,7 @@ deploy_osm_ubuntu() {
   apt-get update
   apt-get install -y \
     libmapnik2.2 \
+    libmapnik2-dev \
     osmosis \
     osmpbf-bin libosmpbf-dev \
     python-gdal \
