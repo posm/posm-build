@@ -19,11 +19,15 @@ deploy_demo_data_ubuntu() {
   useradd -c 'OSM/GIS User' -d "$dst" -m -r -s /bin/bash -U "$osm_pg_owner"
 
   export DEBIAN_FRONTEND=noninteractive
-  echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/initdb boolean false"
-  echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/grant_user string $osm_pg_owner"
-  echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/dbname string $osm_pg_dbname"
+  echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/initdb boolean false" | debconf-set-selections
+  echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/grant_user string $osm_pg_owner" | debconf-set-selections
+  echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/dbname string $osm_pg_dbname" | debconf-set-selections
   apt-get install -y \
     openstreetmap-postgis-db-setup
+
+  echo "openstreetmap-mapnik-carto-stylesheet-data openstreetmap-mapnik-carto-stylesheet-data/dloadcoastlines boolean true" | debconf-set-selections
+  apt-get install -y \
+    openstreetmap-mapnik-carto-stylesheet-data
 
   env DBOWNER="$osm_pg_owner" DBNAME="$osm_pg_dbname" /usr/bin/install-postgis-osm-db.sh
   local u
