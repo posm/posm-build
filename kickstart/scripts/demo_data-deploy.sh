@@ -30,7 +30,8 @@ deploy_demo_data_ubuntu() {
     (cd /tmp; /usr/bin/install-postgis-osm-user.sh "$osm_pg_dbname" "$u")
   done
 
-  local mem=`vmstat | awk 'NR == 3 { print int($4/1024) }'`
+  #local mem=`vmstat | awk 'NR == 3 { print int($4/1024) }'`
+  local mem=`awk 'NR == 1 { print int($2*.9/1024) } ' /proc/meminfo`
   local cpu=`grep -c rocessor /proc/cpuinfo`
   local pbf="${TMPDIR:-/tmp}/demo_data.pbf"
   wget -q -O "$pbf" "$demo_data_pbf"
