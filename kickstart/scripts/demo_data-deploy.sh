@@ -7,6 +7,7 @@ pgsql_ver="${pgsql_ver:-9.3}"
 postgis_ver="${postgis_ver:-2.1}"
 osm_pg_users="${osm_pg_users:-}"
 osm2pg_style="${osm2pg_style:-}"
+osm2pg_opt="${osm2pg_opt:---create --hstore-all --hstore-add-index --extra-attributes --slim --drop --unlogged}"
 
 dst="/opt/$osm_pg_owner"
 
@@ -48,7 +49,7 @@ deploy_demo_data_ubuntu() {
       ;;
   esac
 
-  su - "$osm_pg_owner" -c "osm2pgsql --drop --hstore-all ${osm2pg_style:+--style="$osm2pg_style"} --slim -C $mem --number-processes $cpu '$pbf'"
+  su - "$osm_pg_owner" -c "osm2pgsql ${osm2pg_opt} ${osm2pg_style:+--style="$osm2pg_style"} --database='${osm_pg_dbname}' -C $mem --number-processes $cpu '$pbf'"
 }
 
 deploy demo_data
