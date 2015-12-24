@@ -63,6 +63,7 @@ ubuntu_backport_install() {
       break
     fi
   done
+  rm -rf "$workdir"
 }
 
 deploy() {
