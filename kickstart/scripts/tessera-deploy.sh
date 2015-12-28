@@ -13,8 +13,11 @@ deploy_tessera_ubuntu() {
   # WTF - node-mapnik why do you not install?
   rsync -av --delete-after $prefix/lib/node_modules/tessera/node_modules/abaculus/node_modules/mapnik/ $prefix/lib/node_modules/tessera/node_modules/tilelive-mapnik/node_modules/mapnik/
 
+  # configure
+  expand etc/tessera.conf /etc/tessera.conf.json
+
   expand etc/tessera.upstart /etc/init/tessera.conf
-  echo 'manual' >> /etc/init/tessera.override
+  echo 'manual' > /etc/init/tessera.override
 }
 
 deploy tessera
