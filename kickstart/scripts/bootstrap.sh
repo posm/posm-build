@@ -49,8 +49,8 @@ start on (local-filesystems and net-device-up IFACE!=lo)
 
 pre-start script
   if [ ! -e "${BOOTSTRAP_HOME}/.posm-firstboot.done" ]; then
-    echo "[\`date '+%c'\`] Starting: posm firstboot" >> "${BOOTSTAP_HOME}/posm-firstboot.log"
-    env BOOTSTRAP_HOME="${BOOTSTRAP_HOME}" "${BOOTSTRAP_HOME}/scripts/bootstrap.sh" -F$opt
+    echo "[\`date '+%c'\`] Starting: posm firstboot" >> "${BOOTSTRAP_HOME}/posm-firstboot.log"
+    env BOOTSTRAP_HOME="${BOOTSTRAP_HOME}" "${BOOTSTRAP_HOME}/scripts/bootstrap.sh" -F$opt || true
     date '+%c' > "${BOOTSTRAP_HOME}/.posm-firstboot.done"
   fi
 end script
