@@ -8,6 +8,7 @@ postgis_ver="${postgis_ver:-2.1}"
 osm_pg_users="${osm_pg_users:-}"
 osm2pg_style="${osm2pg_style:-}"
 osm2pg_opt="${osm2pg_opt:---create --hstore-all --hstore-add-index --extra-attributes --slim --drop --unlogged}"
+map_style="${map_style:-}"
 
 dst="/opt/$osm_pg_owner"
 
@@ -31,10 +32,6 @@ deploy_demo_data_ubuntu() {
     openstreetmap-mapnik-carto-stylesheet-data
 
   env DBOWNER="$osm_pg_owner" DBNAME="$osm_pg_dbname" /usr/bin/install-postgis-osm-db.sh
-  local u
-  for u in $osm_pg_users; do
-    (cd /tmp; /usr/bin/install-postgis-osm-user.sh "$osm_pg_dbname" "$u")
-  done
 
   #local mem=`vmstat | awk 'NR == 3 { print int($4/1024) }'`
   local mem=`awk 'NR == 1 { print int($2*.9/1024) } ' /proc/meminfo`
@@ -50,6 +47,20 @@ deploy_demo_data_ubuntu() {
   esac
 
   su - "$osm_pg_owner" -c "osm2pgsql ${osm2pg_opt} ${osm2pg_style:+--style="$osm2pg_style"} --database='${osm_pg_dbname}' -C $mem --number-processes $cpu '$pbf'"
+  (cd /tmp; /usr/bin/install-postgis-osm-user.sh "$osm_pg_dbname" "$osm_pg_users")
+
+  case "$map_style" in
+    *://*)
+      wget -q -O "$dst/${map_style##*/}" "$map_style"
+      map_style="$dst/${map_style##*/}"
+      ;;
+  esac
+
+  rm /etc/init/tessera.override
+  start tessera
+
+  # http://localhost:8082/#15/-0.1725/-78.4870
+  #wget "http://localhost${tessera_port:+:$tessera_port}/15/9240/16400.png"
 }
 
 deploy demo_data
