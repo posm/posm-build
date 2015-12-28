@@ -1,10 +1,11 @@
 # omk-server
 
 description     "OpenMapKit Server (Node.js)"
-author          "James Flemer <james.flemer@ndpgroup.com>"
 
 start on (local-filesystems and net-device-up)
 stop on shutdown
+
+env PORT="{{omk_server_port}}"
 
 respawn
 #respawn limit 5 60

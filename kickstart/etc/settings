@@ -10,6 +10,7 @@ fp_api_base_url=http://posm.local/
 fp_tiler_port=8080
 fp_tasks_port=8081
 tessera_port=8082
+omk_server_port=3210
 pgsql_ver=9.3
 postgis_ver=2.1
 demo_data_pbf="http://download.geofabrik.de/south-america/ecuador-latest.osm.pbf"
