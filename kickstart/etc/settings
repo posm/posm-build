@@ -1,23 +1,39 @@
 #!/bin/bash
 
-mysql_pw=posm
-mysql_size=small
-fp_aws_default_region=us-east-1
-fp_aws_access_key_id=redacted
-fp_aws_secret_access_key=redacted
-fp_s3_bucket_name=redacted
-fp_api_base_url=http://posm.local/
+posm_env=production
+
+# urls
+posm_base_url=http://posm.local
+fp_api_base_url="${posm_base_url}/fp"
+fp_tile_base_url="${posm_base_url}/tl"
+
+# ports
 fp_tiler_port=8080
 fp_tasks_port=8081
 tessera_port=8082
 omk_server_port=3210
+
+# field papers
+fp_aws_region=us-east-1
+fp_aws_access_key_id=redacted
+fp_aws_secret_access_key=redacted
+fp_s3_bucket_name=redacted
+fp_secret_key_base=redacted
+
+# tile server (tessera)
+map_style="https://gist.githubusercontent.com/jflemer-ndp/a9c4ff93cf6a9a4121e7/raw/project.xml"
+tessera_uri="mapnik://./project.xml"
+
+# databases
+mysql_pw=posm
+mysql_size=small
 pgsql_ver=9.3
 postgis_ver=2.1
-demo_data_pbf="http://download.geofabrik.de/south-america/ecuador-latest.osm.pbf"
 osm_pg_dbname="gis"
 osm_pg_owner="gis"
 osm_pg_users="root fp omk"
+
+# data
+demo_data_pbf="http://download.geofabrik.de/south-america/ecuador-latest.osm.pbf"
 #osm2pg_style="https://raw.githubusercontent.com/openstreetmap/osm2pgsql/0.88.1/empty.style"
 osm2pg_opt="--create --hstore-all --hstore-add-index --extra-attributes --slim --drop --unlogged"
-map_style="https://gist.githubusercontent.com/jflemer-ndp/a9c4ff93cf6a9a4121e7/raw/project.xml"
-tessera_uri="mapnik://./project.xml"

@@ -7,9 +7,10 @@ stop on shutdown
 
 env API_BASE_URL="{{fp_api_base_url}}"
 env PORT="{{fp_tasks_port}}"
-env AWS_DEFAULT_REGION="{{fp_aws_default_region}}"
+env AWS_DEFAULT_REGION="{{fp_aws_region}}"
+env AWS_REGION="{{fp_aws_region}}"
 env S3_BUCKET_NAME="{{fp_s3_bucket_name}}"
-#env NODE_ENV=production
+env NODE_ENV="{{posm_env}}"
 #env SENTRY_DSN
 
 respawn
