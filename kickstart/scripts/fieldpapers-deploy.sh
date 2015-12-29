@@ -6,7 +6,7 @@ mysql_pw="${mysql_pw:-}"
 
 deploy_fieldpapers_ubuntu() {
   # deps
-  apt-get install -y \
+  apt-get install -qq -y \
     build-essential \
     ghostscript \
     git \
@@ -26,6 +26,8 @@ deploy_fieldpapers_ubuntu() {
 
   # FP user & env
   useradd -c 'Field Papers' -d "$dst" -m -r -s /bin/bash -U fp
+  mkdir -p "$dst"
+  chown fp:fp "$dst"
   cat - <<"EOF" >"$dst/.bashrc"
     # this is for interactive shell, not used by upstart!
     for d in "$HOME" "$HOME"/fp-*; do
@@ -59,14 +61,17 @@ deploy_fp_web() {
   from_github "https://github.com/fieldpapers/fp-web" "$dst/fp-web"
   chown -R fp:fp "$dst/fp-web"
 
+  local rbver=`ruby -e 'print RUBY_VERSION'`
+  sed -i -e "s/2\\.2\\.[0-9]/$rbver/" "$dst/fp-web/.ruby-version" "$dst/fp-web/Gemfile"
+
   # configure FP
   expand etc/fp-web.env "$dst/fp-web/.env"
 
   # install vendored deps
-  su - fp -c "cd \"$dst/fp-web\" && bundle install -j `grep -c rocessor /proc/cpuinfo` --path vendor/bundle"
+  su - fp -c "cd '$dst/fp-web' && bundle install --quiet -j `grep -c rocessor /proc/cpuinfo` --path vendor/bundle"
 
   # init database
-  su - fp -c "cd \"$dst/fp-web\" && rake db:create && rake db:schema:load"
+  su - fp -c "cd '$dst/fp-web' && rake db:create && rake db:schema:load"
 
   # start
   expand etc/fp-web.upstart /etc/init/fp-web.conf
@@ -78,7 +83,7 @@ deploy_fp_tiler() {
   from_github "https://github.com/fieldpapers/fp-tiler" "$dst/fp-tiler"
   chown -R fp:fp "$dst/fp-tiler"
 
-  su - fp -c "cd \"$dst/fp-tiler\" && npm install"
+  su - fp -c "cd '$dst/fp-tiler' && npm install --quiet"
 
   # start
   expand etc/fp-tiler.upstart /etc/init/fp-tiler.conf
@@ -90,7 +95,7 @@ deploy_fp_tasks() {
   from_github "https://github.com/fieldpapers/fp-tasks" "$dst/fp-tasks"
   chown -R fp:fp "$dst/fp-tasks"
 
-  su - fp -c "cd \"$dst/fp-tasks\" && npm install"
+  su - fp -c "cd '$dst/fp-tasks' && npm install --quiet"
 
   # start
   expand etc/fp-tasks.upstart /etc/init/fp-tasks.conf
@@ -99,7 +104,7 @@ deploy_fp_tasks() {
 
 deploy_fp_legacy() {
   # System dependencies
-  apt-get install -y \
+  apt-get install -qq -y \
     gdal-bin \
     imagemagick \
     php5-cli \
@@ -113,13 +118,14 @@ deploy_fp_legacy() {
     python-virtualenv \
     zbar-tools
   # Application dependencies
-  apt-get install -y \
+  apt-get install -qq -y \
     python-cairo \
     python-gdal \
     python-imaging \
     python-numpy
 
   mkdir -p "$dst/fp-legacy/bin"
+  ln -s -f "$dst/fp-legacy" "/opt/paper"
   mkdir -p /root/sources
   wget -q -O /root/sources/fp-legacy.tar.gz "https://github.com/fieldpapers/fp-legacy/archive/modernize.tar.gz"
   wget -q -O /root/sources/vlfeat.tar.gz "https://github.com/migurski/vlfeat/archive/3340e74126434aa8c9a4175f8c88ce3ee5450b73.tar.gz"
@@ -131,8 +137,8 @@ deploy_fp_legacy() {
 
   chown -R fp:fp "$dst/fp-legacy"
 
-  su - fp -c "make -C \"$dst/fp-legacy\" VERB=1 C_LDFLAGS='-Wl,--rpath,\\\$\$ORIGIN/ -L./bin/a64 -lvl -lm'"
-  su - fp -c "cd \"$dst/fp-legacy\" && virtualenv env --system-site-packages && env PATH='$dst/fp-legacy/env/bin:$PATH' pip install -r requirements.txt"
+  su - fp -c "make -C '$dst/fp-legacy' C_LDFLAGS='-Wl,--rpath,\\\$\$ORIGIN/ -L./bin/a64 -lvl -lm'"
+  su - fp -c "cd '$dst/fp-legacy' && virtualenv env --system-site-packages && env PATH='$dst/fp-legacy/env/bin:$PATH' pip install -r requirements.txt"
 }
 
 deploy fieldpapers
