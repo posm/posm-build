@@ -25,7 +25,7 @@ deploy_demo_data_ubuntu() {
   echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/grant_user string $osm_pg_owner" | debconf-set-selections
   echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/dbname string $osm_pg_dbname" | debconf-set-selections
   apt-get install -y \
-    openstreetmap-postgis-db-setup
+    openstreetmap-postgis-db-setup mapnik-utils
 
   echo "openstreetmap-mapnik-carto-stylesheet-data openstreetmap-mapnik-carto-stylesheet-data/dloadcoastlines boolean true" | debconf-set-selections
   apt-get install -y \
