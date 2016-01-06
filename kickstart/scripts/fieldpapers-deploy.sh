@@ -73,6 +73,9 @@ deploy_fp_web() {
   # init database
   su - fp -c "cd '$dst/fp-web' && rake db:create && rake db:schema:load"
 
+  # fp assets
+  su - fp -c "cd '$dst/fp-web' && rake assets:precompile"
+
   # start
   expand etc/fp-web.upstart /etc/init/fp-web.conf
   start fp-web

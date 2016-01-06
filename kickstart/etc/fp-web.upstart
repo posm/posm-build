@@ -5,7 +5,6 @@ description     "FieldPapers Web (Rails)"
 start on (local-filesystems and net-device-up)
 stop on shutdown
 
-env API_BASE_URL="{{fp_api_base_url}}"
 env AWS_ACCESS_KEY_ID="{{fp_aws_access_key_id}}"
 env AWS_DEFAULT_REGION="{{fp_aws_region}}"
 env AWS_REGION="{{fp_aws_region}}"
@@ -13,6 +12,7 @@ env AWS_SECRET_ACCESS_KEY="{{fp_aws_secret_access_key}}"
 env BASE_URL="{{fp_api_base_url}}"
 env DATABASE_URL="mysql2://root:{{mysql_pw}}@localhost/fieldpapers_{{posm_env}}"
 env RAILS_ENV="{{posm_env}}"
+env RAILS_RELATIVE_URL_ROOT="/fp"
 env S3_BUCKET_NAME="{{fp_s3_bucket_name}}"
 env SECRET_KEY_BASE="{{fp_secret_key_base}}"
 env TASK_BASE_URL="http://127.0.0.1:{{fp_tasks_port}}"
