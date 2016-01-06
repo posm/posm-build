@@ -5,6 +5,7 @@ description     "FieldPapers Tasks (Node.js)"
 start on (local-filesystems and net-device-up)
 stop on shutdown
 
+env PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/fp/fp-legacy/env/bin:/opt/fp/fp-legacy:/opt/paper
 env API_BASE_URL="{{fp_api_base_url}}"
 env PORT="{{fp_tasks_port}}"
 env AWS_ACCESS_KEY_ID="{{fp_aws_access_key_id}}"
