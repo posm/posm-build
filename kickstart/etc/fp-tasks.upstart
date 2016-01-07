@@ -6,7 +6,7 @@ start on (local-filesystems and net-device-up)
 stop on shutdown
 
 env PATH=/opt/fp/fp-legacy/env/bin:/opt/fp/fp-legacy:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-env API_BASE_URL="{{fp_api_base_url}}"
+env API_BASE_URL="{{fp_api_base_url}}/"
 env PORT="{{fp_tasks_port}}"
 env AWS_ACCESS_KEY_ID="{{fp_aws_access_key_id}}"
 env AWS_DEFAULT_REGION="{{fp_aws_region}}"
