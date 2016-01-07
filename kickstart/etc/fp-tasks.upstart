@@ -14,6 +14,7 @@ env AWS_REGION="{{fp_aws_region}}"
 env AWS_SECRET_ACCESS_KEY="{{fp_aws_secret_access_key}}"
 env S3_BUCKET_NAME="{{fp_s3_bucket_name}}"
 env NODE_ENV="{{posm_env}}"
+env VIRTUAL_ENV="/opt/paper/env"
 #env SENTRY_DSN
 
 respawn
