@@ -2,7 +2,7 @@
 
 # Should use Ubuntu linux-image-3.19.0-42-generic
 deploy_wifi_ubuntu() {
-	apt-get install -y linux-image-3.19.0-42-generic
+	apt-get install -y linux-image-3.19.0-42-generic linux-image-extra-3.19.0-42-generic
 
 	ln -s /lib/firmware/iwlwifi-7265D-12.ucode /lib/firmware/iwlwifi-3165-9.ucode
 	ln -s /lib/firmware/iwlwifi-7265-12.ucode /lib/firmware/iwlwifi-3165-12.ucode
