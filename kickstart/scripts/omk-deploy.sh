@@ -22,15 +22,15 @@ deploy_omk_server() {
   wget -q -O /root/sources/pyxform.tar.gz "https://github.com/spatialdev/pyxform/archive/e486b54d34d299d54049923e03ca5a6a1169af40.tar.gz"
   tar -zxf /root/sources/pyxform.tar.gz -C "$dst/OpenMapKitServer/odk/pyxform" --strip=1
 
+  # install python packages for pyxform
+  cd $dst/OpenMapKitServer && pip install -r requirements.txt
+
   # use default settings
   cp $dst/OpenMapKitServer/settings.js.example $dst/OpenMapKitServer/settings.js
 
   # user / group omk should own this
   chown -R omk:omk "$dst/OpenMapKitServer"
 
-  # install python packages for pyxform
-  su - omk -c "cd \"$dst/OpenMapKitServer\" && pip install -r requirements.txt"
-  
   # install node packages
   su - omk -c "cd \"$dst/OpenMapKitServer\" && npm install"
 
