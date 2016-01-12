@@ -1,13 +1,16 @@
 #!/bin/bash
 
+osmosis_ver="${osmosis_ver:-0.44.1}"
+
 deploy_osm_ubuntu() {
   apt-get install software-properties-common -y
   add-apt-repository ppa:kakrueger/openstreetmap -y
   apt-get update
   apt-get install -y \
+    default-jre-headless
+  apt-get install -y \
     libmapnik2.2 \
     libmapnik2-dev \
-    osmosis \
     osmpbf-bin libosmpbf-dev \
     python-gdal \
     geotiff-bin \
@@ -15,9 +18,25 @@ deploy_osm_ubuntu() {
 
   ubuntu_backport_install osmctools
   ubuntu_backport_install osm2pgsql
+  deploy_osmosis_prebuilt
 
   #backport_osmosis
 }
+
+deploy_osmosis_prebuilt() {
+  local dst="/opt/osmosis"
+
+  mkdir -p "${BOOTSTRAP_HOME}/sources"
+  wget -N -P "${BOOTSTRAP_HOME}/sources" "http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-${osmosis_ver}.tgz"
+
+  mkdir -p "$dst"
+  tar -zxf "${BOOTSTRAP_HOME}/sources/osmosis-${osmosis_ver}.tgz" -C "$dst"
+  chown -R root:root "$dst"
+  chmod -R o-w "$dst"
+
+  ln -s -f "$dst/bin/osmosis" /usr/bin/
+}
+
 
 backport_osmosis() {
   # extra build deps for osmosis
