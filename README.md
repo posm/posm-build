@@ -14,7 +14,7 @@ Interim Manual Build Process
       * `posm_base_url="http://whateveryouwant.yourdomain.foo"`
       * `fp_api_base_url="${posm_base_url}/fp"`
       * `fp_tile_base_url="${posm_base_url}/fp-tiler"`
- 4. `/root/scripts/bootstrap.sh base virt wifi nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles tessera macrocosm`
+ 4. `/root/scripts/bootstrap.sh base virt wifi nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles tessera macrocosm id`
  5. `/root/scripts/bootstrap.sh demo_data`, if you want it
 
 Interim PXE Build Process
@@ -34,11 +34,12 @@ Default Ports & URLs
 
 | URI | Service | Internal URL |
 | --- | --- | --- | --- |
+| `/id` | [OSM iD](https://github.com/AmericanRedCross/iD) | http://127.0.0.1/iD |
 | `/tiles/{style}` | [tessera](https://github.com/mojodna/tessera) | http://127.0.0.1:8082 |
 | `/fp-tiler` | [Field Papers Tiler](https://github.com/fieldpapers/fp-tiler) | http://127.0.0.1:8080/fp-tiler |
 | `/fp-tasks` | [Field Papers Tasks](https://github.com/fieldpapers/fp-tasks) | http://127.0.0.1:8081/fp-tasks |
 | `/omk` | [OpenMapKit Server](https://github.com/AmericanRedCross/OpenMapKitServer) | http://127.0.0.1:3210 |
-| TBD | [Macrocosm](https://github.com/AmericanRedCross/macrocosm) | http://127.0.0.1:4000 |
+| `/api` | [Macrocosm](https://github.com/AmericanRedCross/macrocosm) | http://127.0.0.1:4000 |
 
 Ubuntu Server Install Details for NUC
 =====================================
