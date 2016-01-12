@@ -3,7 +3,8 @@
 posm_env=production
 
 # urls
-posm_base_url=http://posm.local
+posm_hostname="posm.local"
+posm_base_url="http://${posm_hostname}"
 fp_api_base_url="${posm_base_url}/fp"
 fp_tile_base_url="${posm_base_url}/fp-tiler"
 

@@ -6,6 +6,9 @@ deploy_nginx_ubuntu() {
   rm /etc/nginx/sites-enabled/default
   ln -s -f ../sites-available/posm /etc/nginx/sites-enabled/
   service nginx restart
+
+  mkdir -p /opt/posm-www
+  chmod 755 /opt/posm-www
 }
 
 deploy nginx
