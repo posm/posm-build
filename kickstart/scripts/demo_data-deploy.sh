@@ -31,7 +31,9 @@ deploy_demo_data_ubuntu() {
   apt-get install -y \
     openstreetmap-mapnik-carto-stylesheet-data
 
-  env DBOWNER="$osm_pg_owner" DBNAME="$osm_pg_dbname" /usr/bin/install-postgis-osm-db.sh
+  apt-get clean
+
+  (cd /; env DBOWNER="$osm_pg_owner" DBNAME="$osm_pg_dbname" /usr/bin/install-postgis-osm-db.sh)
 
   #local mem=`vmstat | awk 'NR == 3 { print int($4/1024) }'`
   local mem=`awk 'NR == 1 { print int($2*.9/1024) } ' /proc/meminfo`
