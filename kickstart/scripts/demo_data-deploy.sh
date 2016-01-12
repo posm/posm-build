@@ -18,6 +18,16 @@ deploy_demo_data_ubuntu() {
   apt-get install -y \
     "postgresql-$pgsql_ver-postgis-$postgis_ver"
 
+  local pbf="${TMPDIR:-/tmp}/demo_data.pbf"
+  wget -q -O "$pbf" "$demo_data_pbf"
+
+  deploy_demo_data_tiles "$pbf"
+  deploy_demo_data_api "$pbf"
+}
+
+deploy_demo_data_tiles() {
+  local pbf="$1"
+
   useradd -c 'OSM/GIS User' -d "$dst" -m -r -s /bin/bash -U "$osm_pg_owner"
 
   export DEBIAN_FRONTEND=noninteractive
@@ -33,7 +43,7 @@ deploy_demo_data_ubuntu() {
 
   apt-get clean
 
-  (cd /; env DBOWNER="$osm_pg_owner" DBNAME="$osm_pg_dbname" /usr/bin/install-postgis-osm-db.sh)
+  (cd /tmp; env DBOWNER="$osm_pg_owner" DBNAME="$osm_pg_dbname" /usr/bin/install-postgis-osm-db.sh)
 
   #local mem=`vmstat | awk 'NR == 3 { print int($4/1024) }'`
   local mem=`awk 'NR == 1 { print int($2*.9/1024) } ' /proc/meminfo`
@@ -41,8 +51,6 @@ deploy_demo_data_ubuntu() {
     mem=""
   fi
   local cpu=`grep -c rocessor /proc/cpuinfo`
-  local pbf="${TMPDIR:-/tmp}/demo_data.pbf"
-  wget -q -O "$pbf" "$demo_data_pbf"
 
   case "$osm2pg_style" in
     *://*)
@@ -66,6 +74,11 @@ deploy_demo_data_ubuntu() {
 
   # http://localhost:8082/#15/-0.1725/-78.4870
   #wget "http://localhost${tessera_port:+:$tessera_port}/15/9240/16400.png"
+}
+
+deploy_demo_data_api() {
+  local pbf="$1"
+  su - macrocosm -c "osmosis --read-pbf-fast '$pbf' --log-progress --write-apidb password='${macrocosm_pg_pass}' database='macrocosm_${posm_env}'"
 }
 
 deploy demo_data
