@@ -34,7 +34,7 @@ Default Ports & URLs
 
 | URI | Service | Internal URL |
 | --- | --- | --- | --- |
-| `/tl` | [tessera](https://github.com/mojodna/tessera) | http://127.0.0.1:8082 |
+| `/tiles/{style}` | [tessera](https://github.com/mojodna/tessera) | http://127.0.0.1:8082 |
 | `/fp-tiler` | [Field Papers Tiler](https://github.com/fieldpapers/fp-tiler) | http://127.0.0.1:8080/fp-tiler |
 | `/fp-tasks` | [Field Papers Tasks](https://github.com/fieldpapers/fp-tasks) | http://127.0.0.1:8081/fp-tasks |
 | `/omk` | [OpenMapKit Server](https://github.com/AmericanRedCross/OpenMapKitServer) | http://127.0.0.1:3210 |
