@@ -13,6 +13,7 @@ fp_tasks_port=8081
 fp_web_port=3000
 tessera_port=8082
 omk_server_port=3210
+macrocosm_api_port=4000
 
 # field papers
 fp_aws_region=us-east-1
@@ -33,6 +34,7 @@ postgis_ver=2.1
 osm_pg_dbname="gis"
 osm_pg_owner="gis"
 osm_pg_users="root fp omk"
+macrocosm_pg_owner="macrocosm"
 
 # data
 demo_data_pbf="http://download.geofabrik.de/south-america/ecuador-latest.osm.pbf"

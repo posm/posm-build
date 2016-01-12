@@ -24,11 +24,14 @@ from_github() {
   shift
   local dst="$1"
   shift
+  local release="$1"
+  shift
+  release="${release:-master}"
   local name="${url##*/}"
   mkdir -p "$dst"
   mkdir -p "${BOOTSTRAP_HOME}/sources"
-  wget -q -O "${BOOTSTRAP_HOME}/sources/$name.tar.gz" "$url/archive/master.tar.gz"
-  tar -zxf "${BOOTSTRAP_HOME}/sources/$name.tar.gz" -C "$dst" --strip=1 "$@"
+  wget -q -O "${BOOTSTRAP_HOME}/sources/$name-${release}.tar.gz" "$url/archive/${release}.tar.gz"
+  tar -zxf "${BOOTSTRAP_HOME}/sources/$name-${release}.tar.gz" -C "$dst" --strip=1 "$@"
   chown -R root:root "$dst"
   chmod -R o-w "$dst"
 }
