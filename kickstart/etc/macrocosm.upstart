@@ -7,7 +7,7 @@ stop on shutdown
 
 env PORT="{{macrocosm_api_port}}"
 env MACROCOSM_ENV="{{posm_env}}"
-env DATABASE_URL="postgres://{{macrocosm_pg_owner}}@localhost/macrocosm_{{posm_env}}"
+env DATABASE_URL="postgres://{{macrocosm_pg_owner}}:{{macrocosm_pg_pass}}@localhost/macrocosm_{{posm_env}}"
 env MACROCOSM_DEBUG=true
 
 respawn
