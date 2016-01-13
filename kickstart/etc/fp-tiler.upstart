@@ -9,6 +9,7 @@ stop on shutdown
 env API_BASE_URL="{{fp_api_base_url}}/"
 env PORT="{{fp_tiler_port}}"
 env NODE_ENV="{{posm_env}}"
+env PATH_PREFIX="/fp-tiler"
 
 respawn
 #respawn limit 5 60
