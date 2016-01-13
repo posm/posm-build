@@ -5,6 +5,7 @@ description     "OpenMapKit Server (Node.js)"
 start on (local-filesystems and net-device-up)
 stop on shutdown
 
+env PATH=/opt/omk/env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 env PORT="{{omk_server_port}}"
 
 respawn

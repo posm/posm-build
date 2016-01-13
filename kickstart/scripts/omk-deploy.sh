@@ -6,10 +6,17 @@ deploy_omk_ubuntu() {
   # deps
   apt-get install -y \
     build-essential \
-    python-pip
+    python-pip \
+    python-virtualenv
 
   # OMK user
   useradd -c 'OpenMapKit Server' -d "$dst" -m -r -s /bin/bash -U omk
+  mkdir -p "$dst"
+  chown omk:omk "$dst"
+  cat - <<"EOF" >"$dst/.bashrc"
+    # this is for interactive shell, not used by upstart!
+    export PATH="$HOME/env/bin:$PATH"
+EOF
 
   deploy_omk_server
 }
@@ -22,14 +29,16 @@ deploy_omk_server() {
   wget -q -O /root/sources/pyxform.tar.gz "https://github.com/spatialdev/pyxform/archive/e486b54d34d299d54049923e03ca5a6a1169af40.tar.gz"
   tar -zxf /root/sources/pyxform.tar.gz -C "$dst/OpenMapKitServer/odk/pyxform" --strip=1
 
-  # install python packages for pyxform
-  cd $dst/OpenMapKitServer && pip install -r requirements.txt
-
   # use default settings
   cp $dst/OpenMapKitServer/settings.js.example $dst/OpenMapKitServer/settings.js
 
   # user / group omk should own this
   chown -R omk:omk "$dst/OpenMapKitServer"
+
+  # setup python virtualenv
+  su - omk -c "virtualenv --system-site-packages '$dst/env'"
+  # install python packages for pyxform
+  su - omk -c "env PATH='$dst/env/bin:$PATH' pip install -r '$dst/OpenMapKitServer/requirements.txt'"
 
   # install node packages
   su - omk -c "cd \"$dst/OpenMapKitServer\" && npm install"
