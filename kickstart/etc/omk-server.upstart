@@ -2,7 +2,7 @@
 
 description     "OpenMapKit Server (Node.js)"
 
-start on (local-filesystems and net-device-up)
+start on (local-filesystems and net-device-up and runlevel [2345])
 stop on shutdown
 
 env PATH=/opt/omk/env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
