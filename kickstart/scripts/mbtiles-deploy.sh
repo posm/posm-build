@@ -5,7 +5,8 @@ deploy_mbtiles_ubuntu() {
   apt-get install sqlite3 -y
   npm install -g tl
   local prefix=`npm prefix -g`
-  (cd $prefix/lib/node_modules/tl && npm install mapnik mbtiles tilelive-http tilejson tilelive-mapnik)
+  (cd $prefix/lib/node_modules/tl && npm install mapnik)
+  (cd $prefix/lib/node_modules/tl && npm install mbtiles tilelive-http tilejson tilelive-mapnik)
 }
 
 deploy mbtiles
