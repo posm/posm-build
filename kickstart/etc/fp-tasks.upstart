@@ -1,6 +1,6 @@
 # fp-tasks
 
-description     "FieldPapers Tasks (Node.js)"
+description     "Field Papers Tasks (Node.js)"
 
 start on (local-filesystems and net-device-up)
 stop on shutdown

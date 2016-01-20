@@ -1,6 +1,6 @@
 # fp-tiler
 
-description     "FieldPapers Tiler (Node.js)"
+description     "Field Papers Tiler (Node.js)"
 author          "James Flemer <james.flemer@ndpgroup.com>"
 
 start on (local-filesystems and net-device-up)

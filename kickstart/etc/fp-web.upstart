@@ -1,6 +1,6 @@
 # fp-web
 
-description     "FieldPapers Web (Rails)"
+description     "Field Papers Web (Rails)"
 
 start on (local-filesystems and net-device-up)
 stop on shutdown
