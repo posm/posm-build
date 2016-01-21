@@ -1,0 +1,15 @@
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+auto p2p1
+iface p2p1 inet dhcp
+
+auto {{posm_wan_netif}}
+iface {{posm_wan_netif}} inet dhcp
+
+iface {{posm_netif}} inet static
+  address {{posm_ip}}
+  netmask 255.255.255.0

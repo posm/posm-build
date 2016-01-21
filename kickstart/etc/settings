@@ -2,8 +2,18 @@
 
 posm_env=production
 
+# network
+posm_subnet="192.168.6" # always a Class-C /24
+posm_ip="$posm_subnet.1"
+posm_wan_netif="p2p1"
+posm_netif="wlan0"
+posm_ssid="posm"
+posm_wpa_passphrase="awesomeposm" # 8..63 characters
+posm_wifi_channel="1"
+posm_domain="lan"
+posm_hostname="posm.$posm_domain"
+
 # urls
-posm_hostname="posm.local"
 posm_base_url="http://${posm_hostname}"
 fp_api_base_url="${posm_base_url}/fp"
 fp_tile_base_url="${posm_base_url}/fp-tiler"
