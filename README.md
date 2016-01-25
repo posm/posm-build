@@ -23,6 +23,16 @@ Interim PXE Build Process
  1. Create a PXE boot server for Ubuntu 14.04 LTS
  2. Put this enitre repo at the root of your Kickstart / PXE web server
  3. PXE boot as approriate to use the `POSM_Server.cfg` preseed, for example, add the following on the kernel line: `auto=true url=http://ks/kickstart/POSM_Server.cfg`
+   * The `POSM_Server.cfg` preseed expects that your kickstart server has a hostname of `ks`, and you have a Ubuntu package cache (e.g. `apt-cacher-ng`) at `http://apt-proxy:3142`.
+   * Edit Ubuntu cache/proxy in `mirror/http/proxy` (set to empty string to use default, do not just comment out)
+   * Edit PXE server hostnames in `partman/early_command` and `preseed/late_command`
+
+
+Hardware Requirements
+=====================
+ * At least 2GB RAM, 8GB preferred
+ * At least a 16GB drive
+ * A compatible wireless adapter, for running a Software Access Point ("Captive Portal", `hostapd`)
 
 Configuration & Ports
 =====================
@@ -36,6 +46,7 @@ Default Ports & URLs
 | --- | --- | --- | --- |
 | `/id` | [OSM iD](https://github.com/AmericanRedCross/iD) | http://127.0.0.1/iD |
 | `/tiles/{style}` | [tessera](https://github.com/mojodna/tessera) | http://127.0.0.1:8082 |
+| `/fp` | [Field Papers](https://github.com/fieldpapers/fp-web) | http://127.0.0.1:3000/fp |
 | `/fp-tiler` | [Field Papers Tiler](https://github.com/fieldpapers/fp-tiler) | http://127.0.0.1:8080/fp-tiler |
 | `/fp-tasks` | [Field Papers Tasks](https://github.com/fieldpapers/fp-tasks) | http://127.0.0.1:8081/fp-tasks |
 | `/omk` | [OpenMapKit Server](https://github.com/AmericanRedCross/OpenMapKitServer) | http://127.0.0.1:3210 |
