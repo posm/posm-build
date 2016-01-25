@@ -10,6 +10,7 @@ deploy_wifi_ubuntu() {
   apt-get remove --purge -y \
     network-manager
 
+  # disable IPv6
   sed -r -i -e '/^net.ipv6.conf.(all|default|lo).disable_ipv6/d' /etc/sysctl.conf
   echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
   echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
@@ -29,7 +30,7 @@ deploy_wifi_ubuntu() {
   expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
   expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/posm.conf"
 
-  echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >/etc/default/hostapd
+  echo '' >/etc/default/hostapd
 }
 
 deploy wifi
