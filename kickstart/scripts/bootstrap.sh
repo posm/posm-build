@@ -156,7 +156,7 @@ rm /etc/motd
 case "$reboot" in
   1|[Yy]*|[Tt]*)
     echo "[`date '+%c'`] Rebooting..."
-    if [ -z "$dryrun "]; then
+    if [ -z "$dryrun" ]; then
       /sbin/shutdown -r now "BOOTSTRAP RESTART"
       sleep 900
       /sbin/reboot -f
