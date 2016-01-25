@@ -16,7 +16,13 @@ ks_fetch() {
 }
 
 expand() {
-  ks_fetch "$1" && /usr/bin/interp < "${BOOTSTRAP_HOME}/$1" > "$2"
+  ks_fetch "$1" || return $?
+  if [ -e /usr/bin/interp ]; then
+    /usr/bin/interp < "${BOOTSTRAP_HOME}/$1" > "$2"
+  else
+    # perl fallback
+    perl -pe 's/\{\{(.*?)\}\}/$ENV{$1}/ge' < "${BOOTSTRAP_HOME}/$1" > "$2"
+  fi
 }
 
 from_github() {
