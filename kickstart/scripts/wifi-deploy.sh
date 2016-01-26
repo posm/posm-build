@@ -29,8 +29,7 @@ deploy_wifi_ubuntu() {
   expand etc/network-interfaces "/etc/network/interfaces"
   expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
   expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/posm.conf"
-
-  echo '' >/etc/default/hostapd
+  expand etc/dnsmasq-default "/etc/default/dnsmasq"
 }
 
 deploy wifi
