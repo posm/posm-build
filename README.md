@@ -1,17 +1,16 @@
-# posm-build
+# POSM Build
 
 Interim Manual Build Process
 ============================
 
  1. Install [Ubuntu 14.04 LTS minimal server](http://www.ubuntu.com/download/server) however you like
-   * For NUC deployment, install via USB
-   * [How to create a bootable USB stick on Ubuntu](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-ubuntu)
-   * [How to create a bootable USB stick on Windows](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows)
-   * [How to create a bootable USB stick on OS X](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
+   * See details below for [Ubuntu Server Install Details for NUC](#ubuntu-server-install-details-for-nuc)
  2.  `wget -q -O - https://github.com/AmericanRedCross/posm-build/archive/master.tar.gz | tar -zxf - -C /root --strip=2`
  3. Put any local settings in `/root/etc/settings.local` (see `/root/etc/settings`)
-   * Important ones for now are the ones that involve DNS and URLs:
-      * `posm_base_url="http://whateveryouwant.yourdomain.foo"`
+   * Important ones for development are the ones that involve DNS and URLs:
+      * `posm_domain="yourdomain.foo"`
+      * `posm_hostname="whateveryouwant.yourdomain.foo"`
+      * `posm_base_url="http://$posm_hostname"`
       * `fp_api_base_url="${posm_base_url}/fp"`
       * `fp_tile_base_url="${posm_base_url}/fp-tiler"`
  4. `/root/scripts/bootstrap.sh base virt wifi nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles tessera macrocosm id`
@@ -21,8 +20,9 @@ Interim PXE Build Process
 =========================
 
  1. Create a PXE boot server for Ubuntu 14.04 LTS
- 2. Put this entire repo at the root of your Kickstart / PXE web server
- 3. PXE boot as approriate to use the `POSM_Server.cfg` preseed, for example, add the following on the kernel line: `auto=true url=http://ks/kickstart/POSM_Server.cfg`
+   * Installing to a NUC using PXE seems problemattic due to the install happening in Legacy BIOS mode, not UEFI
+ 2. Put this entire repo at `/posm` on your Kickstart / PXE web server
+ 3. PXE boot as approriate to use the `POSM_Server.cfg` preseed, for example, add the following on the kernel line: `auto=true url=http://ks/posm/kickstart/POSM_Server.cfg`
    * The `POSM_Server.cfg` preseed expects that your kickstart server has a hostname of `ks`, and you have a Ubuntu package cache (e.g. `apt-cacher-ng`) at `http://apt-proxy:3142`.
    * Edit Ubuntu cache/proxy in `mirror/http/proxy` (set to empty string to use default, do not just comment out)
    * Edit PXE server hostnames in `partman/early_command` and `preseed/late_command`
@@ -54,12 +54,17 @@ Default Ports & URLs
 
 Ubuntu Server Install Details for NUC
 =====================================
+ * Please install Ubuntu on the NUC in [UEFI](https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface) mode!
+   * To do this, use a normal Ubuntu `amd64`/`x86_64` server ISO (not a `mini.iso`) on a USB drive
+   * [How to create a bootable USB stick on Ubuntu](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-ubuntu)
+   * [How to create a bootable USB stick on Windows](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows)
+   * [How to create a bootable USB stick on OS X](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
  * If Ubuntu says it cannot detect the CD-ROM:
    * `Alt-F2` to switch console
    * `Enter` to active the console
    * Type `umount /media`
    * `Alt-F1` to return to installer, and try to detect again
- * Set the hostname to `posm`
+ * Set the hostname to `posm.lan`
  * Set the local user name to `posm`
  * Set the time zone to `UTC` (press `End` key to get to the bottom of the list)
  * (Optional) Use LVM partitioning using only 20GB of space (so you can allocate remainder for data later)
