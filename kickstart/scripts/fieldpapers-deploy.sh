@@ -57,6 +57,10 @@ deploy_fp_web() {
   gem install --no-rdoc --no-ri bundler
   gem install --no-rdoc --no-ri foreman
 
+  # create a directory for static files
+  mkdir -p "$dst/data"
+  chown fp:fp "$dst/data"
+
   # install FP WEB
   from_github "https://github.com/fieldpapers/fp-web" "$dst/fp-web"
   chown -R fp:fp "$dst/fp-web"

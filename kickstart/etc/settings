@@ -27,10 +27,6 @@ omk_server_port=3210
 macrocosm_api_port=4000
 
 # field papers
-fp_aws_region=us-east-1
-fp_aws_access_key_id=redacted
-fp_aws_secret_access_key=redacted
-fp_s3_bucket_name=redacted
 fp_secret_key_base=redacted
 
 # tile server (tessera)
