@@ -62,7 +62,7 @@ deploy_fp_web() {
   chown fp:fp "$dst/data"
 
   # install FP WEB
-  from_github "https://github.com/fieldpapers/fp-web" "$dst/fp-web"
+  from_github "https://github.com/fieldpapers/fp-web" "$dst/fp-web" "local-snapshots"
   chown -R fp:fp "$dst/fp-web"
 
   local rbver=`ruby -e 'print RUBY_VERSION'`
@@ -99,7 +99,7 @@ deploy_fp_tiler() {
 
 deploy_fp_tasks() {
   # install FP Tasks
-  from_github "https://github.com/fieldpapers/fp-tasks" "$dst/fp-tasks"
+  from_github "https://github.com/fieldpapers/fp-tasks" "$dst/fp-tasks" "local-persistence"
   chown -R fp:fp "$dst/fp-tasks"
 
   su - fp -c "cd '$dst/fp-tasks' && npm install --quiet"
