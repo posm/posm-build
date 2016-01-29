@@ -28,6 +28,7 @@ macrocosm_api_port=4000
 
 # field papers
 fp_secret_key_base=redacted
+fp_mapzen_search_key=redacted
 
 # tile server (tessera)
 map_style="https://gist.githubusercontent.com/jflemer-ndp/a9c4ff93cf6a9a4121e7/raw/project.xml"
