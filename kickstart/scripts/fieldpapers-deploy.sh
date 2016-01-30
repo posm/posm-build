@@ -68,7 +68,7 @@ deploy_fp_web() {
   expand etc/fp-web.env "$dst/fp-web/.env"
 
   # install vendored deps
-  su - fp -c "cd '$dst/fp-web' && bundle install --quiet -j `grep -c rocessor /proc/cpuinfo` --path vendor/bundle"
+  su - fp -c "cd '$dst/fp-web' && bundle install --quiet -j `nproc` --path vendor/bundle"
 
   # init database
   su - fp -c "cd '$dst/fp-web' && rake db:create && rake db:schema:load"
