@@ -119,6 +119,7 @@ deploy_fp_legacy() {
     python-pip \
     python-requests \
     python-virtualenv \
+    qrencode \
     zbar-tools
 
   mkdir -p "$dst/fp-legacy/bin"
