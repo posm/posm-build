@@ -120,12 +120,6 @@ deploy_fp_legacy() {
     python-requests \
     python-virtualenv \
     zbar-tools
-  # Application dependencies
-  apt-get install -qq -y \
-    python-cairo \
-    python-gdal \
-    python-imaging \
-    python-numpy
 
   mkdir -p "$dst/fp-legacy/bin"
   ln -s -f "$dst/fp-legacy" "/opt/paper"
