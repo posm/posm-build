@@ -1,0 +1,20 @@
+{
+  "openstreetmap": {
+    "label": "OpenStreetMap",
+    "template": "http://{{posm_hostname}}/tiles/osm/{Z}/{X}/{Y}.png",
+    "options": {
+      "attribution": ""
+    },
+    "minzoom": 0,
+    "maxzoom": 19
+  },
+  "mm": {
+    "label": "Missing Maps",
+    "template": "http://{{posm_hostname}}/tiles/mm/{Z}/{X}/{Y}.png",
+    "options": {
+      "attribution": ""
+    },
+    "minzoom": 0,
+    "maxzoom": 24
+  }
+}

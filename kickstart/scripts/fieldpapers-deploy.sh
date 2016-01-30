@@ -76,6 +76,10 @@ deploy_fp_web() {
   # fp assets
   su - fp -c "cd '$dst/fp-web' && rake assets:precompile"
 
+  # fp tile providers
+  expand etc/fp-providers.json "$dst/fp-web/config/providers.json"
+  chown fp:fp "$dst/fp-web/config/providers.json"
+
   # start
   expand etc/fp-web.upstart /etc/init/fp-web.conf
   start fp-web
