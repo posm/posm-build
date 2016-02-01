@@ -12,7 +12,7 @@ env NODE_ENV="{{posm_env}}"
 env VIRTUAL_ENV=/opt/fp/fp-legacy/env
 env PERSIST="local"
 env STATIC_PATH="/opt/fp/data"
-env STATIC_URI_PREFIX="{{posm_base_url}}/_"
+env STATIC_URI_PREFIX="{{fp_api_base_url}}/_"
 #env SENTRY_DSN
 
 respawn

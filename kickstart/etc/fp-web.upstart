@@ -15,7 +15,7 @@ env TEST_DATABASE_URL="mysql2://root:{{mysql_pw}}@localhost/fieldpapers_test"
 env TILE_BASE_URL="{{fp_tile_base_url}}"
 env PERSIST="local"
 env STATIC_PATH="/opt/fp/data"
-env STATIC_URI_PREFIX="{{posm_base_url}}/_"
+env STATIC_URI_PREFIX="{{fp_api_base_url}}/_"
 env MAPZEN_SEARCH_KEY="{{fp_mapzen_search_key}}"
 
 #env LANG=en_US.UTF-8
