@@ -8,7 +8,6 @@ postgis_ver="${postgis_ver:-2.1}"
 osm_pg_users="${osm_pg_users:-}"
 osm2pg_style="${osm2pg_style:-}"
 osm2pg_opt="${osm2pg_opt:---create --hstore-all --hstore-add-index --extra-attributes --slim --drop --unlogged}"
-map_style="${map_style:-}"
 
 dst="/opt/$osm_pg_owner"
 
@@ -61,13 +60,6 @@ deploy_demo_data_tiles() {
 
   su - "$osm_pg_owner" -c "osm2pgsql ${osm2pg_opt} ${osm2pg_style:+--style="$osm2pg_style"} --database='${osm_pg_dbname}' ${mem:+-C $mem} --number-processes $cpu '$pbf'"
   (cd /tmp; /usr/bin/install-postgis-osm-user.sh "$osm_pg_dbname" "$osm_pg_users")
-
-  case "$map_style" in
-    *://*)
-      wget -q -O "$dst/${map_style##*/}" "$map_style"
-      map_style="$dst/${map_style##*/}"
-      ;;
-  esac
 
   rm /etc/init/tessera.override
   start tessera

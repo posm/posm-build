@@ -13,7 +13,7 @@ Interim Manual Build Process
       * `posm_base_url="http://$posm_hostname"`
       * `fp_api_base_url="${posm_base_url}/fp"`
       * `fp_tile_base_url="${posm_base_url}/fp-tiler"`
- 4. `/root/scripts/bootstrap.sh base virt wifi nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles tessera macrocosm id`
+ 4. `/root/scripts/bootstrap.sh base virt wifi nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles carto tessera macrocosm id`
  5. `/root/scripts/bootstrap.sh demo_data`, if you want it
 
 Interim PXE Build Process
