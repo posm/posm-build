@@ -37,9 +37,9 @@ deploy_demo_data_tiles() {
   apt-get install -y \
     openstreetmap-postgis-db-setup mapnik-utils
 
-  echo "openstreetmap-mapnik-carto-stylesheet-data openstreetmap-mapnik-carto-stylesheet-data/dloadcoastlines boolean true" | debconf-set-selections
-  apt-get install -y \
-    openstreetmap-mapnik-carto-stylesheet-data
+  # echo "openstreetmap-mapnik-carto-stylesheet-data openstreetmap-mapnik-carto-stylesheet-data/dloadcoastlines boolean true" | debconf-set-selections
+  # apt-get install -y \
+  #   openstreetmap-mapnik-carto-stylesheet-data
 
   apt-get clean
 
