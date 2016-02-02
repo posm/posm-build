@@ -44,7 +44,7 @@ deploy_demo_data_tiles() {
   if [ "$mem" -lt 3600 ]; then
     mem=""
   fi
-  local cpu=`grep -c rocessor /proc/cpuinfo`
+  local cpu=`nproc`
 
   case "$osm2pg_style" in
     *://*)
