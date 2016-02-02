@@ -5,16 +5,17 @@ Interim Manual Build Process
 
  1. Install [Ubuntu 14.04 LTS minimal server](http://www.ubuntu.com/download/server) however you like
    * See details below for [Ubuntu Server Install Details for NUC](#ubuntu-server-install-details-for-nuc)
- 2.  `wget -q -O - https://github.com/AmericanRedCross/posm-build/archive/master.tar.gz | tar -zxf - -C /root --strip=2`
- 3. Put any local settings in `/root/etc/settings.local` (see `/root/etc/settings`)
+ 2. Become `root`
+ 3.  `wget -q -O - https://github.com/AmericanRedCross/posm-build/archive/master.tar.gz | tar -zxf - -C /root --strip=2`
+ 4. Put any local settings in `/root/etc/settings.local` (see `/root/etc/settings`)
    * Important ones for development are the ones that involve DNS and URLs:
       * `posm_domain="yourdomain.foo"`
       * `posm_hostname="whateveryouwant.yourdomain.foo"`
       * `posm_base_url="http://$posm_hostname"`
       * `fp_api_base_url="${posm_base_url}/fp"`
       * `fp_tile_base_url="${posm_base_url}/fp-tiler"`
- 4. `/root/scripts/bootstrap.sh base virt wifi nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles carto tessera macrocosm id`
- 5. `/root/scripts/bootstrap.sh demo_data`, if you want it
+ 5. `/root/scripts/bootstrap.sh base virt wifi nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles carto tessera macrocosm id`
+ 6. `/root/scripts/bootstrap.sh demo_data`, if you want it
 
 Interim PXE Build Process
 =========================
