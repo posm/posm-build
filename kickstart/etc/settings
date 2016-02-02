@@ -43,6 +43,9 @@ macrocosm_pg_pass="macrocosm"
 
 node_ver=5
 
+# tile styles [mm, osm]
+carto_styles="mm"
+
 # data
 demo_data_pbf="http://download.geofabrik.de/south-america/ecuador-latest.osm.pbf"
 #osm2pg_style="https://raw.githubusercontent.com/openstreetmap/osm2pgsql/0.88.1/empty.style"

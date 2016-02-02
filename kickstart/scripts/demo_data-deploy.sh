@@ -36,12 +36,7 @@ deploy_demo_data_tiles() {
   apt-get install -y \
     openstreetmap-postgis-db-setup mapnik-utils
 
-  # echo "openstreetmap-mapnik-carto-stylesheet-data openstreetmap-mapnik-carto-stylesheet-data/dloadcoastlines boolean true" | debconf-set-selections
-  # apt-get install -y \
-  #   openstreetmap-mapnik-carto-stylesheet-data
-
   apt-get clean
-
   (cd /tmp; env DBOWNER="$osm_pg_owner" DBNAME="$osm_pg_dbname" /usr/bin/install-postgis-osm-db.sh)
 
   #local mem=`vmstat | awk 'NR == 3 { print int($4/1024) }'`
