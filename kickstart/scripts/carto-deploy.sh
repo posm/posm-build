@@ -18,7 +18,7 @@ deploy_carto_ubuntu() {
 deploy_carto_fonts() {
   #apt-get install texlive-fonts-extra -y
   #from_github "https://github.com/google/fonts" "$dst/fonts"
-  wget -P "$dst/fonts" "https://github.com/google/fonts/raw/master/apache/opensans/OpenSans-Bold.ttf"
+  wget -q -N -P "$dst/fonts" "https://github.com/google/fonts/raw/master/apache/opensans/OpenSans-Bold.ttf"
 
   apt-get install -y \
     fonts-droid fonts-khmeros fonts-khmeros-core fonts-sil-padauk fonts-sipa-arundina ttf-dejavu ttf-dejavu-core ttf-dejavu-extra ttf-indic-fonts-core ttf-kannada-fonts ttf-tamil-fonts ttf-unifont
@@ -29,7 +29,7 @@ deploy_carto_mm() {
   chown "$carto_user:$carto_user" "$dst/posm-carto"
 
   su - "$carto_user" -c "cd '$dst/posm-carto' && npm install --quiet"
-  su - "$carto_user" -c "make -C '$dst/posm-carto project.xml'"
+  su - "$carto_user" -c "make -C '$dst/posm-carto' project.xml"
   mkdir -p "$dst/posm-carto/font/"
   ln -s "$dst/fonts/OpenSans-Bold.ttf" "$dst/posm-carto/font/"
 
