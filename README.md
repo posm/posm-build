@@ -21,7 +21,7 @@ Interim PXE Build Process
 =========================
 
  1. Create a PXE boot server for Ubuntu 14.04 LTS
-   * Installing to a NUC using PXE seems problemattic due to the install happening in Legacy BIOS mode, not UEFI
+   * Installing to a NUC using PXE seems problematic due to the install happening in Legacy BIOS mode, not UEFI
  2. Put this entire repo at `/posm` on your Kickstart / PXE web server
  3. PXE boot as approriate to use the `POSM_Server.cfg` preseed, for example, add the following on the kernel line: `auto=true url=http://ks/posm/kickstart/POSM_Server.cfg`
    * The `POSM_Server.cfg` preseed expects that your kickstart server has a hostname of `ks`, and you have a Ubuntu package cache (e.g. `apt-cacher-ng`) at `http://apt-proxy:3142`.
