@@ -25,7 +25,7 @@ deploy_carto_fonts() {
 }
 
 deploy_carto_mm() {
-  from_github "https://github.com/AmericanRedCross/posm-carto" "$dst/posm-carto"
+  from_github "https://github.com/AmericanRedCross/posm-carto" "$dst/posm-carto" 177d657753247a2915bff81c4623a3826dfcb1e4
   chown "$carto_user:$carto_user" "$dst/posm-carto"
 
   su - "$carto_user" -c "cd '$dst/posm-carto' && npm install --quiet"
