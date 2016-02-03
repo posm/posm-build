@@ -11,7 +11,7 @@ deploy_id_ubuntu() {
   useradd -c 'OSM iD' -d "$dst" -m -r -s /bin/bash -U id
 
   # install
-  from_github "https://github.com/AmericanRedCross/iD" "$dst"
+  from_github "https://github.com/AmericanRedCross/iD" "$dst" "posm"
   chown -R id:id "$dst"
 
   # patch hostname
