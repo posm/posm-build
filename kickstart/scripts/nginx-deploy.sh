@@ -11,6 +11,8 @@ deploy_nginx_ubuntu() {
 
   mkdir -p /opt/posm-www
   chmod 755 /opt/posm-www
+
+  expand htdocs/index.html /opt/posm-www/index.html
 }
 
 deploy nginx
