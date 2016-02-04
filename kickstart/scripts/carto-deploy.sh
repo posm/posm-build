@@ -31,7 +31,7 @@ deploy_carto_mm() {
   su - "$carto_user" -c "cd '$dst/posm-carto' && npm install --quiet"
   su - "$carto_user" -c "make -C '$dst/posm-carto' project.xml"
   mkdir -p "$dst/posm-carto/font/"
-  ln -s "$dst/fonts/OpenSans-Bold.ttf" "$dst/posm-carto/font/"
+  ln -s "$dst/fonts/OpenSans-Bold.ttf" "$dst/posm-carto/fonts/"
 
   rm "$dst/mm"
   ln -s posm-carto "$dst/mm"
