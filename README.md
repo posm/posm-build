@@ -32,7 +32,7 @@ Interim PXE Build Process
 Hardware Requirements
 =====================
  * At least 2GB RAM, 8GB preferred
- * At least a 16GB drive
+ * At least a 30GB drive
  * A compatible wireless adapter, for running a Software Access Point ("Captive Portal", `hostapd`)
 
 Configuration & Ports
