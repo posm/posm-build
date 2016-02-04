@@ -1,5 +1,17 @@
 # POSM Build
 
+USB Auto-Build Process
+======================
+ 1. Create a Ubuntu 14.04 server install USB stick as usual (normal Ubuntu `amd64`/`x86_64` server ISO, not a `mini.iso`)
+   * [How to create a bootable USB stick on Ubuntu](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-ubuntu)
+   * [How to create a bootable USB stick on Windows](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows)
+   * [How to create a bootable USB stick on OS X](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
+ 2. Mount the USB drive
+ 3. Clone this project to the root drive of the USB stick
+ 4. Copy `posm-build/syslinux/txt.cfg` to `syslinux/txt.cfg` (on the USB stick)
+ 5. Boot the USB stick and pick `Install POSM Server` from the menu
+
+
 Interim Manual Build Process
 ============================
 
