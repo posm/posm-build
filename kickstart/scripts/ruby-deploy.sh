@@ -27,7 +27,8 @@ deploy_ruby_ubuntu() {
     apt-get install software-properties-common -y
     apt-add-repository ppa:brightbox/ruby-ng -y
     apt-get update
-    apt-get install ruby${ruby_ver} -y
+    apt-get install -y \
+      ruby${ruby_ver} ruby${ruby_ver}-dev
   fi
   deploy_ruby_generic
 }
