@@ -68,5 +68,5 @@ Ubuntu Server Install Details for NUC
  * Set the hostname to `posm.lan`
  * Set the local user name to `posm`
  * Set the time zone to `UTC` (press `End` key to get to the bottom of the list)
- * (Optional) Use LVM partitioning using only 20GB of space (so you can allocate remainder for data later)
+ * (Optional) Use LVM partitioning using only 30GB of space (so you can allocate remainder for data later)
  * No automatic updates (turn them on if the unit isn't going to the field)
