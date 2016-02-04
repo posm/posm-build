@@ -55,7 +55,6 @@ deploy_fieldpapers_common() {
 deploy_fp_web() {
   # gems
   gem install --no-rdoc --no-ri bundler
-  gem install --no-rdoc --no-ri foreman
 
   # create a directory for static files
   mkdir -p "$dst/data"
