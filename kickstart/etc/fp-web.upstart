@@ -16,6 +16,7 @@ env PERSIST="local"
 env STATIC_PATH="/opt/fp/data"
 env STATIC_URI_PREFIX="{{fp_api_base_url}}/_"
 env MAPZEN_SEARCH_KEY="{{fp_mapzen_search_key}}"
+env PORT={{fp_web_port}}
 
 #env LANG=en_US.UTF-8
 #env MAIL_ORIGIN=help@fieldpapers.org
@@ -39,4 +40,4 @@ exec start-stop-daemon \
 		--chuid fp \
 		--make-pidfile \
 		--pidfile /var/run/fp-web.pid \
-		--exec /usr/local/bin/bundle -- exec rails server -b 0.0.0.0 -p '{{fp_web_port}}' >> /var/log/fp-web.log 2>&1
+		--exec /usr/local/bin/bundle -- exec puma -C config/puma.rb >> /var/log/fp-web.log 2>&1
