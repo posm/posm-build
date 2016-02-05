@@ -65,7 +65,7 @@ deploy_demo_data_tiles() {
 
 deploy_demo_data_api() {
   local pbf="$1"
-  su - osm -c "osmosis --read-pbf-fast '$pbf' --log-progress --write-apidb password='${osm_pg_pass}' database='${osm_pg_dbname}'"
+  su - osm -c "osmosis --read-pbf-fast '$pbf' --log-progress --write-apidb password='${osm_pg_pass}' database='${osm_pg_dbname}' validateSchemaVersion='no'"
 
   su - osm -c "psql -d ${osm_pg_dbname} -c \"select setval('changesets_id_seq', (select max(id) from changesets))\""
   su - osm -c "psql -d ${osm_pg_dbname} -c \"select setval('current_nodes_id_seq', (select max(node_id) from nodes))\""
