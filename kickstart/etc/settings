@@ -25,19 +25,26 @@ fp_web_port=3000
 tessera_port=8082
 omk_server_port=3210
 macrocosm_api_port=4000
+osm_web_port=9000
 
 # field papers
 fp_secret_key_base=redacted
 fp_mapzen_search_key=redacted
+
+# OSM
+osm_id_key=redacted
 
 # databases
 mysql_pw=posm
 mysql_size=small
 pgsql_ver=9.3
 postgis_ver=2.1
-osm_pg_dbname="gis"
-osm_pg_owner="gis"
-osm_pg_users="root fp omk"
+osm_pg_owner="osm"
+osm_pg_pass="openstreetmap"
+osm_pg_dbname="osm"
+osm_carto_pg_dbname="gis"
+osm_carto_pg_owner="gis"
+osm_carto_pg_users="root fp omk"
 macrocosm_pg_owner="macrocosm"
 macrocosm_pg_pass="macrocosm"
 

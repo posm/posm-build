@@ -1,0 +1,28 @@
+# fp-web
+
+description     "OpenStreetMap (Rails)"
+
+start on (local-filesystems and net-device-up and runlevel [2345])
+stop on shutdown
+
+env RAILS_ENV="{{posm_env}}"
+env SECRET_KEY_BASE=38ab4c0de2a6335be2d2c6f6972470f0dc4f750f5c8f5895e53e8a5889fcccfeeda82a29d99ce9d0860e7f10c39bc88f6b17ed4bcc8218cef3e2fec020706129
+
+respawn
+#respawn limit 5 60
+
+pre-start script
+    echo "[`date '+%c'`] Starting: osm-web" >> /var/log/osm-web.log
+end script
+
+pre-stop script
+    echo "[`date '+%c'`] Stopping: osm-web" >> /var/log/osm-web.log
+end script
+
+exec start-stop-daemon \
+		--start \
+		--chdir /opt/osm/osm-web \
+		--chuid osm \
+		--make-pidfile \
+		--pidfile /var/run/osm-web.pid \
+		--exec /usr/local/bin/bundle -- exec rails server -b 0.0.0.0 -p '{{osm_web_port}}' >> /var/log/osm-web.log 2>&1
