@@ -65,7 +65,13 @@ deploy_demo_data_tiles() {
 
 deploy_demo_data_api() {
   local pbf="$1"
-  su - macrocosm -c "osmosis --read-pbf-fast '$pbf' --log-progress --write-apidb password='${macrocosm_pg_pass}' database='macrocosm_${posm_env}'"
+  su - osm -c "osmosis --read-pbf-fast '$pbf' --log-progress --write-apidb password='${osm_pg_pass}' database='${osm_pg_dbname}'"
+
+  su - osm -c "psql -d ${osm_pg_dbname} -c \"select setval('changesets_id_seq', (select max(id) from changesets))\""
+  su - osm -c "psql -d ${osm_pg_dbname} -c \"select setval('current_nodes_id_seq', (select max(node_id) from nodes))\""
+  su - osm -c "psql -d ${osm_pg_dbname} -c \"select setval('current_ways_id_seq', (select max(way_id) from ways))\""
+  su - osm -c "psql -d ${osm_pg_dbname} -c \"select setval('current_relations_id_seq', (select max(relation_id) from relations))\""
+  su - osm -c "psql -d ${osm_pg_dbname} -c \"select setval('users_id_seq', (select max(id) from users))\""
 }
 
 deploy demo_data
