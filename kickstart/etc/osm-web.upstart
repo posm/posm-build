@@ -6,6 +6,7 @@ start on (local-filesystems and net-device-up and runlevel [2345])
 stop on shutdown
 
 env RAILS_ENV="{{posm_env}}"
+env RAILS_RELATIVE_URL_ROOT="/osm"
 env SECRET_KEY_BASE=38ab4c0de2a6335be2d2c6f6972470f0dc4f750f5c8f5895e53e8a5889fcccfeeda82a29d99ce9d0860e7f10c39bc88f6b17ed4bcc8218cef3e2fec020706129
 env RAILS_SERVE_STATIC_FILES=true
 env PORT={{osm_web_port}}
