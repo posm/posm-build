@@ -46,6 +46,7 @@ deploy_osm_rails() {
 
   # add Puma so `rails server` will use it
   grep puma "$dst/osm-web/Gemfile" || echo "gem 'puma'" >> "$dst/osm-web/Gemfile"
+  grep rails_stdout_logging "$dst/osm-web/Gemfile" || echo "gem 'rails_stdout_logging'" >> "$dst/osm-web/Gemfile"
 
   # configure OSM
   expand etc/osm-application.yml "$dst/osm-web/config/application.yml"
