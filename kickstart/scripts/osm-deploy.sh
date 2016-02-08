@@ -81,6 +81,30 @@ deploy_osm_rails() {
   start osm-web
 }
 
+deploy_osm_cgimap_ubuntu() {
+  apt-get install -y \
+    libxml2-dev libpqxx3-dev libfcgi-dev libboost-dev libboost-regex-dev \
+    libboost-program-options-dev libboost-date-time-dev \
+    libboost-filesystem-dev libboost-system-dev libmemcached-dev \
+    build-essential automake autoconf libtool
+}
+
+deploy_osm_cgimap_common() {
+  deploy_osm_cgimap
+}
+
+deploy_osm_cgimap() {
+  from_github "https://github.com/AmericanRedCross/cgimap" "$dst/osm-cgimap"
+  chown -R osm:osm "$dst/osm-cgimap"
+
+  su - osm -c "cd '$dst/osm-cgimap' && ./autogen.sh"
+  su - osm -c "cd '$dst/osm-cgimap' && ./configure"
+  su - osm -c "cd '$dst/osm-cgimap' && make -j $(nproc)"
+
+  expand etc/osm-cgimap.upstart /etc/init/osm-cgimap.conf
+  start osm-cgimap
+}
+
 deploy_osm_ubuntu() {
   apt-get install software-properties-common -y
   add-apt-repository ppa:kakrueger/openstreetmap -y
@@ -103,6 +127,9 @@ deploy_osm_ubuntu() {
 
   deploy_osm_rails_ubuntu
   deploy_osm_rails_common
+
+  deploy_osm_cgimap_ubuntu
+  deploy_osm_cgimap_common
 }
 
 deploy_osmosis_prebuilt() {
