@@ -15,7 +15,7 @@ deploy_id_ubuntu() {
   chown -R id:id "$dst"
 
   # patch hostname
-  sed -i -e "s/posm\.local/${posm_hostname}/g" "$dst/js/id/core/connection.js"
+  sed -i -e "s/posm\.local/${posm_hostname}/g" "$dst/index.html"
 
   # "build"
   su - id -c "make -C '$dst'"
