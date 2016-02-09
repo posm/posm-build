@@ -94,7 +94,7 @@ deploy_osm_cgimap_common() {
 }
 
 deploy_osm_cgimap() {
-  from_github "https://github.com/AmericanRedCross/cgimap" "$dst/osm-cgimap"
+  from_github "https://github.com/AmericanRedCross/openstreetmap-cgimap" "$dst/osm-cgimap"
   chown -R osm:osm "$dst/osm-cgimap"
 
   su - osm -c "cd '$dst/osm-cgimap' && ./autogen.sh"
