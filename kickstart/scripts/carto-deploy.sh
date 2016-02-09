@@ -1,6 +1,6 @@
 #!/bin/bash
 
-carto_user="${carto_user:-${osm_pg_owner:-gis}}"
+carto_user="${carto_user:-${osm_carto_pg_owner:-gis}}"
 carto_styles="${carto_styles:-mm osm}"
 dst="/opt/$carto_user"
 

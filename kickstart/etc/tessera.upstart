@@ -24,8 +24,8 @@ end script
 
 exec start-stop-daemon \
 		--start \
-		--chdir /opt/{{osm_pg_owner}} \
-		--chuid {{osm_pg_owner}} \
+		--chdir /opt/{{osm_carto_pg_owner}} \
+		--chuid {{osm_carto_pg_owner}} \
 		--make-pidfile \
 		--pidfile /var/run/tessera.pid \
 		--exec /usr/bin/tessera -- >> /var/log/tessera.log 2>&1
