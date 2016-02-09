@@ -41,7 +41,7 @@ deploy_osm_rails() {
   npm install -g svgo
 
   # install OSM WEB
-  from_github "https://github.com/AmericanRedCross/openstreetmap-website" "$dst/osm-web"
+  from_github "https://github.com/AmericanRedCross/openstreetmap-website" "$dst/osm-web" "posm"
   chown -R osm:osm "$dst/osm-web"
 
   # add Puma so `rails server` will use it
