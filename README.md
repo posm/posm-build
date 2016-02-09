@@ -12,6 +12,16 @@ USB Auto-Build Process
  5. (optional) Put any local settings in `posm-build/kickstart/etc/settings.local`
  6. Boot the USB stick and pick `Install POSM Server` from the menu
 
+ USB Auto-Build Process (OS X)
+ =============================
+ 1. Download http://posm.s3.amazonaws.com/ubuntu-14.04.3-server-amd64.img
+ 2. [Image it to a USB
+   drive](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
+   (`sudo dd if=ubuntu-14.04.3-server-amd64.img of=/dev/<USB> bs=1m` or similar).
+ 3. Clone this project to the root drive of the USB stick
+ 4. Copy `posm-build/grub/grub.cfg` to `boot/grub/grub.cfg` (on the USB stick)
+ 5. (optional) Put any local settings in `posm-build/kickstart/etc/settings.local`
+ 6. Boot the USB stick and pick `Install POSM Server` from the menu
 
 Interim Manual Build Process
 ============================
