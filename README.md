@@ -17,7 +17,7 @@ USB Auto-Build Process
 
 USB Auto-Build Process (OS X)
 =============================
-1. Download http://posm.s3.amazonaws.com/ubuntu-14.04.3-server-amd64.img
+1. Download https://s3-us-west-2.amazonaws.com/posm/ubuntu-14.04.3-server-amd64.img
 2. [Image it to a USB
   drive](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
   (`sudo dd if=ubuntu-14.04.3-server-amd64.img of=/dev/<USB> bs=1m` or similar).
