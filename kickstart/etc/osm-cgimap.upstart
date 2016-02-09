@@ -26,4 +26,4 @@ exec start-stop-daemon \
 		--chuid osm \
 		--make-pidfile \
 		--pidfile /var/run/osm-cgimap.pid \
-		--exec ./map >> /var/log/osm-cgimap.log 2>&1
+		--exec /opt/osm/osm-cgimap/map >> /var/log/osm-cgimap.log 2>&1
