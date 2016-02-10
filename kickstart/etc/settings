@@ -32,9 +32,6 @@ cgimap_port=54321
 fp_secret_key_base=redacted
 fp_mapzen_search_key=redacted
 
-# OSM
-osm_id_key=redacted
-
 # databases
 mysql_pw=posm
 mysql_size=small
@@ -48,6 +45,10 @@ osm_carto_pg_owner="gis"
 osm_carto_pg_users="root fp omk"
 macrocosm_pg_owner="macrocosm"
 macrocosm_pg_pass="macrocosm"
+
+# POSM iD keys (will be set during osm initialization)
+posm_id_key="unset"
+posm_id_secret="unset"
 
 node_ver=5
 

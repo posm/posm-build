@@ -8,7 +8,7 @@ deploy_osm_rails_ubuntu() {
   apt-get install -y \
     libmagickwand-dev libxml2-dev libxslt1-dev build-essential \
      postgresql-contrib libpq-dev postgresql-server-dev-all \
-     libsasl2-dev imagemagick
+     libsasl2-dev imagemagick jq
 
   # OSM user & env
   useradd -c 'OpenStreetMap' -d "$dst" -m -r -s /bin/bash -U osm
@@ -75,6 +75,14 @@ deploy_osm_rails() {
 
   # assets
   su - osm -c "cd '$dst/osm-web' && bundle exec rake assets:precompile"
+
+  # generate credentials for OSM's iD
+  export osm_id_key=$(su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:apps:create name='OSM iD' url='${posm_base_url}'" | jq -r .key)
+
+  # generate credentials for POSM's iD
+  posm_id_credentials=$(su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:apps:create name='POSM iD' url='${posm_base_url}'")
+  export posm_id_key=$(echo $posm_id_credentials | jq -r .key)
+  export posm_id_secret=$(echo $posm_id_credentials | jq -r .secret)
 
   # start
   expand etc/osm-web.upstart /etc/init/osm-web.conf
