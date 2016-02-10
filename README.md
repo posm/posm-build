@@ -8,7 +8,7 @@ USB Auto-Build Process
   * [How to create a bootable USB stick on OS X](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
 2. Mount the USB drive
 3. Clone this project to the root drive of the USB stick
-4. Copy `posm-build/grub/grub.cfg` to `grub/grub.cfg` (on the USB stick)
+4. Copy `posm-build/grub/grub.cfg` to `boot/grub/grub.cfg` (on the USB stick)
 5. (optional) Put any local settings in `posm-build/kickstart/etc/settings.local`
 6. Boot the USB stick and pick `Install POSM Server` from the menu
 7. Respond to partitioning-related prompts
