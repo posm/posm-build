@@ -7,18 +7,16 @@ deploy_id_ubuntu() {
   apt-get install -y \
     build-essential
 
-  # create user
-  useradd -c 'OSM iD' -d "$dst" -m -r -s /bin/bash -U id
-
   # install
   from_github "https://github.com/AmericanRedCross/iD" "$dst" "posm"
-  chown -R id:id "$dst"
+  chown -R posm:posm "$dst"
 
   # patch hostname
   sed -i -e "s/posm\.local/${posm_hostname}/g" "$dst/index.html"
 
   # "build"
-  su - id -c "make -C '$dst'"
+  su - posm -c "make -C '$dst'"
+  chown -R nobody:nogroup "$dst"
 }
 
 deploy id
