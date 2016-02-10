@@ -110,20 +110,12 @@ deploy_osm_ubuntu() {
   add-apt-repository ppa:kakrueger/openstreetmap -y
   apt-get update
   apt-get install -y \
-    default-jre-headless
-  apt-get install -y \
-    libmapnik2.2 \
-    libmapnik2-dev \
-    osmpbf-bin libosmpbf-dev \
-    python-gdal \
-    geotiff-bin \
-    ttf-baekmuk
+    default-jre-headless \
+    osmpbf-bin libosmpbf-dev
 
   ubuntu_backport_install osmctools
   ubuntu_backport_install osm2pgsql
   deploy_osmosis_prebuilt
-
-  #backport_osmosis
 
   deploy_osm_rails_ubuntu
   deploy_osm_rails_common
@@ -144,20 +136,6 @@ deploy_osmosis_prebuilt() {
   chmod -R o-w "$dst"
 
   ln -s -f "$dst/bin/osmosis" /usr/bin/
-}
-
-
-backport_osmosis() {
-  # extra build deps for osmosis
-  apt-get install -y \
-    default-jdk ivy junit4 ant-optional maven-repo-helper \
-    libbatik-java libcommons-codec-java libcommons-compress-java libcommons-dbcp-java libjpf-java libmysql-java libpostgis-java libpostgresql-jdbc-java libspring-beans-java libspring-context-java libspring-jdbc-java libspring-transaction-java libstax2-api-java libosmpbf-java libplexus-classworlds-java libprotobuf-java libwoodstox-java libxz-java
-  ubuntu_backport_install netty-3.9
-
-  ubuntu_backport_install gradle-debian-helper # this fails
-
-  # finally backport osmosis itself
-  ubuntu_backport_install osmosis
 }
 
 deploy osm
