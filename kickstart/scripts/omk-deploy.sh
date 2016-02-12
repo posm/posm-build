@@ -6,6 +6,7 @@ deploy_omk_ubuntu() {
   # deps
   apt-get install -y \
     build-essential \
+    default-jre-headless \
     python-pip \
     python-virtualenv
 
