@@ -8,7 +8,6 @@ deploy_tessera_ubuntu() {
 
   npm install -g tessera
   local prefix=`npm prefix -g`
-  (cd $prefix/lib/node_modules/tessera && npm install mapnik)
   (cd $prefix/lib/node_modules/tessera && npm install mbtiles tilelive-mapnik tilelive-carto tilelive-tmstyle tilelive-tmsource tilelive-file tilelive-http tilelive-mapbox tilejson tilelive-vector)
 
   # configure
