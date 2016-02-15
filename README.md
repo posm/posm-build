@@ -10,10 +10,10 @@ USB Auto-Build Process
 3. Clone this project to the root drive of the USB stick
 4. Copy `posm-build/grub/grub.cfg` to `boot/grub/grub.cfg` (on the USB stick)
 5. (optional) Put any local settings in `posm-build/kickstart/etc/settings.local`
-6. Boot the USB stick and pick `Install POSM Server` from the menu
+6. Boot to the USB stick by pressing F10 and pick `Install POSM Server` from the menu
 7. Respond to partitioning-related prompts
 8. Watch it reboot
-9. Log in as `root` / `posm` and `tail -f bootstrap.log` to check status. This may take a while.
+9. Log in as `root` / `posm` and `tail -f bootstrap.log` to check the installation status. This may take a while.
 
 USB Auto-Build Process (OS X)
 =============================
@@ -25,10 +25,10 @@ USB Auto-Build Process (OS X)
 4. Clone this project to the root drive of the USB stick
 5. Copy `posm-build/grub/grub.cfg` to `boot/grub/grub.cfg` (on the USB stick)
 6. (optional) Put any local settings in `posm-build/kickstart/etc/settings.local`
-7. Boot the USB stick and pick `Install POSM Server` from the menu
+7. Boot to the USB stick by pressing F10 and pick `Install POSM Server` from the menu
 8. Respond to partitioning-related prompts
 9. Watch it reboot
-10. Log in as `root` / `posm` and `tail -f bootstrap.log` to check status. This may take a while.
+10. Log in as `root` / `posm` and `tail -f bootstrap.log` to check the installation status. This may take a while.
 
 Interim Manual Build Process
 ============================
