@@ -7,7 +7,6 @@ dst="/opt/$carto_user"
 deploy_carto_ubuntu() {
   apt-get install nodejs -y
   useradd -c 'OSM/GIS User' -d "$dst" -m -r -s /bin/bash -U "$carto_user"
-  deploy_carto_fonts
   local s
   for s in $carto_styles; do
     local fn="deploy_carto_$s"
