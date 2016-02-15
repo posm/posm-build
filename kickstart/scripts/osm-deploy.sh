@@ -121,8 +121,8 @@ deploy_osm_ubuntu() {
     default-jre-headless \
     osmpbf-bin libosmpbf-dev
 
-  ubuntu_backport_install osmctools
-  ubuntu_backport_install osm2pgsql
+  type osmconvert || ubuntu_backport_install osmctools
+  type osm2pgsql || ubuntu_backport_install osm2pgsql
   deploy_osmosis_prebuilt
 
   deploy_osm_rails_ubuntu
