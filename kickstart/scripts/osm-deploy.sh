@@ -98,7 +98,7 @@ deploy_osm_cgimap_ubuntu() {
 }
 
 deploy_osm_cgimap_common() {
-  deploy_osm_cgimap
+  test -f '$dst/osm-cgimap/map' || deploy_osm_cgimap
 }
 
 deploy_osm_cgimap() {
