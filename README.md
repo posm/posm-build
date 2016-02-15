@@ -2,32 +2,32 @@
 
 USB Auto-Build Process
 ======================
-1. Create a Ubuntu 14.04 server install USB stick as usual (normal Ubuntu `amd64`/`x86_64` server ISO, not a `mini.iso`)
+1. Create a Ubuntu 14.04 server install USB stick as usual (normal Ubuntu `amd64`/`x86_64` server ISO, not a `mini.iso`).
   * [How to create a bootable USB stick on Ubuntu](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-ubuntu)
   * [How to create a bootable USB stick on Windows](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows)
   * [How to create a bootable USB stick on OS X](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
-2. Mount the USB drive
-3. Clone this project to the root drive of the USB stick
+2. Mount the USB drive.
+3. Clone this project to the root drive of the USB stick.
 4. Copy `posm-build/grub/grub.cfg` to `boot/grub/grub.cfg` (on the USB stick)
-5. (optional) Put any local settings in `posm-build/kickstart/etc/settings.local`
-6. Boot to the USB stick by pressing F10 and pick `Install POSM Server` from the menu
-7. Respond to partitioning-related prompts
-8. Watch it reboot
+5. _(optional)_ Put any local settings in `posm-build/kickstart/etc/settings.local`.
+6. Boot to the USB stick by pressing `F10` and pick `Install POSM Server` from the menu.
+7. Respond to partitioning-related prompts.
+8. Watch it reboot. After the system has restarted, the POSM bootstrap installation will automatically begin.
 9. Log in as `root` / `posm` and `tail -f bootstrap.log` to check the installation status. This may take a while.
 
 USB Auto-Build Process (OS X)
 =============================
 1. Download https://s3-us-west-2.amazonaws.com/posm/ubuntu-14.04.3-server-amd64.img
-2. Unmount Disk `diskutil unmountDisk /dev/<USB>`
+2. Unmount Disk `diskutil unmountDisk /dev/<USB>`.
 3. [Image it to a USB
-  drive](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
+  drive](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx).
   (`sudo dd if=ubuntu-14.04.3-server-amd64.img of=/dev/r<USB> bs=1m` or similar).
-4. Clone this project to the root drive of the USB stick
-5. Copy `posm-build/grub/grub.cfg` to `boot/grub/grub.cfg` (on the USB stick)
-6. (optional) Put any local settings in `posm-build/kickstart/etc/settings.local`
-7. Boot to the USB stick by pressing F10 and pick `Install POSM Server` from the menu
-8. Respond to partitioning-related prompts
-9. Watch it reboot
+4. Clone this project to the root drive of the USB stick.
+5. Copy `posm-build/grub/grub.cfg` to `boot/grub/grub.cfg` (on the USB stick).
+6. _(optional)_ Put any local settings in `posm-build/kickstart/etc/settings.local`.
+7. Boot to the USB stick by pressing `F10` and pick `Install POSM Server` from the menu.
+8. Respond to partitioning-related prompts.
+9. Watch it reboot. After the system has restarted, the POSM bootstrap installation will automatically begin.
 10. Log in as `root` / `posm` and `tail -f bootstrap.log` to check the installation status. This may take a while.
 
 Interim Manual Build Process
