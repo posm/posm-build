@@ -44,7 +44,7 @@ deploy_osm_rails() {
   from_github "https://github.com/AmericanRedCross/openstreetmap-website" "$dst/osm-web" "posm"
   chown -R osm:osm "$dst/osm-web"
 
-  # add Puma so `rails server` will use it
+  # upstart-friendly serving + logging
   grep puma "$dst/osm-web/Gemfile" || echo "gem 'puma'" >> "$dst/osm-web/Gemfile"
   grep rails_stdout_logging "$dst/osm-web/Gemfile" || echo "gem 'rails_stdout_logging'" >> "$dst/osm-web/Gemfile"
 
@@ -55,7 +55,7 @@ deploy_osm_rails() {
   expand etc/osm-actionmailer.rb "$dst/osm-web/config/initializers/action_mailer.rb"
   expand etc/osm-config.ru "$dst/osm-web/config.ru"
 
-  # configure FP
+  # configure OSM
   expand etc/osm-web.env "$dst/osm-web/.env"
 
   # install vendored deps
