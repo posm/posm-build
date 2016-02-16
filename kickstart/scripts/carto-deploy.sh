@@ -21,7 +21,7 @@ deploy_carto_mm() {
   su - "$carto_user" -c "cd '$dst/posm-carto' && npm install --quiet"
   su - "$carto_user" -c "make -C '$dst/posm-carto' project.xml"
 
-  rm "$dst/mm"
+  rm -f "$dst/mm"
   ln -s posm-carto "$dst/mm"
 }
 
