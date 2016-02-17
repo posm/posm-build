@@ -3,10 +3,16 @@
 carto_user="${carto_user:-${osm_carto_pg_owner:-gis}}"
 carto_styles="${carto_styles:-mm osm}"
 dst="/opt/$carto_user"
+osm_carto_pg_dbname="gis"
+osm_carto_pg_owner="gis"
 
 deploy_carto_ubuntu() {
   apt-get install nodejs -y
   useradd -c 'OSM/GIS User' -d "$dst" -m -r -s /bin/bash -U "$carto_user"
+  echo -e "${osm_carto_pg_pass}\n${osm_carto_pg_pass}" | su - postgres -c "createuser --no-superuser --no-createdb --no-createrole --pwprompt '$osm_carto_pg_owner'"
+  su - postgres -c "createdb --owner='$osm_carto_pg_owner' '$osm_carto_pg_dbname'"
+  su - postgres -c "psql --dbname='$osm_carto_pg_dbname' --command='CREATE EXTENSION postgis'"
+  su - postgres -c "psql --dbname='$osm_carto_pg_dbname' --command='CREATE EXTENSION hstore'"
   local s
   for s in $carto_styles; do
     local fn="deploy_carto_$s"
