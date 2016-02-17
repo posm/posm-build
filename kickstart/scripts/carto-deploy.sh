@@ -3,8 +3,6 @@
 carto_user="${carto_user:-${osm_carto_pg_owner:-gis}}"
 carto_styles="${carto_styles:-mm osm}"
 dst="/opt/$carto_user"
-osm_carto_pg_dbname="gis"
-osm_carto_pg_owner="gis"
 
 deploy_carto_ubuntu() {
   apt-get install nodejs -y
