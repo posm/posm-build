@@ -10,7 +10,7 @@ posm_netif="wlan0"
 posm_ssid="posm"
 posm_wpa_passphrase="awesomeposm" # 8..63 characters
 posm_wifi_channel="1"
-posm_domain="lan"
+posm_domain="local"
 posm_hostname="posm.$posm_domain"
 
 # urls

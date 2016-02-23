@@ -94,7 +94,7 @@ Ubuntu Server Install Details for NUC
    * `Enter` to active the console
    * Type `umount /media`
    * `Alt-F1` to return to installer, and try to detect again
- * Set the hostname to `posm.lan`
+ * Set the hostname to `posm`
  * Set the local user name to `posm`
  * Set the time zone to `UTC` (press `End` key to get to the bottom of the list)
  * (Optional) Use LVM partitioning using only 30GB of space (so you can allocate remainder for data later)
