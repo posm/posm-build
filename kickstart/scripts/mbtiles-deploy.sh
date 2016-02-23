@@ -11,7 +11,7 @@ deploy_mbtiles_ubuntu() {
   (cd $prefix/lib/node_modules/tl && npm install mapnik)
 
   # install useful modules for tile rendering
-  (cd $prefix/lib/node_modules/tl && npm install mbtiles tilelive-http tilejson tilelive-mapnik)
+  (cd $prefix/lib/node_modules/tl && npm install mbtiles tilelive-http tilejson tilelive-mapnik tilelive-blend)
 }
 
 deploy mbtiles
