@@ -25,4 +25,4 @@ CONFIG_DIR=/etc/dnsmasq.d,.dpkg-dist,.dpkg-old,.dpkg-new
 # Use DNSMASQ_EXCEPT to prevent dnsmasq from listening on the listed
 # interfaces.  Additionally, include "lo" to keep from adding 127.0.0.1
 # as a local DNS server via resolvconf.
-DNSMASQ_EXCEPT="lo {{posm_wan_netif}}"
+DNSMASQ_EXCEPT="lo {{posm_wan_netif}} {{posm_netif}}"
