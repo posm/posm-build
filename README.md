@@ -1,36 +1,24 @@
 # POSM Build
 
-USB Auto-Build Process
-======================
-1. Create a Ubuntu 14.04 server install USB stick as usual (normal Ubuntu `amd64`/`x86_64` server ISO, not a `mini.iso`).
-  * [How to create a bootable USB stick on Ubuntu](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-ubuntu)
-  * [How to create a bootable USB stick on Windows](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows)
-  * [How to create a bootable USB stick on OS X](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
-2. Mount the USB drive.
-3. Clone this project to the root drive of the USB stick.
-4. Copy `posm-build/grub/grub.cfg` to `boot/grub/grub.cfg` (on the USB stick)
-5. _(optional)_ Put any local settings in `posm-build/kickstart/etc/settings.local`.
-6. Boot to the USB stick by pressing `F10` and pick `Install POSM Server` from the menu.
-7. Respond to partitioning-related prompts.
-8. Watch it reboot. After the system has restarted, the POSM bootstrap installation will automatically begin.
-9. Log in as `root` / `posm` and `tail -f bootstrap.log` to check the installation status. This may take a while.
-
 USB Auto-Build Process (OS X)
 =============================
-1. Download https://s3-us-west-2.amazonaws.com/posm/ubuntu-14.04.3-server-amd64.img
-2. Unmount Disk `diskutil unmountDisk /dev/<USB>`.
-3. [Image it to a USB
+
+1. Download https://s3-us-west-2.amazonaws.com/posm/posm-install-24180cb-fat.tar
+2. Insert a USB stick
+3. Unmount if necessary `diskutil unmountDisk /dev/<USB>`. (`diskutil list` will show available devices on OS X)
+4. [Image it to a USB
   drive](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx).
-  (`sudo dd if=ubuntu-14.04.3-server-amd64.img of=/dev/r<USB> bs=1m` or similar).
-4. Clone this project to the root drive of the USB stick.
-5. Copy `posm-build/grub/grub.cfg` to `boot/grub/grub.cfg` (on the USB stick).
+  (`sudo dd if=ubuntu-14.04.3-server-amd64.img of=/dev/r<USB> bs=1m` or similar). It will remount as `POSM` when done.
+5. Update `/Volumes/POSM/posm-build`: `git pull`
 6. _(optional)_ Put any local settings in `posm-build/kickstart/etc/settings.local`.
 7. Boot to the USB stick by pressing `F10` and pick `Install POSM Server` from the menu.
-8. Respond to partitioning-related prompts.
 9. Watch it reboot. After the system has restarted, the POSM bootstrap installation will automatically begin.
 10. Log in as `root` / `posm` and `tail -f bootstrap.log` to check the installation status. This may take a while.
+11. Watch it reboot once installation is complete.
 
-Interim Manual Build Process
+Steps on Linux are similar, although the device name will differ.
+
+Interim Manual Build Process (for Virtual Machines)
 ============================
 
 1. Install [Ubuntu 14.04 LTS minimal server](http://www.ubuntu.com/download/server) however you like
@@ -41,10 +29,7 @@ Interim Manual Build Process
   * Important ones for development are the ones that involve DNS and URLs:
     * `posm_domain="yourdomain.foo"`
     * `posm_hostname="whateveryouwant.yourdomain.foo"`
-    * `posm_base_url="http://$posm_hostname"`
-    * `fp_api_base_url="${posm_base_url}/fp"`
-    * `fp_tile_base_url="${posm_base_url}/fp-tiler"`
-5. `/root/scripts/bootstrap.sh base virt wifi nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles carto tessera id`
+5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles carto tessera id` (note: `wifi` is omitted from this list)
 6. `/root/scripts/bootstrap.sh demo_data`, if you want it
 
 Interim PXE Build Process
@@ -81,21 +66,3 @@ Default Ports & URLs
 | `/fp-tasks` | [Field Papers Tasks](https://github.com/fieldpapers/fp-tasks) | http://127.0.0.1:8081/fp-tasks |
 | `/omk` | [OpenMapKit Server](https://github.com/AmericanRedCross/OpenMapKitServer) | http://127.0.0.1:3210 |
 | `/api` | [OpenStreetMap-website](https://github.com/AmericanRedCross/openstreetmap-website) | http://127.0.0.1:9000 |
-
-Ubuntu Server Install Details for NUC
-=====================================
- * Please install Ubuntu on the NUC in [UEFI](https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface) mode!
-   * To do this, use a normal Ubuntu `amd64`/`x86_64` server ISO (not a `mini.iso`) on a USB drive
-   * [How to create a bootable USB stick on Ubuntu](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-ubuntu)
-   * [How to create a bootable USB stick on Windows](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows)
-   * [How to create a bootable USB stick on OS X](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx)
- * If Ubuntu says it cannot detect the CD-ROM:
-   * `Alt-F2` to switch console
-   * `Enter` to active the console
-   * Type `umount /media`
-   * `Alt-F1` to return to installer, and try to detect again
- * Set the hostname to `posm.lan`
- * Set the local user name to `posm`
- * Set the time zone to `UTC` (press `End` key to get to the bottom of the list)
- * (Optional) Use LVM partitioning using only 30GB of space (so you can allocate remainder for data later)
- * No automatic updates (turn them on if the unit isn't going to the field)
