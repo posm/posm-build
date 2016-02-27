@@ -86,7 +86,7 @@ deploy() {
   fi
 
   case $vendor in
-    Ubuntu)
+    Ubuntu|Debian)
       fn="deploy_${1}_ubuntu"
       ;;
     CentOS|Red*)
