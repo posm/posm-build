@@ -2,8 +2,6 @@
 
 deploy_tessera_ubuntu() {
   apt-get install --no-install-recommends -y nodejs
-  apt-get install -y \
-    libmapnik2-dev
 
   npm install -g tessera
   local prefix=`npm prefix -g`

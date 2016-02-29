@@ -14,8 +14,6 @@ dst="/opt/$osm_carto_pg_owner"
 deploy_demo_data_ubuntu() {
   apt-get install --no-install-recommends -y \
     fonts-droid fonts-khmeros fonts-khmeros-core fonts-sil-padauk fonts-sipa-arundina ttf-dejavu ttf-dejavu-core ttf-dejavu-extra ttf-indic-fonts-core ttf-kannada-fonts ttf-tamil-fonts ttf-unifont
-  apt-get install -y \
-    "postgresql-$pgsql_ver-postgis-$postgis_ver"
 
   local pbf="${TMPDIR:-/tmp}/demo_data.pbf"
   wget -q -O "$pbf" "$demo_data_pbf"
