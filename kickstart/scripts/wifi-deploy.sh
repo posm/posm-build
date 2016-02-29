@@ -4,8 +4,8 @@
 deploy_wifi_ubuntu() {
 	apt-get install --no-install-recommends -y linux-image-3.19.0-42-generic linux-image-extra-3.19.0-42-generic linux-firmware wireless-tools
 
-	ln -s /lib/firmware/iwlwifi-7265D-12.ucode /lib/firmware/iwlwifi-3165-9.ucode
-	ln -s /lib/firmware/iwlwifi-7265-12.ucode /lib/firmware/iwlwifi-3165-12.ucode
+	ln -sf /lib/firmware/iwlwifi-7265D-12.ucode /lib/firmware/iwlwifi-3165-9.ucode
+	ln -sf /lib/firmware/iwlwifi-7265-12.ucode /lib/firmware/iwlwifi-3165-12.ucode
 
   apt-get remove --purge -y \
     network-manager
