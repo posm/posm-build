@@ -1,7 +1,7 @@
 {
   "openstreetmap": {
     "label": "OpenStreetMap",
-    "template": "http://{{posm_hostname}}/tiles/osm/{Z}/{X}/{Y}.png",
+    "template": "http://{{posm_fqdn}}/tiles/osm/{Z}/{X}/{Y}.png",
     "options": {
       "attribution": ""
     },
@@ -10,7 +10,7 @@
   },
   "mm": {
     "label": "Missing Maps",
-    "template": "http://{{posm_hostname}}/tiles/mm/{Z}/{X}/{Y}.png",
+    "template": "http://{{posm_fqdn}}/tiles/mm/{Z}/{X}/{Y}.png",
     "options": {
       "attribution": ""
     },

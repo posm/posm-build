@@ -12,7 +12,7 @@ deploy_id_ubuntu() {
   chown -R posm:posm "$dst"
 
   # patch hostname
-  sed -i -e "s/posm\.local/${posm_hostname}/g" "$dst/index.html"
+  sed -i -e "s/posm\.local/${posm_fqdn}/g" "$dst/index.html"
 
   # patch credentials
   sed -i -e "s/5A043yRSEugj4DJ5TljuapfnrflWDte8jTOcWLlT/${posm_id_key}/g" "$dst/index.html"

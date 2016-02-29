@@ -28,8 +28,9 @@ Interim Manual Build Process (for Virtual Machines)
 3.  `wget -q -O - https://github.com/AmericanRedCross/posm-build/archive/master.tar.gz | tar -zxf - -C /root --strip=2`
 4. Put any local settings in `/root/etc/settings.local` (see `/root/etc/settings`)
   * Important ones for development are the ones that involve DNS and URLs:
+    * `posm_hostname="whateveryouwant"`
     * `posm_domain="yourdomain.foo"`
-    * `posm_hostname="whateveryouwant.yourdomain.foo"`
+    * `posm_fqdn="whateveryouwant.yourdomain.foo"`
 5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera id` (note: `wifi` is omitted from this list)
 6. `/root/scripts/bootstrap.sh demo_data`, if you want it
 
