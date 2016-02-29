@@ -55,10 +55,12 @@ deploy_demo_data_tiles() {
   (cd /tmp; /usr/bin/install-postgis-osm-user.sh "$osm_carto_pg_dbname" "$osm_carto_pg_users")
 
   rm /etc/init/tessera.override
-  start tessera
+  restart tessera
 
   # http://localhost:8082/#15/-0.1725/-78.4870
   #wget "http://localhost${tessera_port:+:$tessera_port}/15/9240/16400.png"
+
+  true
 }
 
 deploy_demo_data_api() {

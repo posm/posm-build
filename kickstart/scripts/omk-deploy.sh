@@ -47,7 +47,9 @@ deploy_omk_server() {
 
   # start
   expand etc/omk-server.upstart /etc/init/omk-server.conf
-  start omk-server
+  restart omk-server
+
+  true
 }
 
 deploy omk

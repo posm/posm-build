@@ -85,7 +85,9 @@ deploy_fp_web() {
 
   # start
   expand etc/fp-web.upstart /etc/init/fp-web.conf
-  start fp-web
+  restart fp-web
+
+  true
 }
 
 deploy_fp_tiler() {
@@ -97,7 +99,9 @@ deploy_fp_tiler() {
 
   # start
   expand etc/fp-tiler.upstart /etc/init/fp-tiler.conf
-  start fp-tiler
+  restart fp-tiler
+
+  true
 }
 
 deploy_fp_tasks() {
@@ -109,7 +113,9 @@ deploy_fp_tasks() {
 
   # start
   expand etc/fp-tasks.upstart /etc/init/fp-tasks.conf
-  start fp-tasks
+  restart fp-tasks
+
+  true
 }
 
 deploy_fp_legacy() {

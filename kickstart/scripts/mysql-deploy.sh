@@ -55,7 +55,9 @@ deploy_mysql_ubuntu() {
   fi
 
   # start
-  service $mysql_svc start
+  service $mysql_svc restart
+
+  true
 }
 
 config_mysql() {

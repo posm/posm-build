@@ -86,7 +86,9 @@ deploy_osm_rails() {
 
   # start
   expand etc/osm-web.upstart /etc/init/osm-web.conf
-  start osm-web
+  restart osm-web
+
+  true
 }
 
 deploy_osm_cgimap_ubuntu() {
@@ -110,7 +112,9 @@ deploy_osm_cgimap() {
   su - osm -c "cd '$dst/osm-cgimap' && make -j $(nproc)"
 
   expand etc/osm-cgimap.upstart /etc/init/osm-cgimap.conf
-  start osm-cgimap
+  restart osm-cgimap
+
+  true
 }
 
 deploy_osm_ubuntu() {
