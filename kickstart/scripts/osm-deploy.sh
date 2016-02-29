@@ -59,7 +59,7 @@ deploy_osm_rails() {
   expand etc/osm-web.env "$dst/osm-web/.env"
 
   # install vendored deps
-  su - osm -c "cd '$dst/osm-web' && bundle install -j `nproc` --path vendor/bundle"
+  su - osm -c "cd '$dst/osm-web' && bundle install -j `nproc` --path vendor/bundle --with production"
 
   # init database
   echo -e "${osm_pg_pass}\n${osm_pg_pass}" | su - postgres -c "createuser --no-superuser --no-createdb --no-createrole --pwprompt '$osm_pg_owner'"
