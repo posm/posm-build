@@ -35,8 +35,6 @@ fp_mapzen_search_key=redacted
 # databases
 mysql_pw=posm
 mysql_size=small
-pgsql_ver=9.3
-postgis_ver=2.1
 osm_pg_owner="osm"
 osm_pg_pass="openstreetmap"
 osm_pg_dbname="osm"

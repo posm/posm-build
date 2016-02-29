@@ -29,7 +29,7 @@ Interim Manual Build Process (for Virtual Machines)
   * Important ones for development are the ones that involve DNS and URLs:
     * `posm_domain="yourdomain.foo"`
     * `posm_hostname="whateveryouwant.yourdomain.foo"`
-5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis osm mysql postgis nginx fieldpapers omk mbtiles carto tessera id` (note: `wifi` is omitted from this list)
+5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis mysql postgis nginx osm fieldpapers omk mbtiles carto tessera id` (note: `wifi` is omitted from this list)
 6. `/root/scripts/bootstrap.sh demo_data`, if you want it
 
 Interim PXE Build Process
