@@ -1,8 +1,7 @@
 #!/bin/bash
 
-deploy_mbtiles_ubuntu() {
-  apt-get install nodejs -y
-  apt-get install sqlite3 -y
+deploy_tl_ubuntu() {
+  apt-get install --no-install-recommends -y nodejs sqlite3
   npm install -g tl
   local prefix=`npm prefix -g`
 
@@ -14,4 +13,4 @@ deploy_mbtiles_ubuntu() {
   (cd $prefix/lib/node_modules/tl && npm install mbtiles tilelive-http tilejson tilelive-mapnik tilelive-blend)
 }
 
-deploy mbtiles
+deploy tl
