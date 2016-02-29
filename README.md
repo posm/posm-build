@@ -3,15 +3,16 @@
 USB Auto-Build Process (OS X)
 =============================
 
-1. Download https://s3-us-west-2.amazonaws.com/posm/posm-install-24180cb-fat.tar
-2. Insert a USB stick
-3. Unmount if necessary `diskutil unmountDisk /dev/<USB>`. (`diskutil list` will show available devices on OS X)
-4. [Image it to a USB
+1. Connect the NUC's Ethernet port to an internet-connected LAN.
+2. Download https://s3-us-west-2.amazonaws.com/posm/posm-install-24180cb-fat.tar
+3. Insert a USB stick
+4. Unmount if necessary `diskutil unmountDisk /dev/<USB>`. (`diskutil list` will show available devices on OS X)
+5. [Image it to a USB
   drive](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx).
   (`sudo dd if=ubuntu-14.04.3-server-amd64.img of=/dev/r<USB> bs=1m` or similar). It will remount as `POSM` when done.
-5. Update `/Volumes/POSM/posm-build`: `git pull`
-6. _(optional)_ Put any local settings in `posm-build/kickstart/etc/settings.local`.
-7. Boot to the USB stick by pressing `F10` and pick `Install POSM Server` from the menu.
+6. Update `/Volumes/POSM/posm-build`: `git pull`
+7. _(optional)_ Put any local settings in `posm-build/kickstart/etc/settings.local`.
+8. Boot to the USB stick by pressing `F10` and pick `Install POSM Server` from the menu.
 9. Watch it reboot. After the system has restarted, the POSM bootstrap installation will automatically begin.
 10. Log in as `root` / `posm` and `tail -f bootstrap.log` to check the installation status. This may take a while.
 11. Watch it reboot once installation is complete.
