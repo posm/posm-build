@@ -5,7 +5,7 @@ osmosis_ver="${osmosis_ver:-0.44.1}"
 
 # requires nodejs, postgis
 deploy_osm_rails_ubuntu() {
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     libmagickwand-dev libxml2-dev libxslt1-dev build-essential \
      postgresql-contrib libpq-dev postgresql-server-dev-all \
      libsasl2-dev imagemagick jq
@@ -90,7 +90,7 @@ deploy_osm_rails() {
 }
 
 deploy_osm_cgimap_ubuntu() {
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     libxml2-dev libpqxx3-dev libfcgi-dev libboost-dev libboost-regex-dev \
     libboost-program-options-dev libboost-date-time-dev \
     libboost-filesystem-dev libboost-system-dev libmemcached-dev \
@@ -117,7 +117,7 @@ deploy_osm_ubuntu() {
   apt-get install software-properties-common -y
   add-apt-repository ppa:kakrueger/openstreetmap -y
   apt-get update
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     default-jre-headless \
     osmpbf-bin libosmpbf-dev
 

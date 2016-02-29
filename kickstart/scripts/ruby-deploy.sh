@@ -7,7 +7,7 @@ ruby_prefix="${ruby_prefix:-/opt/rbenv}"
 
 deploy_ruby_ubuntu() {
   if [ x"$fromsource" = x"yes" ]; then
-    apt-get install -y \
+    apt-get install --no-install-recommends -y \
       build-essential \
       curl \
       git \
@@ -24,10 +24,10 @@ deploy_ruby_ubuntu() {
       zlib1g-dev
     deploy_ruby_fromsource
   else
-    apt-get install software-properties-common -y
-    apt-add-repository ppa:brightbox/ruby-ng -y
+    apt-get install --no-install-recommends -y software-properties-common
+    apt-add-repository -y ppa:brightbox/ruby-ng
     apt-get update
-    apt-get install -y \
+    apt-get install --no-install-recommends -y \
       ruby${ruby_ver} ruby${ruby_ver}-dev
   fi
   deploy_ruby_generic

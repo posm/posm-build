@@ -12,7 +12,7 @@ osm2pg_opt="${osm2pg_opt:---create --hstore-all --hstore-add-index --extra-attri
 dst="/opt/$osm_carto_pg_owner"
 
 deploy_demo_data_ubuntu() {
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     fonts-droid fonts-khmeros fonts-khmeros-core fonts-sil-padauk fonts-sipa-arundina ttf-dejavu ttf-dejavu-core ttf-dejavu-extra ttf-indic-fonts-core ttf-kannada-fonts ttf-tamil-fonts ttf-unifont
   apt-get install -y \
     "postgresql-$pgsql_ver-postgis-$postgis_ver"
@@ -33,7 +33,7 @@ deploy_demo_data_tiles() {
   echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/initdb boolean false" | debconf-set-selections
   echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/grant_user string $osm_carto_pg_owner" | debconf-set-selections
   echo "openstreetmap-postgis-db-setup openstreetmap-postgis-db-setup/dbname string $osm_carto_pg_dbname" | debconf-set-selections
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     openstreetmap-postgis-db-setup mapnik-utils
 
   apt-get clean

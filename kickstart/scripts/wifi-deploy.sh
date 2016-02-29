@@ -2,7 +2,7 @@
 
 # Should use Ubuntu linux-image-3.19.0-42-generic
 deploy_wifi_ubuntu() {
-	apt-get install -y linux-image-3.19.0-42-generic linux-image-extra-3.19.0-42-generic linux-firmware wireless-tools
+	apt-get install --no-install-recommends -y linux-image-3.19.0-42-generic linux-image-extra-3.19.0-42-generic linux-firmware wireless-tools
 
 	ln -s /lib/firmware/iwlwifi-7265D-12.ucode /lib/firmware/iwlwifi-3165-9.ucode
 	ln -s /lib/firmware/iwlwifi-7265-12.ucode /lib/firmware/iwlwifi-3165-12.ucode
@@ -17,7 +17,7 @@ deploy_wifi_ubuntu() {
   echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
   sysctl -p
 
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     dnsmasq \
     dnsmasq-utils \
     hostapd \

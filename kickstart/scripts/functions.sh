@@ -46,7 +46,7 @@ ubuntu_backport_install() {
   local pkg="$1"
   local src="$2"
   local workdir="${TMPDIR:-/tmp}/deb-$pkg"
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     debhelper \
     devscripts \
     dh-autoreconf \
@@ -55,7 +55,8 @@ ubuntu_backport_install() {
     dh-python \
     dpkg-dev \
     equivs \
-    ubuntu-dev-tools
+    ubuntu-dev-tools \
+    libdistro-info-perl
   env DEBFULLNAME="James Flemer" DEBEMAIL="james.flemer@ndpgroup.com" UBUMAIL="james.flemer@ndpgroup.com" \
     backportpackage --update --dont-sign --workdir="$workdir" ${src:+--source=$src} "$pkg"
   mkdir -p "$workdir/$pkg.build"

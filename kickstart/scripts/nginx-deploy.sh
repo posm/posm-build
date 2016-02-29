@@ -3,7 +3,7 @@
 dst=/opt/posm-www
 
 deploy_nginx_ubuntu() {
-  apt-get install nginx -y
+  apt-get install --no-install-recommends -y nginx
   expand etc/nginx-posm.conf /etc/nginx/sites-available/posm
   expand etc/nginx-captive.conf /etc/nginx/sites-available/captive
   rm -f /etc/nginx/sites-enabled/default

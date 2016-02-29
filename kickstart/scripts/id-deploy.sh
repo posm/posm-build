@@ -4,7 +4,7 @@ dst=/opt/posm-www/id
 
 deploy_id_ubuntu() {
   # deps
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     build-essential
 
   # install

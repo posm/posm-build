@@ -6,7 +6,7 @@ mysql_pw="${mysql_pw:-}"
 
 deploy_fieldpapers_ubuntu() {
   # deps
-  apt-get install -qq -y \
+  apt-get install --no-install-recommends -y \
     build-essential \
     ghostscript \
     git \
@@ -114,7 +114,7 @@ deploy_fp_tasks() {
 
 deploy_fp_legacy() {
   # System dependencies
-  apt-get install -qq -y \
+  apt-get install --no-install-recommends -y \
     gdal-bin \
     imagemagick \
     php5-cli \

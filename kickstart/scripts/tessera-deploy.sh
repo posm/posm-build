@@ -1,8 +1,7 @@
 #!/bin/sh
 
 deploy_tessera_ubuntu() {
-  apt-get install nodejs -y
-
+  apt-get install --no-install-recommends -y nodejs
   apt-get install -y \
     libmapnik2-dev
 

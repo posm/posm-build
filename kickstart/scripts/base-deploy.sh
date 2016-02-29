@@ -4,7 +4,8 @@ deploy_base_ubuntu() {
   apt-get purge -y \
     whoopsie
 
-  apt-get install -y \
+  apt-get update
+  apt-get install --no-install-recommends -y \
     ca-certificates \
     curl \
     git \

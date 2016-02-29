@@ -1,10 +1,10 @@
 #!/bin/bash
 
 deploy_gis_ubuntu() {
-  apt-get install software-properties-common -y
-  add-apt-repository ppa:ubuntugis/ppa -y
+  apt-get install --no-install-recommends -y software-properties-common
+  add-apt-repository -s -y ppa:ubuntugis/ppa
   apt-get update
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     libfreexl1 libfreexl-dev \
     gdal-bin libgdal1h libgdal-dev python-gdal \
     libgeos-3.4.2 libgeos-dev \

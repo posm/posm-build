@@ -43,7 +43,7 @@ deploy_mysql_ubuntu() {
     echo "mysql-server-$mysql_ver mysql-server/root_password password $mysql_pw" | debconf-set-selections
     echo "mysql-server-$mysql_ver mysql-server/root_password_again password $mysql_pw" | debconf-set-selections
   fi
-  apt-get install mysql-server-$mysql_ver mysql-server -y
+  apt-get install --no-install-recommends -y mysql-server-$mysql_ver mysql-server
 
   # Configure
   if [ -n "$mysql_size" ]; then

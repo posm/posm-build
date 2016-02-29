@@ -5,7 +5,7 @@ carto_styles="${carto_styles:-mm osm}"
 dst="/opt/$carto_user"
 
 deploy_carto_ubuntu() {
-  apt-get install nodejs -y
+  apt-get install --no-install-recommends -y nodejs unzip make postgresql-contrib
   useradd -c 'OSM/GIS User' -d "$dst" -m -r -s /bin/bash -U "$carto_user"
   echo -e "${osm_carto_pg_pass}\n${osm_carto_pg_pass}" | su - postgres -c "createuser --no-superuser --no-createdb --no-createrole --pwprompt '$osm_carto_pg_owner'"
   su - postgres -c "createdb --owner='$osm_carto_pg_owner' '$osm_carto_pg_dbname'"
@@ -31,7 +31,7 @@ deploy_carto_mm() {
 
 deploy_carto_osm() {
   echo "openstreetmap-mapnik-carto-stylesheet-data openstreetmap-mapnik-carto-stylesheet-data/dloadcoastlines boolean true" | debconf-set-selections
-  apt-get install -y \
+  apt-get install --no-install-recommends -y \
     openstreetmap-mapnik-carto-stylesheet-data \
     fonts-droid fonts-khmeros fonts-khmeros-core fonts-sil-padauk fonts-sipa-arundina ttf-dejavu ttf-dejavu-core ttf-dejavu-extra ttf-indic-fonts-core ttf-kannada-fonts ttf-tamil-fonts ttf-unifont
 
