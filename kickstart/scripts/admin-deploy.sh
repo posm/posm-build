@@ -1,6 +1,10 @@
 dst=/opt/admin
 
 deploy_admin_ubuntu() {
+  # deps
+  apt-get install --no-install-recommends -y \
+    pv \
+    
   # admin user
   useradd -c 'POSM admin' -d "$dst" -m -r -s /bin/bash -U admin
   mkdir -p "$dst"
