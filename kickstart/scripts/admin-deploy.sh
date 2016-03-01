@@ -28,6 +28,16 @@ deploy_posm_admin() {
   # admin user should own this
   chown -R admin:admin "$dst/posm-admin"
 
+  # Various scripts should be owned by other users
+  chown postgres:postgres "$dst/posm-admin/scripts/api-db-drop-create.sh"
+  chown osm:osm "$dst/posm-admin/scripts/api-db-init.sh"
+  chown osm:osm "$dst/posm-admin/scripts/api-db-populate.sh"
+
+  # These should be specifically allowed in sudoers to be executed by as other users.
+  echo "admin ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/api-db-drop-create.sh" >> /etc/sudoers
+  echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/api-db-init.sh" >> /etc/sudoers
+  echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/api-db-populate.sh" >> /etc/sudoers
+
   # install node packages
   su - admin -c "cd $dst/posm-admin && npm install"
 
@@ -39,4 +49,3 @@ deploy_posm_admin() {
 }
 
 deploy admin
-  
