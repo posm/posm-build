@@ -52,6 +52,10 @@ deploy_osm_rails() {
   expand etc/osm-puma.rb "$dst/osm-web/config/puma.rb"
   expand etc/osm-actionmailer.rb "$dst/osm-web/config/initializers/action_mailer.rb"
 
+  # use the stock configurations; we'll override them with environment variables
+  cp "$dst/osm-web/config/example.database.yml" "$dst/osm-web/config/database.yml"
+  cp "$dst/osm-web/config/example.application.yml" "$dst/osm-web/config/application.yml"
+
   # configure OSM
   expand etc/osm-web.env "$dst/osm-web/.env"
 
