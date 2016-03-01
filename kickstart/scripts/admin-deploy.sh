@@ -1,4 +1,5 @@
 dst=/opt/admin
+deployments_dir=/opt/data/deployments
 
 deploy_admin_ubuntu() {
   # deps
@@ -8,7 +9,10 @@ deploy_admin_ubuntu() {
   # admin user
   useradd -c 'POSM admin' -d "$dst" -m -r -s /bin/bash -U admin
   mkdir -p "$dst"
+  mkdir -p "$deployments_dir"
   chown admin:admin "$dst"
+  chown admin:admin "$deployments_dir"
+  chmod -R a+rx "$deployments_dir"
   cat - <<"EOF" >"$dst/.bashrc"
     # this is for interactive shell, not used by upstart!
     export PATH="$HOME/env/bin:$PATH"
