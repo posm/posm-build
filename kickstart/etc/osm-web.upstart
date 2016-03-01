@@ -11,6 +11,7 @@ env SECRET_KEY_BASE=38ab4c0de2a6335be2d2c6f6972470f0dc4f750f5c8f5895e53e8a5889fc
 env RAILS_SERVE_STATIC_FILES=true
 env PORT={{osm_web_port}}
 env OSM_ID_KEY={{osm_id_key}}
+env OSM_POSM_USER={{osm_posm_user}}
 
 respawn
 #respawn limit 5 60

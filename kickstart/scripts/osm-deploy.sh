@@ -83,6 +83,8 @@ deploy_osm_rails() {
   export posm_id_key=$(echo $posm_id_credentials | jq -r .key)
   export posm_id_secret=$(echo $posm_id_credentials | jq -r .secret)
 
+  su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:users:create display_name='${osm_posm_user}' description='${osm_posm_description}'"
+
   # start
   expand etc/osm-web.upstart /etc/init/osm-web.conf
   service osm-web restart

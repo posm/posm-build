@@ -32,6 +32,10 @@ cgimap_port=54321
 fp_secret_key_base=redacted
 fp_mapzen_search_key=redacted
 
+# osm
+osm_posm_user="POSM"
+osm_posm_description="Portable OpenStreetMap"
+
 # databases
 mysql_pw=posm
 mysql_size=small
