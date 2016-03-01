@@ -49,7 +49,6 @@ deploy_osm_rails() {
   grep rails_stdout_logging "$dst/osm-web/Gemfile" || echo "gem 'rails_stdout_logging'" >> "$dst/osm-web/Gemfile"
 
   # configure OSM
-  expand etc/osm-database.yml "$dst/osm-web/config/database.yml"
   expand etc/osm-puma.rb "$dst/osm-web/config/puma.rb"
   expand etc/osm-actionmailer.rb "$dst/osm-web/config/initializers/action_mailer.rb"
 

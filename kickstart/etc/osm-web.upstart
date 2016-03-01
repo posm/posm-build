@@ -12,6 +12,7 @@ env RAILS_SERVE_STATIC_FILES=true
 env PORT={{osm_web_port}}
 env OSM_ID_KEY={{osm_id_key}}
 env OSM_POSM_USER={{osm_posm_user}}
+env DATABASE_URL="postgres://{{osm_pg_owner}}:{{osm_pg_pass}}@localhost/{{osm_pg_dbname}}"
 
 respawn
 #respawn limit 5 60
