@@ -11,7 +11,7 @@ posm_ssid="posm"
 posm_wpa_passphrase="awesomeposm" # 8..63 characters
 posm_wifi_channel="1"
 posm_hostname="posm"
-posm_domain="lan"
+posm_domain="local"
 posm_fqdn="${posm_hostname}.${posm_domain}"
 
 # urls
@@ -26,13 +26,16 @@ fp_web_port=3000
 tessera_port=8082
 omk_server_port=3210
 posm_admin_port=3211
-macrocosm_api_port=4000
 osm_web_port=9000
 cgimap_port=54321
 
 # field papers
 fp_secret_key_base=redacted
 fp_mapzen_search_key=redacted
+
+# osm
+osm_posm_user="POSM"
+osm_posm_description="Portable OpenStreetMap"
 
 # databases
 mysql_pw=posm
@@ -43,8 +46,6 @@ osm_pg_dbname="osm"
 osm_carto_pg_dbname="gis"
 osm_carto_pg_owner="gis"
 osm_carto_pg_users="root fp omk"
-macrocosm_pg_owner="macrocosm"
-macrocosm_pg_pass="macrocosm"
 
 # POSM iD keys (will be set during osm initialization)
 posm_id_key="unset"

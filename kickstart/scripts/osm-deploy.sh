@@ -49,11 +49,12 @@ deploy_osm_rails() {
   grep rails_stdout_logging "$dst/osm-web/Gemfile" || echo "gem 'rails_stdout_logging'" >> "$dst/osm-web/Gemfile"
 
   # configure OSM
-  expand etc/osm-application.yml "$dst/osm-web/config/application.yml"
-  expand etc/osm-database.yml "$dst/osm-web/config/database.yml"
   expand etc/osm-puma.rb "$dst/osm-web/config/puma.rb"
   expand etc/osm-actionmailer.rb "$dst/osm-web/config/initializers/action_mailer.rb"
-  expand etc/osm-config.ru "$dst/osm-web/config.ru"
+
+  # use the stock configurations; we'll override them with environment variables
+  cp "$dst/osm-web/config/example.database.yml" "$dst/osm-web/config/database.yml"
+  cp "$dst/osm-web/config/example.application.yml" "$dst/osm-web/config/application.yml"
 
   # configure OSM
   expand etc/osm-web.env "$dst/osm-web/.env"
@@ -84,8 +85,13 @@ deploy_osm_rails() {
   export posm_id_key=$(echo $posm_id_credentials | jq -r .key)
   export posm_id_secret=$(echo $posm_id_credentials | jq -r .secret)
 
-  # start
+  # create a default user
+  su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:users:create display_name='${osm_posm_user}' description='${osm_posm_description}'"
+
+  # update the upstart config
   expand etc/osm-web.upstart /etc/init/osm-web.conf
+
+  # start
   service osm-web restart
 
   true
