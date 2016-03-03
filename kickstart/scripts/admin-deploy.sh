@@ -37,6 +37,8 @@ deploy_posm_admin() {
   echo "admin ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/api-db-drop-create.sh" >> /etc/sudoers
   echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/api-db-init.sh" >> /etc/sudoers
   echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/api-db-populate.sh" >> /etc/sudoers
+  echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/render-db-api2pbf.sh" >> /etc/sudoers
+  echo "admin ALL=(gis) NOPASSWD: $dst/posm-admin/scripts/render-db-pbf2render.sh" >> /etc/sudoers
 
   # install node packages
   su - admin -c "cd $dst/posm-admin && npm install"
