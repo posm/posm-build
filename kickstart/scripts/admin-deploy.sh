@@ -1,5 +1,6 @@
 dst=/opt/admin
 deployments_dir=/opt/data/deployments
+api_db_dumps_dir=/opt/data/api-db-dumps
 
 deploy_admin_ubuntu() {
   # deps
@@ -10,9 +11,13 @@ deploy_admin_ubuntu() {
   useradd -c 'POSM admin' -d "$dst" -m -r -s /bin/bash -U admin
   mkdir -p "$dst"
   mkdir -p "$deployments_dir"
+  mkdir -p "$api_db_dumps_dir"
   chown admin:admin "$dst"
   chown admin:admin "$deployments_dir"
+  chown osm:osm "$api_db_dumps_dir"
   chmod -R a+rx "$deployments_dir"
+  chmod -R u+rw "$api_db_dumps_dir"
+  chmod -R a+r "$api_db_dumps_dir"
   cat - <<"EOF" >"$dst/.bashrc"
     # this is for interactive shell, not used by upstart!
     export PATH="$HOME/env/bin:$PATH"
@@ -32,6 +37,8 @@ deploy_posm_admin() {
   chown postgres:postgres "$dst/posm-admin/scripts/api-db-drop-create.sh"
   chown osm:osm "$dst/posm-admin/scripts/api-db-init.sh"
   chown osm:osm "$dst/posm-admin/scripts/api-db-populate.sh"
+  chown osm:osm "$dst/posm-admin/scripts/render-db-api2pbf.sh"
+  chown gis:gis "$dst/posm-admin/scripts/render-db-pbf2render.sh"
 
   # These should be specifically allowed in sudoers to be executed by as other users.
   echo "admin ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/api-db-drop-create.sh" >> /etc/sudoers
