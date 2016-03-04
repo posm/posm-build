@@ -1,3 +1,5 @@
+#!/bin/bash
+
 dst=/opt/admin
 deployments_dir=/opt/data/deployments
 api_db_dumps_dir=/opt/data/api-db-dumps
@@ -14,10 +16,9 @@ deploy_admin_ubuntu() {
   mkdir -p "$api_db_dumps_dir"
   chown admin:admin "$dst"
   chown admin:admin "$deployments_dir"
-  chown osm:osm "$api_db_dumps_dir"
+  chown admin:admin "$api_db_dumps_dir"
   chmod -R a+rx "$deployments_dir"
-  chmod -R u+rw "$api_db_dumps_dir"
-  chmod -R a+r "$api_db_dumps_dir"
+  chmod -R a+rwx "$api_db_dumps_dir"
   cat - <<"EOF" >"$dst/.bashrc"
     # this is for interactive shell, not used by upstart!
     export PATH="$HOME/env/bin:$PATH"
@@ -41,11 +42,14 @@ deploy_posm_admin() {
   chown gis:gis "$dst/posm-admin/scripts/render-db-pbf2render.sh"
 
   # These should be specifically allowed in sudoers to be executed by as other users.
-  echo "admin ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/api-db-drop-create.sh" >> /etc/sudoers
-  echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/api-db-init.sh" >> /etc/sudoers
-  echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/api-db-populate.sh" >> /etc/sudoers
-  echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/render-db-api2pbf.sh" >> /etc/sudoers
-  echo "admin ALL=(gis) NOPASSWD: $dst/posm-admin/scripts/render-db-pbf2render.sh" >> /etc/sudoers
+  grep -q api-db-drop-create /etc/sudoers || echo "admin ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/api-db-drop-create.sh" >> /etc/sudoers
+  grep -q api-db-init /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/api-db-init.sh" >> /etc/sudoers
+  grep -q api-db-populate /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/api-db-populate.sh" >> /etc/sudoers
+  grep -q render-db-api2pbf /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/render-db-api2pbf.sh" >> /etc/sudoers
+  grep -q render-db-pbf2render /etc/sudoers || echo "admin ALL=(gis) NOPASSWD: $dst/posm-admin/scripts/render-db-pbf2render.sh" >> /etc/sudoers
+  grep -q tessera /etc/sudoers || echo "admin ALL=(root) NOPASSWD: /usr/sbin/service tessera restart" >> /etc/sudoers
+  chmod -R a+r "$api_db_dumps_dir"
+
 
   # install node packages
   su - admin -c "cd $dst/posm-admin && npm install"
