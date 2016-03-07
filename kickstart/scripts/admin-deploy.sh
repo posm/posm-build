@@ -33,6 +33,7 @@ deploy_posm_admin() {
 
   # admin user should own this
   chown -R admin:admin "$dst/posm-admin"
+  chmod a+rx $dst/posm-admin/scripts/*
 
   # Various scripts should be owned by other users
   chown postgres:postgres "$dst/posm-admin/scripts/api-db-drop-create.sh"
