@@ -67,6 +67,9 @@ bootstrap_init() {
     test -e "${BOOTSTRAP_HOME}/$i" && . "${BOOTSTRAP_HOME}/$i"
     set +a
   done
+
+  expand etc/posm.json /etc/posm.json
+
   if [ -n "$debug" ] && [ "$debug" != 0 ]; then
     set -x
   fi
