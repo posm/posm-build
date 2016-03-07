@@ -14,6 +14,10 @@ deploy_tessera_ubuntu() {
 
   expand etc/tessera.upstart /etc/init/tessera.conf
   echo 'manual' > /etc/init/tessera.override
+
+  service tessera restart
+
+  true
 }
 
 deploy tessera
