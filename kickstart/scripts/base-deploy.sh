@@ -10,6 +10,7 @@ deploy_base_ubuntu() {
     ca-certificates \
     curl \
     git \
+    jq \
     ssh \
     vim
 }
