@@ -53,8 +53,8 @@ posm_id_secret="unset"
 
 node_ver=5
 
-# tile styles [mm, osm]
-carto_styles="mm"
+# tile styles [posm, osm]
+carto_styles="posm"
 
 # data
 demo_data_pbf="http://download.geofabrik.de/south-america/ecuador-latest.osm.pbf"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 carto_user="${carto_user:-${osm_carto_pg_owner:-gis}}"
-carto_styles="${carto_styles:-mm osm}"
+carto_styles="${carto_styles:-posm osm}"
 dst="/opt/$carto_user"
 tessera_config_dir=/etc/tessera.conf.d
 
@@ -22,15 +22,12 @@ deploy_carto_ubuntu() {
   done
 }
 
-deploy_carto_mm() {
+deploy_carto_posm() {
   from_github "https://github.com/AmericanRedCross/posm-carto" "$dst/posm-carto"
   chown -R "$carto_user:$carto_user" "$dst/posm-carto"
 
   su - "$carto_user" -c "cd '$dst/posm-carto' && npm install --quiet"
   su - "$carto_user" -c "make -C '$dst/posm-carto' project.xml"
-
-  rm -f "$dst/mm"
-  ln -s posm-carto "$dst/mm"
 }
 
 deploy_carto_osm() {

@@ -6,7 +6,7 @@ start on (local-filesystems and net-device-up and runlevel [2345])
 stop on shutdown
 
 env PORT="{{tessera_port}}"
-env TESSERA_OPTS="--config /etc/tessera.conf.json"
+env TESSERA_OPTS="--config /etc/tessera.conf.d"
 
 respawn
 #respawn limit 5 60

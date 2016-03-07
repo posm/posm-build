@@ -1,0 +1,3 @@
+{
+  "/tiles/osm": "mapnik:///opt/gis/osm/osm.xml"
+}
