@@ -63,6 +63,7 @@ deploy_fp_web() {
   # install FP WEB
   from_github "https://github.com/fieldpapers/fp-web" "$dst/fp-web"
   chown -R fp:fp "$dst/fp-web"
+  chmod -R a+rwx "$dst/fp-web/config"
 
   local rbver=`ruby -e 'print RUBY_VERSION'`
   sed -i -e "s/2\\.2\\.[0-9]/$rbver/" "$dst/fp-web/.ruby-version" "$dst/fp-web/Gemfile"

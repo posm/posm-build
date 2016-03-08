@@ -34,7 +34,7 @@ Interim Manual Build Process (for Virtual Machines)
     * `posm_base_url="http://${posm_fqdn}"`
     * `fp_api_base_url="${posm_base_url}/fp"`
     * `fp_tile_base_url="${posm_base_url}/fp-tiler"`
-5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera` (note: `wifi` is omitted from this list)
+5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin` (note: `wifi` is omitted from this list)
 6. `/root/scripts/bootstrap.sh demo_data`, if you want it
 
 Interim PXE Build Process

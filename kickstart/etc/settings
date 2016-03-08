@@ -25,6 +25,7 @@ fp_tasks_port=8081
 fp_web_port=3000
 tessera_port=8082
 omk_server_port=3210
+posm_admin_port=3211
 osm_web_port=9000
 cgimap_port=54321
 

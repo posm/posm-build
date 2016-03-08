@@ -1,0 +1,29 @@
+# posm-admin
+
+description     "posm-admin server (Node.js)"
+
+start on (local-filesystems and net-device-up and runlevel [2345])
+stop on shutdown
+
+env PATH=/opt/admin/env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+env PORT="{{posm_admin_port}}"
+env NODE_ENV="{{posm_env}}"
+
+respawn
+#respawn limit 5 60
+
+pre-start script
+    echo "[`date '+%c'`] Starting: posm-admin" >> /var/log/posm-admin.log
+end script
+
+pre-stop script
+    echo "[`date '+%c'`] Stopping: posm-admin" >> /var/log/posm-admin.log
+end script
+
+exec start-stop-daemon \
+		--start \
+		--chdir /opt/admin \
+		--chuid admin \
+		--make-pidfile \
+		--pidfile /var/run/posm-admin.pid \
+		--exec /usr/bin/nodejs -- /opt/admin/posm-admin/server.js >> /var/log/posm-admin.log 2>&1
