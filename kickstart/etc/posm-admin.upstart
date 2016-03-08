@@ -22,8 +22,8 @@ end script
 
 exec start-stop-daemon \
 		--start \
-		--chdir /opt/admin \
+		--chdir /opt/admin/posm-admin \
 		--chuid admin \
 		--make-pidfile \
 		--pidfile /var/run/posm-admin.pid \
-		--exec /usr/bin/nodejs -- /opt/admin/posm-admin/server.js >> /var/log/posm-admin.log 2>&1
+		--exec /usr/bin/npm start >> /var/log/posm-admin.log 2>&1
