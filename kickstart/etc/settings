@@ -46,10 +46,6 @@ osm_carto_pg_dbname="gis"
 osm_carto_pg_owner="gis"
 osm_carto_pg_users="root fp omk"
 
-# POSM iD keys (will be set during osm initialization)
-posm_id_key="unset"
-posm_id_secret="unset"
-
 node_ver=5
 
 # tile styles [posm, osm]

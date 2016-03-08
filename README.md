@@ -34,7 +34,7 @@ Interim Manual Build Process (for Virtual Machines)
     * `posm_base_url="http://${posm_fqdn}"`
     * `fp_api_base_url="${posm_base_url}/fp"`
     * `fp_tile_base_url="${posm_base_url}/fp-tiler"`
-5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera id` (note: `wifi` is omitted from this list)
+5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera` (note: `wifi` is omitted from this list)
 6. `/root/scripts/bootstrap.sh demo_data`, if you want it
 
 Interim PXE Build Process
@@ -64,7 +64,6 @@ Default Ports & URLs
 
 | URI | Service | Internal URL |
 | --- | --- | --- | --- |
-| `/id` | [OSM iD](https://github.com/AmericanRedCross/iD) | http://127.0.0.1/iD |
 | `/tiles/{style}` | [tessera](https://github.com/mojodna/tessera) | http://127.0.0.1:8082 |
 | `/fp` | [Field Papers](https://github.com/fieldpapers/fp-web) | http://127.0.0.1:3000/fp |
 | `/fp-tiler` | [Field Papers Tiler](https://github.com/fieldpapers/fp-tiler) | http://127.0.0.1:8080/fp-tiler |

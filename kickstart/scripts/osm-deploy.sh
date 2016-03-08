@@ -80,11 +80,6 @@ deploy_osm_rails() {
   # generate credentials for OSM's iD
   export osm_id_key=$(su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:apps:create name='OSM iD' url='${posm_base_url}'" | jq -r .key)
 
-  # generate credentials for POSM's iD
-  posm_id_credentials=$(su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:apps:create name='POSM iD' url='${posm_base_url}'")
-  export posm_id_key=$(echo $posm_id_credentials | jq -r .key)
-  export posm_id_secret=$(echo $posm_id_credentials | jq -r .secret)
-
   # create a default user
   su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:users:create display_name='${osm_posm_user}' description='${osm_posm_description}'"
 
