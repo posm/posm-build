@@ -60,8 +60,6 @@ deploy_posm_admin() {
   # start
   expand etc/posm-admin.upstart /etc/init/posm-admin.conf
   service posm-admin restart
-
-  true
 }
 
 deploy admin
