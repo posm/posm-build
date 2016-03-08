@@ -12,11 +12,14 @@ deploy_admin_ubuntu() {
   # admin user
   useradd -c 'POSM admin' -d "$dst" -m -r -s /bin/bash -U admin
   mkdir -p "$dst"
+  mkdir -p "$dst/tmp"
   mkdir -p "$deployments_dir"
   mkdir -p "$api_db_dumps_dir"
   chown admin:admin "$dst"
+  chown admin:admin "$dst/tmp"
   chown admin:admin "$deployments_dir"
   chown admin:admin "$api_db_dumps_dir"
+  chmod -R a+rwx "$dst/tmp"
   chmod -R a+rx "$deployments_dir"
   chmod -R a+rwx "$api_db_dumps_dir"
   cat - <<"EOF" >"$dst/.bashrc"
@@ -49,6 +52,9 @@ deploy_posm_admin() {
   grep -q render-db-api2pbf /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/render-db-api2pbf.sh" >> /etc/sudoers
   grep -q render-db-pbf2render /etc/sudoers || echo "admin ALL=(gis) NOPASSWD: $dst/posm-admin/scripts/render-db-pbf2render.sh" >> /etc/sudoers
   grep -q tessera /etc/sudoers || echo "admin ALL=(root) NOPASSWD: /usr/sbin/service tessera restart" >> /etc/sudoers
+  grep -q fp-web /etc/sudoers || echo "admin ALL=(root) NOPASSWD: /usr/sbin/service fp-web restart" >> /etc/sudoers
+
+  # The dumps should be readable by anyone.
   chmod -R a+r "$api_db_dumps_dir"
 
 
