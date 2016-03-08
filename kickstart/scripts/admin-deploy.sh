@@ -35,9 +35,9 @@ deploy_posm_admin() {
   chmod a+rx $dst/posm-admin/scripts/*
 
   # Various scripts should be owned by other users
-  chown postgres:postgres "$dst/posm-admin/scripts/api-db-drop-create.sh"
-  chown osm:osm "$dst/posm-admin/scripts/api-db-init.sh"
-  chown osm:osm "$dst/posm-admin/scripts/api-db-populate.sh"
+  chown postgres:postgres "$dst/posm-admin/scripts/postgres_api-db-drop-create.sh"
+  chown osm:osm "$dst/posm-admin/scripts/osm_api-db-init.sh"
+  chown osm:osm "$dst/posm-admin/scripts/osm_api-db-populate.sh"
   chown osm:osm "$dst/posm-admin/scripts/render-db-api2pbf.sh"
   chown gis:gis "$dst/posm-admin/scripts/render-db-pbf2render.sh"
 
