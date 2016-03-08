@@ -9,14 +9,10 @@ deploy_tessera_ubuntu() {
 
   # configure
   mkdir -p /etc/tessera.conf.d
-  expand etc/posm-carto.json /etc/tessera.conf.d/posm-carto.json
-  expand etc/openstreetmap-carto.json /etc/tessera.conf.d/openstreetmap-carto.json
 
   expand etc/tessera.upstart /etc/init/tessera.conf
 
   service tessera restart
-
-  true
 }
 
 deploy tessera

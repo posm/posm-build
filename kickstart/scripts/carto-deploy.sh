@@ -28,6 +28,12 @@ deploy_carto_posm() {
 
   su - "$carto_user" -c "cd '$dst/posm-carto' && npm install --quiet"
   su - "$carto_user" -c "make -C '$dst/posm-carto' project.xml"
+
+  # create/update configuration entry
+  expand etc/posm-carto.json /etc/tessera.conf.d/posm-carto.json
+
+  # restart
+  service tessera restart
 }
 
 deploy_carto_osm() {
@@ -37,6 +43,12 @@ deploy_carto_osm() {
     fonts-droid fonts-khmeros fonts-khmeros-core fonts-sil-padauk fonts-sipa-arundina ttf-dejavu ttf-dejavu-core ttf-dejavu-extra ttf-indic-fonts-core ttf-kannada-fonts ttf-tamil-fonts ttf-unifont
 
   ln -s /etc/mapnik-osm-carto-data "$dst/osm"
+
+  # create/update configuration entry
+  expand etc/openstreetmap-carto.json /etc/tessera.conf.d/openstreetmap-carto.json
+
+  # restart
+  service tessera restart
 }
 
 deploy carto
