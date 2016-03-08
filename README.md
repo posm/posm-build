@@ -69,4 +69,4 @@ Default Ports & URLs
 | `/fp-tiler` | [Field Papers Tiler](https://github.com/fieldpapers/fp-tiler) | http://127.0.0.1:8080/fp-tiler |
 | `/fp-tasks` | [Field Papers Tasks](https://github.com/fieldpapers/fp-tasks) | http://127.0.0.1:8081/fp-tasks |
 | `/omk` | [OpenMapKit Server](https://github.com/AmericanRedCross/OpenMapKitServer) | http://127.0.0.1:3210 |
-| `/api` | [OpenStreetMap-website](https://github.com/AmericanRedCross/openstreetmap-website) | http://127.0.0.1:9000 |
+| `/osm` | [OpenStreetMap-website](https://github.com/AmericanRedCross/openstreetmap-website) | http://127.0.0.1:9000 |
