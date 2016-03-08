@@ -7,8 +7,7 @@ deploy_tessera_ubuntu() {
   local prefix=`npm prefix -g`
   # move mapnik up a level in the tree (virtual tree w/ npm@3, but still...)
   (cd $prefix/lib/node_modules/tessera && find node_modules -type d -name mapnik -exec rm -rf {} \;)
-  (cd $prefix/lib/node_modules/tessera && npm install mapnik@3.5.2)
-  (cd $prefix/lib/node_modules/tessera && npm install mbtiles tilelive-mapnik tilelive-carto tilelive-tmstyle tilelive-tmsource tilelive-file tilelive-http tilelive-mapbox tilejson tilelive-vector tilelive-blend)
+  (cd $prefix/lib/node_modules/tessera && npm install mapnik mbtiles tilelive-mapnik tilelive-carto tilelive-tmstyle tilelive-tmsource tilelive-file tilelive-http tilelive-mapbox tilejson tilelive-vector tilelive-blend)
 
   # configure
   mkdir -p /etc/tessera.conf.d

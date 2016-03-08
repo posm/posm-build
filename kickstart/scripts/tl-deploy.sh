@@ -6,7 +6,7 @@ deploy_tl_ubuntu() {
   local prefix=`npm prefix -g`
 
   # install useful modules for tile rendering
-  (cd $prefix/lib/node_modules/tl && npm install mapnik@3.5.2 mbtiles tilelive-http tilejson tilelive-mapnik tilelive-blend)
+  (cd $prefix/lib/node_modules/tl && npm install mapnik mbtiles tilelive-http tilejson tilelive-mapnik tilelive-blend)
 }
 
 deploy tl
