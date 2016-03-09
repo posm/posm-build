@@ -26,7 +26,5 @@
   "osm_pg_pass": "{{osm_pg_pass}}",
   "osm_pg_dbname": "{{osm_pg_dbname}}",
   "osm_carto_pg_dbname": "{{osm_carto_pg_dbname}}",
-  "osm_carto_pg_owner": "{{osm_carto_pg_owner}}",
-  "posm_id_key": "{{posm_id_key}}",
-  "posm_id_secret": "{{posm_id_secret}}"
+  "osm_carto_pg_owner": "{{osm_carto_pg_owner}}"
 }
