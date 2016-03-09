@@ -12,6 +12,7 @@ deploy_base_ubuntu() {
     git \
     jq \
     ssh \
+    tmux \
     vim
 }
 
