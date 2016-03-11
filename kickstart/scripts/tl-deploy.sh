@@ -1,7 +1,6 @@
 #!/bin/bash
 
 deploy_tl_ubuntu() {
-  apt-get install --no-install-recommends -y nodejs sqlite3
   npm install -g tl
   local prefix=`npm prefix -g`
 
