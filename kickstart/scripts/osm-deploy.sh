@@ -8,7 +8,7 @@ deploy_osm_rails_ubuntu() {
   apt-get install --no-install-recommends -y \
     libmagickwand-dev libxml2-dev libxslt1-dev build-essential \
      postgresql-contrib libpq-dev postgresql-server-dev-all \
-     libsasl2-dev imagemagick jq
+     libsasl2-dev imagemagick
 
   # OSM user & env
   useradd -c 'OpenStreetMap' -d "$dst" -m -r -s /bin/bash -U osm
