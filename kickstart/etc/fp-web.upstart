@@ -19,11 +19,6 @@ env MAPZEN_SEARCH_KEY="{{fp_mapzen_search_key}}"
 env PORT={{fp_web_port}}
 env OSM_BASE_URL="{{posm_base_url}}"
 
-#env LANG=en_US.UTF-8
-#env MAIL_ORIGIN=help@fieldpapers.org
-#env MAIL_SOURCE_ARN=arn:aws:ses:us-east-1:585138094471:identity/help@fieldpapers.org
-#env URL_HOST=fieldpapers.org
-
 respawn
 #respawn limit 5 60
 
