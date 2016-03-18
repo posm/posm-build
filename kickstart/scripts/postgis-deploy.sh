@@ -12,6 +12,11 @@ deploy_postgis_ubuntu() {
     postgis \
     "postgresql-$pgsql_ver-postgis-$postgis_ver" \
     "postgresql-$pgsql_ver-postgis-scripts"
+
+  grep -q "0.0.0.0/0" /etc/postgresql/9.5/main/pg_hba.conf || \
+    echo "host\tall\tall\t0.0.0.0/0\tmd5" >> /etc/postgresql/9.5/main/pg_hba.conf
+
+  service postgresql restart
 }
 
 deploy postgis
