@@ -11,10 +11,8 @@ deploy_wifi_ubuntu() {
     network-manager
 
   # disable IPv6
-  sed -r -i -e '/^net.ipv6.conf.(all|default|lo).disable_ipv6/d' /etc/sysctl.conf
-  echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
-  echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
-  echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
+  expand etc/sysctl.d/50-disable_ipv6.conf
+
   sysctl -p
 
   apt-get install --no-install-recommends -y \
@@ -28,7 +26,7 @@ deploy_wifi_ubuntu() {
   expand etc/hosts "/etc/hosts"
   expand etc/network-interfaces "/etc/network/interfaces"
   expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
-  expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/posm.conf"
+  expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
   expand etc/dnsmasq-default "/etc/default/dnsmasq"
 }
 
