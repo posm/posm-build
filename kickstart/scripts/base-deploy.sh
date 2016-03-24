@@ -7,6 +7,7 @@ deploy_base_ubuntu() {
   apt-get update
   apt-get install --no-install-recommends -y \
     avahi-daemon \
+    avahi-autoipd \
     ca-certificates \
     curl \
     git \
