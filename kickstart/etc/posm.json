@@ -11,6 +11,7 @@
   "posm_domain": "{{posm_domain}}",
   "posm_fqdn": "{{posm_fqdn}}",
   "posm_base_url": "{{posm_base_url}}",
+  "lan_domain": "{{lan_domain}}",
   "fp_api_base_url": "{{fp_api_base_url}}",
   "fp_tile_base_url": "{{fp_tile_base_url}}",
   "fp_tiler_port": "{{fp_tiler_port}}",

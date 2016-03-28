@@ -12,6 +12,7 @@ posm_wpa_passphrase="awesomeposm" # 8..63 characters
 posm_wifi_channel="1"
 posm_hostname="posm"
 posm_domain="local"
+lan_domain="lan"
 posm_fqdn="${posm_hostname}.${posm_domain}"
 
 # urls
