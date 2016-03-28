@@ -1,6 +1,6 @@
 #!/bin/bash
 
-node_ver="${node_ver:-5}"
+node_ver="${node_ver:-4}"
 
 deploy_nodejs_ubuntu() {
   apt-get install --no-install-recommends -y software-properties-common apt-transport-https lsb-release
@@ -8,8 +8,6 @@ deploy_nodejs_ubuntu() {
   add-apt-repository -s "deb https://deb.nodesource.com/node_${node_ver}.x $(lsb_release -c -s) main"
   apt-get update
   apt-get install --no-install-recommends -y nodejs
-
-  npm install -g npm@~3.3.12
 
   npm install -g interp
 }
