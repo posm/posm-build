@@ -5,6 +5,7 @@ deploy_base_ubuntu() {
     whoopsie
 
   apt-get update
+  apt-get -y upgrade
   apt-get install --no-install-recommends -y \
     avahi-daemon \
     avahi-autoipd \
