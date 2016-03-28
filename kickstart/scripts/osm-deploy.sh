@@ -89,6 +89,11 @@ deploy_osm_rails() {
   # start
   service osm-web restart
 
+  # add the nginx config for the OSM virtualhost
+  expand etc/nginx-osm.conf /etc/nginx/sites-available/osm
+  ln -s -f ../sites-available/osm /etc/nginx/sites-enabled/
+  service nginx restart
+
   true
 }
 
