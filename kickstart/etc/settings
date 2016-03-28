@@ -47,8 +47,6 @@ osm_carto_pg_dbname="gis"
 osm_carto_pg_owner="gis"
 osm_carto_pg_users="root fp omk"
 
-node_ver=5
-
 # tile styles [posm, osm]
 carto_styles="posm"
 
