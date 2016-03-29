@@ -4,9 +4,9 @@ deploy_bridge_ubuntu() {
 	# enable port forwarding
 	expand etc/sysctl.d/99-forwarding.conf /etc/sysctl.d/99-forwarding.conf
 
-  sysctl -p
+	sysctl -p
 
-  # configure interface hook scripts
+	# configure interface hook scripts
 	expand etc/enable-port-forwarding /etc/network/if-up.d/enable_port_forwarding
 	expand etc/disable-port-forwarding /etc/network/if-down.d/disable_port_forwarding
 	chmod +x /etc/network/if-up.d/enable_port_forwarding

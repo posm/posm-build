@@ -8,7 +8,14 @@ deploy_captive_ubuntu() {
   rm -f /etc/nginx/sites-enabled/default
   ln -s -f ../sites-available/captive /etc/nginx/sites-enabled/
 
-	service dnsmasq restart
+  # disable port forwarding
+  test -f /etc/network/if-down.d/disable_port_forwarding && /etc/network/if-down.d/disable_port_forwarding
+
+  # remove hook scripts
+  rm -f /etc/network/if-up.d/enable_port_forwarding
+  rm -f /etc/network/if-down.d/disable_port_forwarding
+
+  service dnsmasq restart
   service nginx restart
 }
 
