@@ -22,7 +22,9 @@ deploy_bridge_ubuntu() {
 
 	# disable Nginx captive portal
 
-	rm -f /etc/nginx/sites-enabled/
+	rm -f /etc/nginx/sites-enabled/captive
+
+	service nginx restart
 }
 
 deploy bridge
