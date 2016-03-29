@@ -13,7 +13,7 @@ deploy_bridge_ubuntu() {
 	chmod +x /etc/network/if-up.d/enable_port_forwarding
 	chmod +x /etc/network/if-down.d/disable_port_forwarding
 
-	service networking restart
+	IFACE=$posm_wan_netif /etc/network/if-up.d/enable_port_forwarding
 
 	# disable DNS wildcarding
 
