@@ -3,6 +3,7 @@
 dst=/opt/admin
 deployments_dir=/opt/data/deployments
 api_db_dumps_dir=/opt/data/api-db-dumps
+aoi_dir=/opt/data/aoi
 
 deploy_admin_ubuntu() {
   # deps
@@ -15,6 +16,7 @@ deploy_admin_ubuntu() {
   mkdir -p "$dst/tmp"
   mkdir -p "$deployments_dir"
   mkdir -p "$api_db_dumps_dir"
+  mkdir -p "$aoi_dir"
   chown admin:admin "$dst"
   chown admin:admin "$dst/tmp"
   chown admin:admin "$deployments_dir"
@@ -22,6 +24,7 @@ deploy_admin_ubuntu() {
   chmod -R a+rwx "$dst/tmp"
   chmod -R a+rx "$deployments_dir"
   chmod -R a+rwx "$api_db_dumps_dir"
+  chmod -R a+rwx "$aoi_dir"
 
   deploy_posm_admin
 }
