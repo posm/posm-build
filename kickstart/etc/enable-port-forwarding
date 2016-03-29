@@ -6,6 +6,6 @@ case "$IFACE" in
   {{posm_netif}}) exit 0 ;;
 esac
 
-iptables -t nat -C POSTROUTING -o $IFACE -j MASQUERADE || iptables -t nat -A POSTROUTING -o $IFACE -j MASQUERADE
-iptables -C FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT || iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-iptables -C FORWARD -i {{posm_netif}} -o $IFACE -j ACCEPT || iptables -A FORWARD -i {{posm_netif}} -o $IFACE -j ACCEPT
+iptables -t nat -C POSTROUTING -o $IFACE -j MASQUERADE 2> /dev/null || iptables -t nat -A POSTROUTING -o $IFACE -j MASQUERADE
+iptables -C FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT 2> /dev/null || iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -C FORWARD -i {{posm_netif}} -o $IFACE -j ACCEPT 2> /dev/null || iptables -A FORWARD -i {{posm_netif}} -o $IFACE -j ACCEPT
