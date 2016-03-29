@@ -13,7 +13,7 @@ deploy_wifi_ubuntu() {
   # disable IPv6
   expand etc/sysctl.d/50-disable_ipv6.conf
 
-  sysctl -p
+  service procps start
 
   apt-get install --no-install-recommends -y \
     dnsmasq \

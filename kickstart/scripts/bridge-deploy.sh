@@ -4,7 +4,8 @@ deploy_bridge_ubuntu() {
 	# enable port forwarding
 	expand etc/sysctl.d/99-forwarding.conf /etc/sysctl.d/99-forwarding.conf
 
-	sysctl -p
+	# load sysctl settings
+	service procps start
 
 	# configure interface hook scripts
 	expand etc/enable-port-forwarding /etc/network/if-up.d/enable_port_forwarding
