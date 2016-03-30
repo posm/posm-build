@@ -45,6 +45,7 @@ deploy_posm_admin() {
   chown gis:gis "$dst/posm-admin/scripts/gis_render-db-pbf2render.sh"
 
   # These should be specifically allowed in sudoers to be executed by as other users.
+  grep -q xls2xform.sh /etc/sudoers || echo "admin ALL=(omk) NOPASSWD: $dst/posm-admin/scripts/xls2xform.sh" >> /etc/sudoers
   grep -q postgres_api-db-drop-create /etc/sudoers || echo "admin ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/postgres_api-db-drop-create.sh" >> /etc/sudoers
   grep -q osm_api-db-init.sh /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_api-db-init.sh" >> /etc/sudoers
   grep -q osm_api-db-populate.sh /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_api-db-populate.sh" >> /etc/sudoers
@@ -53,6 +54,7 @@ deploy_posm_admin() {
   grep -q tessera /etc/sudoers || echo "admin ALL=(root) NOPASSWD: /usr/sbin/service tessera restart" >> /etc/sudoers
   grep -q fp-web /etc/sudoers || echo "admin ALL=(root) NOPASSWD: /usr/sbin/service fp-web restart" >> /etc/sudoers
   grep -q root_change-osm-id-key.sh /etc/sudoers || echo "osm ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-osm-id-key.sh" >> /etc/sudoers
+  
 
   # The dumps should be readable by anyone.
   chmod -R a+r "$api_db_dumps_dir"
