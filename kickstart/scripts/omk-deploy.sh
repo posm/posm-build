@@ -36,6 +36,9 @@ deploy_omk_server() {
 
   # user / group omk should own this
   chown -R omk:omk "$dst/OpenMapKitServer"
+  
+  # allow posm-admin and others to write forms
+  chmod -R a+rwx "$dst/OpenMapKitServer/data/forms"
 
   # setup python virtualenv
   su - omk -c "virtualenv --system-site-packages '$dst/env'"
