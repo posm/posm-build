@@ -44,6 +44,9 @@ deploy_omk_server() {
   su - omk -c "virtualenv --system-site-packages '$dst/env'"
   # install python packages for pyxform
   su - omk -c "env PATH='$dst/env/bin:$PATH' pip install -r '$dst/OpenMapKitServer/requirements.txt'"
+  
+  # also install globally so that posm-admin can use pyxform
+  pip install -r $dst/OpenMapKitServer/requirements.txt
 
   # install node packages
   su - omk -c "cd \"$dst/OpenMapKitServer\" && npm install"
