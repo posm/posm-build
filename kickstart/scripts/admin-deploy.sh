@@ -48,8 +48,8 @@ deploy_posm_admin() {
   grep -q postgres_api-db-drop-create /etc/sudoers || echo "admin ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/postgres_api-db-drop-create.sh" >> /etc/sudoers
   grep -q osm_api-db-init.sh /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_api-db-init.sh" >> /etc/sudoers
   grep -q osm_api-db-populate.sh /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_api-db-populate.sh" >> /etc/sudoers
-  grep -q render-db-api2pbf /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/render-db-api2pbf.sh" >> /etc/sudoers
-  grep -q render-db-pbf2render /etc/sudoers || echo "admin ALL=(gis) NOPASSWD: $dst/posm-admin/scripts/render-db-pbf2render.sh" >> /etc/sudoers
+  grep -q osm_render-db-api2pbf /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_render-db-api2pbf.sh" >> /etc/sudoers
+  grep -q gis_render-db-pbf2render /etc/sudoers || echo "admin ALL=(gis) NOPASSWD: $dst/posm-admin/scripts/gis_render-db-pbf2render.sh" >> /etc/sudoers
   grep -q tessera /etc/sudoers || echo "admin ALL=(root) NOPASSWD: /usr/sbin/service tessera restart" >> /etc/sudoers
   grep -q fp-web /etc/sudoers || echo "admin ALL=(root) NOPASSWD: /usr/sbin/service fp-web restart" >> /etc/sudoers
   grep -q root_change-osm-id-key.sh /etc/sudoers || echo "osm ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-osm-id-key.sh" >> /etc/sudoers
