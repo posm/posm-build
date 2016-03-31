@@ -45,7 +45,6 @@ deploy_posm_admin() {
   chown gis:gis "$dst/posm-admin/scripts/gis_render-db-pbf2render.sh"
 
   # These should be specifically allowed in sudoers to be executed by as other users.
-  grep -q xls2xform.sh /etc/sudoers || echo "admin ALL=(omk) NOPASSWD: $dst/posm-admin/scripts/xls2xform.sh" >> /etc/sudoers
   grep -q postgres_api-db-drop-create /etc/sudoers || echo "admin ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/postgres_api-db-drop-create.sh" >> /etc/sudoers
   grep -q osm_api-db-init.sh /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_api-db-init.sh" >> /etc/sudoers
   grep -q osm_api-db-populate.sh /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_api-db-populate.sh" >> /etc/sudoers

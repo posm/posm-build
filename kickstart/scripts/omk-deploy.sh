@@ -39,9 +39,6 @@ deploy_omk_server() {
   
   # allow posm-admin and others to write forms
   chmod -R a+rwx "$dst/OpenMapKitServer/data/forms"
-
-  # install pip deps globally so that posm-admin can use pyxform
-  pip install -r $dst/OpenMapKitServer/requirements.txt
   
   # setup python virtualenv
   su - omk -c "virtualenv --system-site-packages '$dst/env'"
