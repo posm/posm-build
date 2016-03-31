@@ -45,6 +45,7 @@ osm_pg_owner="osm"
 osm_pg_pass="openstreetmap"
 osm_pg_dbname="osm"
 osm_carto_pg_dbname="gis"
+osm_carto_pg_temp_dbname="gis_temp"
 osm_carto_pg_owner="gis"
 osm_carto_pg_users="root fp omk"
 

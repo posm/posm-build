@@ -15,6 +15,9 @@ deploy_carto_ubuntu() {
   su - postgres -c "createdb --owner='$osm_carto_pg_owner' '$osm_carto_pg_dbname'"
   su - postgres -c "psql --dbname='$osm_carto_pg_dbname' --command='CREATE EXTENSION postgis'"
   su - postgres -c "psql --dbname='$osm_carto_pg_dbname' --command='CREATE EXTENSION hstore'"
+  su - postgres -c "createdb --owner='$osm_carto_pg_owner' '$osm_carto_pg_temp_dbname'"
+  su - postgres -c "psql --dbname='$osm_carto_pg_temp_dbname' --command='CREATE EXTENSION postgis'"
+  su - postgres -c "psql --dbname='$osm_carto_pg_temp_dbname' --command='CREATE EXTENSION hstore'"
   su - postgres -c "psql -d postgres -c 'ALTER USER $carto_user CREATEDB;'"
   local s
   for s in $carto_styles; do
