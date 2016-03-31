@@ -27,6 +27,7 @@ deploy_admin_ubuntu() {
   chmod -R a+rwx "$aoi_dir"
 
   deploy_posm_admin
+  setup_cron
 }
 
 deploy_posm_admin() {
@@ -65,6 +66,22 @@ deploy_posm_admin() {
   # start
   expand etc/posm-admin.upstart /etc/init/posm-admin.conf
   service posm-admin restart
+}
+
+# Occasionally we run cron jobs in the background. For example, we update periodically the render db.
+setup_cron() {
+  echo "Setting up admin crontab..."
+
+  #write out current crontab
+  su - admin -c 'crontab -l > cronfile'
+
+  # We are having render-db-update.sh run every half hour.
+  su - admin -c 'echo "0,30 * * * * /opt/admin/posm-admin/scripts/render-db-update.sh" >> cronfile'
+  
+  #install new cron file
+  su - admin -c 'crontab cronfile'
+  su - admin -c 'rm cronfile'
+
 }
 
 deploy admin
