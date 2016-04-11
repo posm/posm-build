@@ -26,6 +26,8 @@ deploy_omk_server() {
 	# install OMK Server
   from_github "https://github.com/AmericanRedCross/OpenMapKitServer" "$dst/OpenMapKitServer"
 
+  mkdir -p /root/sources
+
   # fetch pyxform submodule
   wget -q -O /root/sources/pyxform.tar.gz "https://github.com/spatialdev/pyxform/archive/e486b54d34d299d54049923e03ca5a6a1169af40.tar.gz"
   tar -zxf /root/sources/pyxform.tar.gz -C "$dst/OpenMapKitServer/api/odk/pyxform" --strip=1
