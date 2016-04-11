@@ -27,12 +27,12 @@ deploy_omk_server() {
   from_github "https://github.com/AmericanRedCross/OpenMapKitServer" "$dst/OpenMapKitServer"
 
   # fetch pyxform submodule
-  wget -q -O /tmp/pyxform.tar.gz "https://github.com/spatialdev/pyxform/archive/e486b54d34d299d54049923e03ca5a6a1169af40.tar.gz"
-  tar -zxf /tmp/pyxform.tar.gz -C "$dst/OpenMapKitServer/api/odk/pyxform" --strip=1
+  wget -q -O /root/sources/pyxform.tar.gz "https://github.com/spatialdev/pyxform/archive/e486b54d34d299d54049923e03ca5a6a1169af40.tar.gz"
+  tar -zxf /root/sources/pyxform.tar.gz -C "$dst/OpenMapKitServer/api/odk/pyxform" --strip=1
 
   # fetch iD submodule
-  wget -q -O /tmp/omk-id.tar.gz "https://github.com/AmericanRedCross/iD/archive/omk.tar.gz"
-  tar -zxf /tmp/omk-id.tar.gz -C "$dst/OpenMapKitServer/pages/id" --strip=1
+  wget -q -O /root/sources/omk-id.tar.gz "https://github.com/AmericanRedCross/iD/archive/omk.tar.gz"
+  tar -zxf /root/sources/omk-id.tar.gz -C "$dst/OpenMapKitServer/pages/id" --strip=1
 
   # user / group omk should own this
   chown -R omk:omk "$dst/OpenMapKitServer"
