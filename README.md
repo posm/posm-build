@@ -24,7 +24,7 @@ Interim Manual Build Process (for Virtual Machines)
 
 1. Install [Ubuntu 14.04 LTS minimal server](http://www.ubuntu.com/download/server) however you like
   * See details below for [Ubuntu Server Install Details for NUC](#ubuntu-server-install-details-for-nuc)
-2. Become `root`
+2. Become `root`. If you use `sudo`, use `sudo -i`.
 3.  `wget -q -O - https://github.com/AmericanRedCross/posm-build/archive/master.tar.gz | tar -zxf - -C /root --strip=2`
 4. Put any local settings in `/root/etc/settings.local` (see `/root/etc/settings`)
   * Important ones for development are the ones that involve DNS and URLs:
