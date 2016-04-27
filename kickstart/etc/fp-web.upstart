@@ -18,6 +18,7 @@ env STATIC_URI_PREFIX="{{fp_api_base_url}}/_"
 env MAPZEN_SEARCH_KEY="{{fp_mapzen_search_key}}"
 env PORT={{fp_web_port}}
 env OSM_BASE_URL="http://osm.{{posm_fqdn}}"
+env ATLAS_COMPLETE_WEBHOOKS="{{posm_base_url}}/posm-admin/atlas-deploy"
 
 respawn
 #respawn limit 5 60
