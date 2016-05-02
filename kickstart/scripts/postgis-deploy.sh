@@ -11,10 +11,18 @@ deploy_postgis_ubuntu() {
   apt-get install --no-install-recommends -y \
     postgis \
     "postgresql-$pgsql_ver-postgis-$postgis_ver" \
-    "postgresql-$pgsql_ver-postgis-scripts"
+    "postgresql-$pgsql_ver-postgis-scripts" \
+    "postgresql-contrib-$pgsql_ver"
 
-  grep -q "0.0.0.0/0" /etc/postgresql/9.5/main/pg_hba.conf || \
-    echo "host	all	all	0.0.0.0/0	md5" >> /etc/postgresql/9.5/main/pg_hba.conf
+  grep -q "0.0.0.0/0" /etc/postgresql/${pgsql_ver}/main/pg_hba.conf || \
+    echo "host	all	all	0.0.0.0/0	md5" >> /etc/postgresql/${pgsql_ver}/main/pg_hba.conf
+
+  grep -q "postgresql.conf.local" /etc/postgresql/${pgsql_ver}/main/postgresql.conf || \
+    echo "include '/etc/postgresql/${pgsql_ver}/main/postgresql.conf.local'" >> /etc/postgresql/${pgsql_ver}/main/postgresql.conf
+
+  export shared_buffers=$(awk 'NR == 1 { print int($2*.25/1024) } ' /proc/meminfo)
+  export effective_cache_size=$(awk 'NR == 1 { print int($2*.5/1024) } ' /proc/meminfo)
+  expand etc/postgresql/postgresql.conf.local /etc/postgresql/${pgsql_ver}/main/postgresql.conf.local
 
   service postgresql restart
 }
