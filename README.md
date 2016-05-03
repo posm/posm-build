@@ -19,6 +19,11 @@ USB Auto-Build Process (OS X)
 
 Steps on Linux are similar, although the device name will differ.
 
+If you are installing POSM onto a bare drive (one that has never been partitioned), you will
+encounter a "Cannot mount CD-ROM" error. You can follow one of the workarounds documented in
+https://github.com/AmericanRedCross/posm/issues/116 or (this is one of them), plug the installation
+media into one of the rear USB ports and an empty (formatted) USB stick into the front. Yeah, weird.
+
 Interim Manual Build Process (for Virtual Machines)
 ============================
 
