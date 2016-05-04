@@ -24,6 +24,8 @@ deploy_postgis_ubuntu() {
   export effective_cache_size=$(awk 'NR == 1 { print int($2*.5/1024) } ' /proc/meminfo)
   expand etc/postgresql/postgresql.conf.local /etc/postgresql/${pgsql_ver}/main/postgresql.conf.local
 
+  expand etc/init.d/postgresql /etc/init.d/postgresql
+
   service postgresql restart
 }
 
