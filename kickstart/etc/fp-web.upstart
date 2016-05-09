@@ -17,7 +17,7 @@ env STATIC_PATH="/opt/fp/data"
 env STATIC_URI_PREFIX="{{fp_api_base_url}}/_"
 env MAPZEN_SEARCH_KEY="{{fp_mapzen_search_key}}"
 env PORT={{fp_web_port}}
-env OSM_BASE_URL="http://osm.{{posm_fqdn}}"
+env OSM_BASE_URL="{{osm_base_url}}"
 
 respawn
 #respawn limit 5 60

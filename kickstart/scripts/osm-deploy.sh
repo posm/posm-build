@@ -81,7 +81,7 @@ deploy_osm_rails() {
   su - osm -c "cd '$dst/osm-web' && bundle exec rake assets:precompile"
 
   # generate credentials for OSM's iD
-  export osm_id_key=$(su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:apps:create name='OSM iD' url='${posm_base_url}'" | jq -r .key)
+  export osm_id_key=$(su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:apps:create name='OSM iD' url='${osm_base_url}'" | jq -r .key)
 
   # create a default user
   su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:users:create display_name='${osm_posm_user}' description='${osm_posm_description}'"
