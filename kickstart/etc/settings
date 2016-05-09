@@ -14,6 +14,7 @@ posm_hostname="posm"
 posm_domain="io"
 lan_domain="lan"
 posm_fqdn="${posm_hostname}.${posm_domain}"
+osm_fqdn="osm.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
