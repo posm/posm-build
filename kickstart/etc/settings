@@ -18,6 +18,7 @@ osm_fqdn="osm.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
+osm_base_url="http://${osm_fqdn}"
 fp_api_base_url="${posm_base_url}/fp"
 fp_tile_base_url="${posm_base_url}/fp-tiler"
 
