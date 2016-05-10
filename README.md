@@ -9,7 +9,7 @@ USB Auto-Build Process (OS X)
 4. Unmount if necessary `diskutil unmountDisk /dev/<USB>`. (`diskutil list` will show available devices on OS X)
 5. [Image it to a USB
   drive](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx).
-  (`sudo dd if=ubuntu-14.04.3-server-amd64.img of=/dev/r<USB> bs=1m` or similar). It will remount as `POSM` when done.
+  (`sudo dd if=posm-install-24180cb.img of=/dev/r<USB> bs=1m` or similar). It will remount as `POSM` when done.
 6. Update `/Volumes/POSM/posm-build`: `git pull`
 7. _(optional)_ Put any local settings in `posm-build/kickstart/etc/settings.local`.
 8. Boot to the USB stick by pressing `F10` and pick `Install POSM Server` from the menu.
