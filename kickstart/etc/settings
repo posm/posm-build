@@ -50,6 +50,7 @@ osm_carto_pg_dbname="gis"
 osm_carto_pg_temp_dbname="gis_temp"
 osm_carto_pg_owner="gis"
 osm_carto_pg_users="root fp omk"
+osm_carto_pg_pass="openstreetmap"
 
 # tile styles [posm, osm]
 carto_styles="posm"

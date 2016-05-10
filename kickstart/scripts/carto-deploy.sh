@@ -30,6 +30,9 @@ deploy_carto_posm() {
   from_github "https://github.com/AmericanRedCross/posm-carto" "$dst/posm-carto"
   chown -R "$carto_user:$carto_user" "$dst/posm-carto"
 
+  expand etc/posm-carto.env "$dst/posm-carto/.env"
+  chown $carto_user:$carto_user "$dst/posm-carto/.env"
+
   su - "$carto_user" -c "cd '$dst/posm-carto' && npm install --quiet"
   su - "$carto_user" -c "make -C '$dst/posm-carto' project.xml"
 
