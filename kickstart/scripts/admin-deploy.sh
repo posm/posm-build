@@ -8,6 +8,7 @@ omk_deployments_dir=/opt/omk/OpenMapKitServer/data/deployments
 
 deploy_admin_ubuntu() {
   # deps
+  apt-get update
   apt-get install --no-install-recommends -y \
     pv
 
