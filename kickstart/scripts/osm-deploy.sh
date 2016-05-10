@@ -135,7 +135,7 @@ deploy_osm_ubuntu() {
     osmpbf-bin libosmpbf-dev
 
   type osmconvert || ubuntu_backport_install osmctools
-  type osm2pgsql || ubuntu_backport_install osm2pgsql
+  type osm2pgsql || ubuntu_backport_install osm2pgsql xenial
   deploy_osmosis_prebuilt
 
   deploy_osm_rails_ubuntu
