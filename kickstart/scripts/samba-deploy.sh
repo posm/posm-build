@@ -11,6 +11,14 @@ deploy_samba_ubuntu() {
   chown nobody:nogroup /opt/data/fieldpapers
   chmod 777 /opt/data/fieldpapers
 
+  mkdir -p /opt/data/omk
+  chown nobody:nogroup /opt/data/omk
+  chmod 777 /opt/data/omk
+
+  mkdir -p /opt/data/osm
+  chown nobody:nogroup /opt/data/osm
+  chmod 777 /opt/data/osm
+
   expand etc/smb.conf /etc/samba/smb.conf
 
   service samba restart

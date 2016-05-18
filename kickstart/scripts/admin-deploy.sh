@@ -3,8 +3,6 @@
 dst=/opt/admin
 deployments_dir=/opt/data/deployments
 api_db_dumps_dir=/opt/data/api-db-dumps
-fp_db_dumps_dir=/opt/data/fp-db-dumps
-omk_data_dumps_dir=/opt/data/omk-data-dumps
 aoi_dir=/opt/data/aoi
 omk_deployments_dir=/opt/omk/OpenMapKitServer/data/deployments
 
@@ -20,20 +18,14 @@ deploy_admin_ubuntu() {
   mkdir -p "$dst/tmp"
   mkdir -p "$deployments_dir"
   mkdir -p "$api_db_dumps_dir"
-  mkdir -p "$fp_db_dumps_dir"
-  mkdir -p "$omk_data_dumps_dir"
   mkdir -p "$aoi_dir"
   chown admin:admin "$dst"
   chown admin:admin "$dst/tmp"
   chown admin:admin "$deployments_dir"
   chown admin:admin "$api_db_dumps_dir"
-  chown admin:admin "$fp_db_dumps_dir"
-  chown admin:admin "$omk_data_dumps_dir"
   chmod -R a+rwx "$dst/tmp"
   chmod -R a+rx "$deployments_dir"
   chmod -R a+rwx "$api_db_dumps_dir"
-  chmod -R a+rwx "$fp_db_dumps_dir"
-  chmod -R a+rwx "$omk_data_dumps_dir"
   chmod -R a+rwx "$aoi_dir"
 
   # Have OpenMapKit Server refer to this new deployments directory instead of default.
@@ -76,8 +68,6 @@ deploy_posm_admin() {
 
   # The dumps should be readable by anyone.
   chmod -R a+r "$api_db_dumps_dir"
-  chmod -R a+r "$fp_db_dumps_dir"
-  chmod -R a+r "$omk_data_dumps_dir"
 
   # install node packages
   su - admin -c "cd $dst/posm-admin && npm install"
