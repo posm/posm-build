@@ -1,0 +1,25 @@
+# fp-watch
+
+description     "Field Papers Watcher"
+
+start on (local-filesystems and net-device-up and runlevel [2345])
+stop on shutdown
+
+respawn
+#respawn limit 5 60
+
+pre-start script
+    echo "[`date '+%c'`] Starting: fp-watch" >> /var/log/fp-watch.log
+end script
+
+pre-stop script
+    echo "[`date '+%c'`] Stopping: fp-watch" >> /var/log/fp-watch.log
+end script
+
+exec start-stop-daemon \
+		--start \
+		--chdir /opt/fp \
+		--chuid fp \
+		--make-pidfile \
+		--pidfile /var/run/fp-watch.pid \
+		--exec /opt/fp/bin/fp-watch.sh >> /var/log/fp-watch.log 2>&1
