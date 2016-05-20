@@ -38,7 +38,7 @@ deploy_admin_ubuntu() {
 
 deploy_posm_admin() {
   # Fetch source code.
-  from_github "https://github.com/AmericanRedCross/posm-admin/tarball/master_backup" "$dst/posm-admin"
+  from_github "https://github.com/AmericanRedCross/posm-admin" "$dst/posm-admin"
 
   # admin user should own this
   chown -R admin:admin "$dst/posm-admin"
