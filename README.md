@@ -9,7 +9,7 @@ USB Auto-Build Process (OS X)
 4. Unmount if necessary `diskutil unmountDisk /dev/<USB>`. (`diskutil list` will show available devices on OS X)
 5. [Image it to a USB
   drive](http://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx).
-  (`sudo dd if=ubuntu-14.04.3-server-amd64.img of=/dev/r<USB> bs=1m` or similar). It will remount as `POSM` when done.
+  (`sudo dd if=posm-install-24180cb.img of=/dev/r<USB> bs=1m` or similar). It will remount as `POSM` when done.
 6. Update `/Volumes/POSM/posm-build`: `git pull`
 7. _(optional)_ Put any local settings in `posm-build/kickstart/etc/settings.local`.
 8. Boot to the USB stick by pressing `F10` and pick `Install POSM Server` from the menu.
@@ -18,6 +18,11 @@ USB Auto-Build Process (OS X)
 11. Watch it reboot once installation is complete.
 
 Steps on Linux are similar, although the device name will differ.
+
+If you are installing POSM onto a bare drive (one that has never been partitioned), you will
+encounter a "Cannot mount CD-ROM" error. You can follow one of the workarounds documented in
+https://github.com/AmericanRedCross/posm/issues/116 or (this is one of them), plug the installation
+media into one of the rear USB ports and an empty (formatted) USB stick into the front. Yeah, weird.
 
 Interim Manual Build Process (for Virtual Machines)
 ============================
@@ -34,7 +39,7 @@ Interim Manual Build Process (for Virtual Machines)
     * `posm_base_url="http://${posm_fqdn}"`
     * `fp_api_base_url="${posm_base_url}/fp"`
     * `fp_tile_base_url="${posm_base_url}/fp-tiler"`
-5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin` (note: `wifi` is omitted from this list)
+5. `/root/scripts/bootstrap.sh base virt nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba` (note: `wifi` is omitted from this list)
 6. `/root/scripts/bootstrap.sh demo_data`, if you want it
 
 Interim PXE Build Process

@@ -17,8 +17,10 @@ env STATIC_PATH="/opt/fp/data"
 env STATIC_URI_PREFIX="{{fp_api_base_url}}/_"
 env MAPZEN_SEARCH_KEY="{{fp_mapzen_search_key}}"
 env PORT={{fp_web_port}}
-env OSM_BASE_URL="http://osm.{{posm_fqdn}}"
 env ATLAS_COMPLETE_WEBHOOKS="{{posm_base_url}}/posm-admin/atlas-deploy"
+env OSM_BASE_URL="{{osm_base_url}}"
+env DISABLE_LOGIN_CONFIRMATIONS="true"
+env ATLAS_INDEX_HEADER_TILELAYER="{{posm_base_url}}/tiles/mm/{z}/{x}/{y}.png"
 
 respawn
 #respawn limit 5 60

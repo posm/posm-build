@@ -22,7 +22,8 @@ deploy_fieldpapers_ubuntu() {
     python-software-properties \
     ruby2.2-dev \
     sqlite3 \
-    zlib1g-dev
+    zlib1g-dev \
+    inotify-tools
 
   # FP user & env
   useradd -c 'Field Papers' -d "$dst" -m -r -s /bin/bash -U fp
@@ -50,6 +51,15 @@ deploy_fieldpapers_common() {
   deploy_fp_tiler
   deploy_fp_tasks
   deploy_fp_legacy
+
+  mkdir -p "$dst/bin"
+  expand etc/fp-watch.sh "$dst/bin/fp-watch.sh"
+  chmod +x "$dst/bin/fp-watch.sh"
+  chown -R fp:fp "$dst/bin"
+
+  expand etc/fp-watch.upstart /etc/init/fp-watch.conf
+
+  service fp-watch restart
 }
 
 deploy_fp_web() {

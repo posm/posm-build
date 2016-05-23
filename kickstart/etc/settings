@@ -14,9 +14,11 @@ posm_hostname="posm"
 posm_domain="io"
 lan_domain="lan"
 posm_fqdn="${posm_hostname}.${posm_domain}"
+osm_fqdn="osm.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
+osm_base_url="http://${osm_fqdn}"
 fp_api_base_url="${posm_base_url}/fp"
 fp_tile_base_url="${posm_base_url}/fp-tiler"
 
@@ -48,6 +50,7 @@ osm_carto_pg_dbname="gis"
 osm_carto_pg_temp_dbname="gis_temp"
 osm_carto_pg_owner="gis"
 osm_carto_pg_users="root fp omk"
+osm_carto_pg_pass="openstreetmap"
 
 # tile styles [posm, osm]
 carto_styles="posm"

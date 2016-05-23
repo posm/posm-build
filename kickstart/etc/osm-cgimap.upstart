@@ -2,7 +2,7 @@
 
 description     "CGImap"
 
-start on (local-filesystems and net-device-up and runlevel [2345])
+start on started postgresql
 stop on shutdown
 
 env CGIMAP_BACKEND="apidb"

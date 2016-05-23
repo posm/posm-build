@@ -74,11 +74,14 @@ deploy_osm_rails() {
 
   su - osm -c "cd '$dst/osm-web' && bundle exec rake db:migrate"
 
+  su - osm -c "cd '$dst/osm-web' && sed -i -e \"s/posm.io/${posm_fqdn}/\" vendor/assets/iD/imagery.js"
+  su - osm -c "cd '$dst/osm-web' && sed -i -e \"s/posm.io/${posm_fqdn}/\" app/assets/javascripts/leaflet.map.js"
+
   # assets
   su - osm -c "cd '$dst/osm-web' && bundle exec rake assets:precompile"
 
   # generate credentials for OSM's iD
-  export osm_id_key=$(su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:apps:create name='OSM iD' url='${posm_base_url}'" | jq -r .key)
+  export osm_id_key=$(su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:apps:create name='OSM iD' url='${osm_base_url}'" | jq -r .key)
 
   # create a default user
   su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:users:create display_name='${osm_posm_user}' description='${osm_posm_description}'"
@@ -132,7 +135,7 @@ deploy_osm_ubuntu() {
     osmpbf-bin libosmpbf-dev
 
   type osmconvert || ubuntu_backport_install osmctools
-  type osm2pgsql || ubuntu_backport_install osm2pgsql
+  type osm2pgsql || ubuntu_backport_install osm2pgsql xenial
   deploy_osmosis_prebuilt
 
   deploy_osm_rails_ubuntu
