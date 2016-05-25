@@ -28,6 +28,11 @@ deploy_omk_server() {
 
   mkdir -p /root/sources
 
+  # create backup directory
+  mkdir -p /opt/data/backups/omk
+  chown omk:omk /opt/data/backups/omk
+  chmod 644 /opt/data/backups/omk
+
   # fetch pyxform submodule
   wget -q -O /root/sources/pyxform.tar.gz "https://github.com/spatialdev/pyxform/archive/e486b54d34d299d54049923e03ca5a6a1169af40.tar.gz"
   tar -zxf /root/sources/pyxform.tar.gz -C "$dst/OpenMapKitServer/api/odk/pyxform" --strip=1
