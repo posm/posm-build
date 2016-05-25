@@ -12,7 +12,6 @@ deploy_samba_ubuntu() {
   chmod 777 /opt/data/fieldpapers
 
   mkdir -p /opt/data/backups
-  chown root:root /opt/data/backups
   chmod 644 /opt/data/backups
 
   expand etc/smb.conf /etc/samba/smb.conf
