@@ -30,8 +30,8 @@ deploy_omk_server() {
 
   # create backup directory
   mkdir -p /opt/data/backups/omk
-  chown nobody:nogroup /opt/data/backups/omk
-  chmod 777 /opt/data/backups/omk
+  chown omk:omk /opt/data/backups/omk
+  chmod 644 /opt/data/backups/omk
 
   # fetch pyxform submodule
   wget -q -O /root/sources/pyxform.tar.gz "https://github.com/spatialdev/pyxform/archive/e486b54d34d299d54049923e03ca5a6a1169af40.tar.gz"
