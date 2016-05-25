@@ -42,15 +42,9 @@ deploy_posm_admin() {
 
   # admin user should own this
   chown -R admin:admin "$dst/posm-admin"
-  chmod a+rx $dst/posm-admin/scripts/*
 
-  # Various scripts should be owned by other users
-  chown postgres:postgres "$dst/posm-admin/scripts/postgres_api-db-backup.sh"
-  chown postgres:postgres "$dst/posm-admin/scripts/postgres_api-db-drop-create.sh"
-  chown osm:osm "$dst/posm-admin/scripts/osm_api-db-init.sh"
-  chown osm:osm "$dst/posm-admin/scripts/osm_api-db-populate.sh"
-  chown osm:osm "$dst/posm-admin/scripts/osm_render-db-api2pbf.sh"
-  chown gis:gis "$dst/posm-admin/scripts/gis_render-db-pbf2render.sh"
+  # grant read and execute rights for other users
+  chmod -R 755 $dst/posm-admin/scripts
 
   # These should be specifically allowed in sudoers to be executed by as other users.
   grep -q postgres_api-db-backup /etc/sudoers || echo "admin ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/postgres_api-db-backup.sh" >> /etc/sudoers

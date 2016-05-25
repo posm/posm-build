@@ -70,6 +70,11 @@ deploy_fp_web() {
   mkdir -p "$dst/data"
   chown fp:fp "$dst/data"
 
+  # create backup directory
+  mkdir -p /opt/data/backups/fieldpapers
+  chown nobody:nogroup /opt/data/backups/fieldpapers
+  chmod 777 /opt/data/backups/fieldpapers
+
   # install FP WEB
   from_github "https://github.com/fieldpapers/fp-web" "$dst/fp-web"
   chown -R fp:fp "$dst/fp-web"

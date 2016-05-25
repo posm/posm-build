@@ -11,17 +11,9 @@ deploy_samba_ubuntu() {
   chown nobody:nogroup /opt/data/fieldpapers
   chmod 777 /opt/data/fieldpapers
 
-  mkdir -p /opt/data/backups/omk
-  chown nobody:nogroup /opt/data/backups/omk
-  chmod 777 /opt/data/backups/omk
-
-  mkdir -p /opt/data/backups/osm
-  chown nobody:nogroup /opt/data/backups/osm
-  chmod 777 /opt/data/backups/osm
-
-  mkdir -p /opt/data/backups/fieldpapers
-  chown nobody:nogroup /opt/data/backups/osm
-  chmod 777 /opt/data/backups/osm
+  mkdir -p /opt/data/backups
+  chown nobody:nogroup /opt/data/backups
+  chmod 777 /opt/data/backups
 
   expand etc/smb.conf /etc/samba/smb.conf
 

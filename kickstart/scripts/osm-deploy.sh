@@ -89,6 +89,11 @@ deploy_osm_rails() {
   # update the upstart config
   expand etc/osm-web.upstart /etc/init/osm-web.conf
 
+  # create backup directory
+  mkdir -p /opt/data/backups/osm
+  chown nobody:nogroup /opt/data/backups/osm
+  chmod 777 /opt/data/backups/osm
+
   # start
   service osm-web restart
 
