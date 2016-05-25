@@ -21,6 +21,7 @@ env ATLAS_COMPLETE_WEBHOOKS="{{posm_base_url}}/posm-admin/atlas-deploy"
 env OSM_BASE_URL="{{osm_base_url}}"
 env DISABLE_LOGIN_CONFIRMATIONS="true"
 env ATLAS_INDEX_HEADER_TILELAYER="{{posm_base_url}}/tiles/mm/{z}/{x}/{y}.png"
+env DEFAULT_CENTER="3/0.00/20.00"
 
 respawn
 #respawn limit 5 60
