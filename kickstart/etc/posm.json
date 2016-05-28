@@ -7,6 +7,8 @@
   "posm_ssid": "{{posm_ssid}}",
   "posm_wpa_passphrase": "{{posm_wpa_passphrase}}",
   "posm_wifi_channel": "{{posm_wifi_channel}}",
+  "posm_wifi_80211n": "{{posm_wifi_80211n}}",
+  "posm_wifi_wpa": "{{posm_wifi_wpa}}",
   "posm_hostname": "{{posm_hostname}}",
   "posm_domain": "{{posm_domain}}",
   "posm_fqdn": "{{posm_fqdn}}",
