@@ -9,7 +9,8 @@ deploy_nodejs_ubuntu() {
   apt-get update
   apt-get install --no-install-recommends -y nodejs
 
-  npm install -g npm@~3.3.12
+  # to work around problems installing mapnik as root
+  npm install -g npm@3
 
   npm install -g interp
 }
