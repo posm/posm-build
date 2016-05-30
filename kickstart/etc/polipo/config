@@ -1,0 +1,4 @@
+logSyslog = true
+logFile = /var/log/polipo/polipo.log
+proxyAddress = ::0
+proxyPort = 1080
