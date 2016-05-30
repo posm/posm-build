@@ -1,14 +1,19 @@
 auto lo
 iface lo inet loopback
 
-auto {{posm_netif}}
-iface {{posm_netif}} inet static
-  address {{posm_ip}}
+auto {{posm_wlan_netif}}
+iface {{posm_wlan_netif}} inet static
+  address {{posm_wlan_ip}}
   netmask 255.255.255.0
   hostapd /etc/hostapd/hostapd.conf
 
 allow-hotplug {{posm_wan_netif}}
 iface {{posm_wan_netif}} inet dhcp
+
+auto {{posm_lan_netif}}
+iface {{posm_lan_netif}} inet static
+  address {{posm_lan_ip}}
+  netmask 255.255.255.0
 
 # Android tethering
 allow-hotplug usb0

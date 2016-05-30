@@ -1,9 +1,11 @@
 {
   "posm_env": "{{posm_env}}",
   "posm_subnet": "{{posm_subnet}}",
-  "posm_ip": "{{posm_ip}}",
+  "posm_lan_ip": "{{posm_lan_ip}}",
+  "posm_wlan_ip": "{{posm_wlan_ip}}",
   "posm_wan_netif": "{{posm_wan_netif}}",
-  "posm_netif": "{{posm_netif}}",
+  "posm_lan_netif": "{{posm_lan_netif}}",
+  "posm_wlan_netif": "{{posm_wlan_netif}}",
   "posm_ssid": "{{posm_ssid}}",
   "posm_wpa_passphrase": "{{posm_wpa_passphrase}}",
   "posm_wifi_channel": "{{posm_wifi_channel}}",
