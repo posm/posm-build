@@ -14,7 +14,8 @@ deploy_base_ubuntu() {
     git \
     ssh \
     tmux \
-    vim
+    vim \
+    moreutils
 
   curl -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -o /usr/local/bin/jq
   chmod +x /usr/local/bin/jq
