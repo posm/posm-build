@@ -58,6 +58,10 @@ deploy_posm_admin() {
   grep -q root_change-osm-id-key.sh /etc/sudoers || echo "osm ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-osm-id-key.sh" >> /etc/sudoers
   grep -q root_fp-production-db-backup.sh /etc/sudoers || echo "admin ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_fp-production-db-backup.sh" >> /etc/sudoers
   grep -q root_change-fp-center.sh /etc/sudoers || echo "admin ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-fp-center.sh" >> /etc/sudoers
+  grep -q root_change-wpa-passphrase.sh /etc/sudoers || echo "admin ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-wpa-passphrase.sh" >> /etc/sudoers
+  grep -q root_change-ssid.sh /etc/sudoers || echo "admin ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_ssid.sh" >> /etc/sudoers
+  grep -q root_change-wpa.sh /etc/sudoers || echo "admin ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-wpa.sh" >> /etc/sudoers
+  grep -q root_change-network-mode.sh /etc/sudoers || echo "admin ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-network-mode.sh" >> /etc/sudoers
   grep -q osm_omk-osm.sh /etc/sudoers || echo "admin ALL=(osm) NOPASSWD: /opt/admin/posm-admin/scripts/osm_omk-osm.sh" >> /etc/sudoers
   grep -q gis_omk-posm-mbtiles.sh /etc/sudoers || echo "admin ALL=(gis) NOPASSWD: /opt/admin/posm-admin/scripts/gis_omk-posm-mbtiles.sh" >> /etc/sudoers
   grep -q gis_omk-aoi-mbtiles.sh /etc/sudoers || echo "admin ALL=(gis) NOPASSWD: /opt/admin/posm-admin/scripts/gis_omk-aoi-mbtiles.sh" >> /etc/sudoers
