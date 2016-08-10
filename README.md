@@ -4,7 +4,7 @@ USB Auto-Build Process (OS X)
 =============================
 
 1. Connect the NUC's Ethernet port to an internet-connected LAN.
-2. Download https://s3-us-west-2.amazonaws.com/posm/posm-install-24180cb-fat.tar and unzip locally.
+2. Download https://s3-us-west-2.amazonaws.com/posm/posm-install-24180cb-fat.tar and unzip locally (`tar xf posm-install-24180cb-fat.tar` will produce `posm-install-24180cb.img`).
 3. Insert a USB stick
 4. Unmount if necessary `diskutil unmountDisk /dev/<USB>`. (`diskutil list` will show available devices on OS X)
 5. [Image it to a USB
