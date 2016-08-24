@@ -23,7 +23,6 @@ deploy_wifi_ubuntu() {
     rfkill \
     rng-tools
 
-  expand etc/hosts "/etc/hosts"
   expand etc/network-interfaces "/etc/network/interfaces"
   expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
   expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
