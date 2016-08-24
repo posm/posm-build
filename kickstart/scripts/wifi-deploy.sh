@@ -24,7 +24,9 @@ deploy_wifi_ubuntu() {
     rng-tools
 
   expand etc/hosts "/etc/hosts"
-  expand etc/network-interfaces "/etc/network/interfaces"
+  for f in $(ls etc/network/interfaces.d); do
+    expand etc/network/interfaces.d/$f "/etc/network/interfaces.d/$f"
+  done
   expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
   expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
   expand etc/dnsmasq-default "/etc/default/dnsmasq"
