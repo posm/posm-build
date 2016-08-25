@@ -3,11 +3,14 @@
 # ifup hook script to enable port forwarding
 
 case "$IFACE" in
-  {{posm_wlan_netif}}) exit 0 ;;
-  {{posm_lan_netif}}) exit 0 ;;
+  "{{posm_wlan_netif}}") exit 0 ;;
+  "{{posm_lan_netif}}") exit 0 ;;
 esac
 
 iptables -t nat -C POSTROUTING -o $IFACE -j MASQUERADE 2> /dev/null || iptables -t nat -A POSTROUTING -o $IFACE -j MASQUERADE
 iptables -C FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT 2> /dev/null || iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-iptables -C FORWARD -i {{posm_wlan_netif}} -o $IFACE -j ACCEPT 2> /dev/null || iptables -A FORWARD -i {{posm_wlan_netif}} -o $IFACE -j ACCEPT
-iptables -C FORWARD -i {{posm_lan_netif}} -o $IFACE -j ACCEPT 2> /dev/null || iptables -A FORWARD -i {{posm_lan_netif}} -o $IFACE -j ACCEPT
+
+# only configure forwarding if interfaces exist
+test -f "/etc/network/interfaces.d/{{posm_wlan_netif}}.cfg" && iptables -C FORWARD -i {{posm_wlan_netif}} -o $IFACE -j ACCEPT 2> /dev/null || iptables -A FORWARD -i {{posm_wlan_netif}} -o $IFACE -j ACCEPT
+
+test -f "/etc/network/interfaces.d/{{posm_lan_netif}}.cfg" && iptables -C FORWARD -i {{posm_lan_netif}} -o $IFACE -j ACCEPT 2> /dev/null || iptables -A FORWARD -i {{posm_lan_netif}} -o $IFACE -j ACCEPT
