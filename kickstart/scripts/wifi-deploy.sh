@@ -23,6 +23,8 @@ deploy_wifi_ubuntu() {
     rfkill \
     rng-tools
 
+  # allow lo to use remote DNS servers (don't modify /etc/resolve.conf)
+  grep -qe "^DNSMASQ_EXCEPT" /etc/default/dnsmasq || echo DNSMASQ_EXCEPT=\"lo\" >> /etc/default/dnsmasq
   expand etc/hosts "/etc/hosts"
   expand etc/network-interfaces "/etc/network/interfaces"
   expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
