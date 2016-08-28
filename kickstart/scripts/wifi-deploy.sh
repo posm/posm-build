@@ -2,32 +2,35 @@
 
 # Should use Ubuntu linux-image-3.19.0-42-generic
 deploy_wifi_ubuntu() {
-	apt-get install --no-install-recommends -y linux-image-3.19.0-42-generic linux-image-extra-3.19.0-42-generic linux-firmware wireless-tools
+  local v="`virt-what 2>/dev/null`"
+  if [ $? = 0 ] && [ -z "$v" ]; then
+		apt-get install --no-install-recommends -y linux-image-3.19.0-42-generic linux-image-extra-3.19.0-42-generic linux-firmware wireless-tools
 
-	ln -sf /lib/firmware/iwlwifi-7265D-12.ucode /lib/firmware/iwlwifi-3165-9.ucode
-	ln -sf /lib/firmware/iwlwifi-7265-12.ucode /lib/firmware/iwlwifi-3165-12.ucode
+		ln -sf /lib/firmware/iwlwifi-7265D-12.ucode /lib/firmware/iwlwifi-3165-9.ucode
+		ln -sf /lib/firmware/iwlwifi-7265-12.ucode /lib/firmware/iwlwifi-3165-12.ucode
 
-  apt-get remove --purge -y \
-    network-manager
+	  apt-get remove --purge -y \
+	    network-manager
 
-  # disable IPv6
-  expand etc/sysctl.d/50-disable_ipv6.conf
+	  # disable IPv6
+	  expand etc/sysctl.d/50-disable_ipv6.conf
 
-  service procps start
+	  service procps start
 
-  apt-get install --no-install-recommends -y \
-    dnsmasq \
-    dnsmasq-utils \
-    hostapd \
-    iw \
-    rfkill \
-    rng-tools
+	  apt-get install --no-install-recommends -y \
+	    dnsmasq \
+	    dnsmasq-utils \
+	    hostapd \
+	    iw \
+	    rfkill \
+	    rng-tools
 
-  expand etc/hosts "/etc/hosts"
-  expand etc/network-interfaces "/etc/network/interfaces"
-  expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
-  expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
-  expand etc/dnsmasq-default "/etc/default/dnsmasq"
+	  expand etc/hosts "/etc/hosts"
+	  expand etc/network-interfaces "/etc/network/interfaces"
+	  expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
+	  expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
+	  expand etc/dnsmasq-default "/etc/default/dnsmasq"
+  fi
 }
 
 deploy wifi
