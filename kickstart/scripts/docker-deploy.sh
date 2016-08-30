@@ -6,7 +6,10 @@ deploy_docker_ubuntu() {
   add-apt-repository "deb https://apt.dockerproject.org/repo ubuntu-$(lsb_release -c -s) main"
   apt update
   apt install --no-install-recommends -y \
-    docker-engine
+    docker-engine \
+    python-pip
+
+  pip install docker-compose
 }
 
 deploy docker
