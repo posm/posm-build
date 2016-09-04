@@ -23,7 +23,7 @@ end script
 exec start-stop-daemon \
 		--start \
 		--chdir /opt/admin/posm-admin \
-		--chuid admin \
+		--chuid posm-admin \
 		--make-pidfile \
 		--pidfile /var/run/posm-admin.pid \
 		--exec /usr/bin/npm start >> /var/log/posm-admin.log 2>&1
