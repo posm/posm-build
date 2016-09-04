@@ -7,7 +7,7 @@ deploy_wifi_ubuntu() {
     network-manager
 
   # disable IPv6
-  expand etc/sysctl.d/50-disable_ipv6.conf
+  expand etc/sysctl.d/50-disable_ipv6.conf /etc/sysctl.d/50-disable_ipv6.conf
 
   service procps start
 
