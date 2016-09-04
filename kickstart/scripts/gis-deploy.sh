@@ -1,7 +1,6 @@
 #!/bin/bash
 
 deploy_gis_ubuntu() {
-  apt-get install --no-install-recommends -y software-properties-common
   add-apt-repository -s -y ppa:ubuntugis/ppa
   apt-get update
   apt-get install --no-install-recommends -y \

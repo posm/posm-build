@@ -9,8 +9,6 @@ deploy_ruby_ubuntu() {
   if [ x"$fromsource" = x"yes" ]; then
     apt-get install --no-install-recommends -y \
       build-essential \
-      curl \
-      git \
       libcurl4-openssl-dev \
       libffi-dev \
       libreadline-dev \
@@ -19,12 +17,10 @@ deploy_ruby_ubuntu() {
       libxml2-dev \
       libxslt1-dev \
       libyaml-dev \
-      python-software-properties \
       sqlite3 \
       zlib1g-dev
     deploy_ruby_fromsource
   else
-    apt-get install --no-install-recommends -y software-properties-common
     apt-add-repository -y ppa:brightbox/ruby-ng
     apt-get update
     apt-get install --no-install-recommends -y \

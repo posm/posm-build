@@ -19,7 +19,6 @@ deploy_fieldpapers_ubuntu() {
     libxml2-dev \
     libxslt1-dev \
     libyaml-dev \
-    python-software-properties \
     ruby2.2-dev \
     sqlite3 \
     zlib1g-dev \

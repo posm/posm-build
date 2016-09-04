@@ -15,10 +15,18 @@ deploy_base_ubuntu() {
     ssh \
     tmux \
     vim \
-    moreutils
+    moreutils \
+    software-properties-common \
+    apt-transport-https \
+    lsb-release \
+    virt-what \
+    default-jre-headless
 
   curl -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -o /usr/local/bin/jq
   chmod +x /usr/local/bin/jq
+
+  sed -i 's/^PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+  sed -i 's/^PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 }
 
 deploy_base_rhel() {
