@@ -83,12 +83,12 @@ deploy_posm_admin() {
 setup_cron() {
   echo "Setting up admin crontab..."
 
-  # We are having render-db-update.sh run every half hour.
-  su - $user -c 'echo "0,30 * * * * /opt/admin/posm-admin/scripts/render-db-update.sh" > cronfile'
-
-  #install new cron file
-  su - $user -c 'crontab cronfile'
-  su - $user -c 'rm cronfile'
+  # # We are having render-db-update.sh run every half hour.
+  # su - $user -c 'echo "0,30 * * * * /opt/admin/posm-admin/scripts/render-db-update.sh" > cronfile'
+  #
+  # #install new cron file
+  # su - $user -c 'crontab cronfile'
+  # su - $user -c 'rm cronfile'
 
 }
 
