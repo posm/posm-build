@@ -132,11 +132,9 @@ deploy_osm_cgimap() {
 }
 
 deploy_osm_ubuntu() {
-  apt-get install --no-install-recommends -y software-properties-common
   add-apt-repository -s -y ppa:kakrueger/openstreetmap
   apt-get update
   apt-get install --no-install-recommends -y \
-    default-jre-headless \
     osmpbf-bin libosmpbf-dev
 
   type osmconvert || ubuntu_backport_install osmctools
