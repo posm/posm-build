@@ -7,6 +7,8 @@ deploy_celery_ubuntu() {
     rabbitmq-server
 
   pip install 'celery>3'
+  pip install -e 'git+https://github.com/celery/billiard.git#egg=billiard'
+  pip install -e 'git+https://github.com/celery/kombu.git#egg=kombu'
 }
 
 deploy celery
