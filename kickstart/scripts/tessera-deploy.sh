@@ -1,6 +1,9 @@
 #!/bin/sh
 
 deploy_tessera_ubuntu() {
+  add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  apt-get update
+  apt-get install -y libstdc++6
 
   npm install -g mapnik mbtiles tilelive tilelive-mapnik tilelive-carto tilelive-tmstyle \
     tilelive-tmsource tilelive-file tilelive-http tilelive-mapbox tilejson tilelive-vector \
