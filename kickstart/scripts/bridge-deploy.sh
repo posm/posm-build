@@ -19,7 +19,7 @@ deploy_bridge_ubuntu() {
 
 		# disable DNS wildcarding
 
-		rm /etc/dnsmasq.d/99-captive.conf
+		rm -r /etc/dnsmasq.d/99-captive.conf
 
 		service dnsmasq restart
 

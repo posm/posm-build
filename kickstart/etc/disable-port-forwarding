@@ -3,11 +3,11 @@
 # ifdown hook script to disable port forwarding
 
 case "$IFACE" in
-  "{{posm_wlan_netif}})" exit 0 ;;
-  "{{posm_lan_netif}})" exit 0 ;;
+  "{{posm_wlan_netif}}") exit 0 ;;
+  "{{posm_lan_netif}}") exit 0 ;;
 esac
 
 iptables -t nat -D POSTROUTING -o $IFACE -j MASQUERADE
 iptables -D FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-iptables -D FORWARD -i {{posm_wlan_netif}} -o $IFACE -j ACCEPT
-iptables -D FORWARD -i {{posm_lan_netif}} -o $IFACE -j ACCEPT
+test -n "{{posm_wlan_netif}}" && iptables -D FORWARD -i {{posm_wlan_netif}} -o $IFACE -j ACCEPT
+test -n "{{posm_lan_netif}}" && iptables -D FORWARD -i {{posm_lan_netif}} -o $IFACE -j ACCEPT
