@@ -41,6 +41,9 @@ deploy_opendronemap_ubuntu() {
 
   expand etc/odm-web.upstart /etc/init/odm-web.conf
   expand etc/odm-worker.upstart /etc/init/odm-worker.conf
+
+  service odm-web start
+  service odm-worker start
 }
 
 deploy opendronemap

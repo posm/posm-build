@@ -41,6 +41,9 @@ deploy_imagery_ubuntu() {
 
   expand etc/imagery-web.upstart /etc/init/imagery-web.conf
   expand etc/imagery-worker.upstart /etc/init/imagery-worker.conf
+
+  service imagery-web start
+  service imagery-worker start
 }
 
 deploy imagery
