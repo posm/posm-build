@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 
-set -euio pipefail
+set -uio pipefail
 set -x
 
-export WORK=~/work
-export CD=~/cd
-export FORMAT=squashfs
-export FS_DIR=casper
-export ARCH=amd64
-export DIST=trusty
-export DEBIAN_FRONTEND=noninteractive
-export DEBCONF_NONINTERACTIVE_SEEN=true
-export CONTAINER=live
+WORK=$(mktemp -d)
+CD=~/cd
+FORMAT=squashfs
+FS_DIR=casper
+ARCH=amd64
+DIST=trusty
+DEBIAN_FRONTEND=noninteractive
+DEBCONF_NONINTERACTIVE_SEEN=true
+CONTAINER=$(tr -dc 'a-z' < /dev/urandom | head -c12)
 GIT_REPO=${GIT_REPO:-https://github.com/AmericanRedCross/posm-build}
 GIT_BRANCH=${GIT_BRANCH:-master}
+
+set -x
 
 # TODO start with an ubuntu-14.04-desktop ISO extracted into ${CD}
 mkdir -p ${CD}/{${FS_DIR},boot/grub,preseed}
@@ -304,3 +306,6 @@ sudo rm -rf rootfs
 
 sudo grub-mkrescue -o ~/live-cd.iso ${CD}
 sudo chown $(whoami):$(whoami) ~/live-cd.iso
+
+rm -rf $WORK
+lxc delete $CONTAINER --force
