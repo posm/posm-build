@@ -43,7 +43,7 @@ lxc exec $CONTAINER -- apt install -y --no-install-recommends git
 lxc exec $CONTAINER -- git clone $GIT_REPO -b $GIT_BRANCH
 set +e
 # TODO split wifi into package installation and configuration
-lxc exec $CONTAINER -- /root/posm-build/kickstart/scripts/bootstrap.sh base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker
+lxc exec $CONTAINER -- /root/posm-build/kickstart/scripts/bootstrap.sh base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker redis opendronemap imagery
 set -e
 
 lxc exec $CONTAINER -- apt install --no-install-recommends -y linux-image-generic-lts-xenial wireless-tools
