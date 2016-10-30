@@ -53,6 +53,12 @@ Interim PXE Build Process
   * Edit Ubuntu cache/proxy in `mirror/http/proxy` (set to empty string to use default, do not just comment out)
   * Edit PXE server hostnames in `partman/early_command` and `preseed/late_command`
 
+SuperPOSM
+=========
+
+To add SuperPOSM capabilities (OpenDroneMap + GeoTIFF processing), add `docker redis opendronemap
+imagery` to the list of modules being deployed.
+
 Hardware Requirements
 =====================
 * At least 2GB RAM, 8GB preferred
