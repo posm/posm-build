@@ -59,6 +59,8 @@ SuperPOSM
 To add SuperPOSM capabilities (OpenDroneMap + GeoTIFF processing), add `docker redis opendronemap
 imagery` to the list of modules being deployed.
 
+The minimal list of modules for SuperPOSM is: `base virt nginx admin docker redis opendronemap imagery`.
+
 Hardware Requirements
 =====================
 * At least 2GB RAM, 8GB preferred
@@ -81,3 +83,5 @@ Default Ports & URLs
 | `/fp-tasks` | [Field Papers Tasks](https://github.com/fieldpapers/fp-tasks) | http://127.0.0.1:8081/fp-tasks |
 | `/omk` | [OpenMapKit Server](https://github.com/AmericanRedCross/OpenMapKitServer) | http://127.0.0.1:3210 |
 | `/osm` | [OpenStreetMap-website](https://github.com/AmericanRedCross/openstreetmap-website) | http://127.0.0.1:9000 |
+| `/imagery` | [POSM Imagery API](https://github.com/AmericanRedCross/posm-imagery-api) | http://127.0.0.1:10000 |
+| `/projects` | [POSM OpenDroneMap API](https://github.com/mojodna/posm-opendronemap-api) | http://127.0.0.1:10001 |
