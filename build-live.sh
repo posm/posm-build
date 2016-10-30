@@ -192,7 +192,7 @@ EOF
 
 # export from LXC in order to get correct UID/GIDs
 lxc publish $CONTAINER --alias $CONTAINER
-lxc image export $CONTAINER ${CONTAINER}.tar.gz
+lxc image export $CONTAINER ${CONTAINER}
 lxc image delete $CONTAINER
 sudo rm -rf rootfs/
 sudo tar zxf ${CONTAINER}.tar.gz rootfs/
