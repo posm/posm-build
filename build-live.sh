@@ -12,6 +12,8 @@ export DIST=trusty
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 export CONTAINER=live
+GIT_REPO=${GIT_REPO:-https://github.com/AmericanRedCross/posm-build}
+GIT_BRANCH=${GIT_BRANCH:-master}
 
 # TODO start with an ubuntu-14.04-desktop ISO extracted into ${CD}
 mkdir -p ${CD}/{${FS_DIR},boot/grub,preseed}
@@ -36,7 +38,7 @@ lxc exec $CONTAINER -- apt purge -y cloud-init
 # install POSM
 
 lxc exec $CONTAINER -- apt install -y --no-install-recommends git
-lxc exec $CONTAINER -- git clone https://github.com/americanredcross/posm-build
+lxc exec $CONTAINER -- git clone $GIT_REPO -b $GIT_BRANCH
 set +e
 # TODO split wifi into package installation and configuration
 lxc exec $CONTAINER -- /root/posm-build/kickstart/scripts/bootstrap.sh base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker
