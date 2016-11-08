@@ -157,6 +157,9 @@ postinstall: cd/casper/filesystem-desktop.manifest
 	lxc exec $$(cat container) -- \
 		apt install -y --no-install-recommends casper
 
+	# the shipped version of running-in-container returns false when initctl is
+	# also diverted, as the first check uses upstart and fails because the
+	# service being queries intentionally wasn't started.
 	echo "Diverting running-in-container..."
 	lxc exec $$(cat container) -- \
 		dpkg-divert --local --rename --add /bin/running-in-container
@@ -164,10 +167,11 @@ postinstall: cd/casper/filesystem-desktop.manifest
 	echo "Stubbing /bin/running-in-container..."
 	lxc file push --uid=0 --gid=0 --mode=755 running-in-container $$(cat container)/bin/running-in-container
 
+	# https://people.debian.org/~hmh/invokerc.d-policyrc.d-specification.txt
 	echo "Creating policy-rc.d..."
 	lxc file push --uid=0 --gid=0 --mode 755 policy-rc.d $$(cat container)/usr/sbin/policy-rc.d
 
-	# Move initctl out of the way, install dummy initctl
+	# Stub initctl to prevent subsequently-installed services from installing
 	echo "Diverting initctl..."
 	lxc exec $$(cat container) -- \
 	  dpkg-divert --local --rename --add /sbin/initctl
@@ -176,6 +180,21 @@ postinstall: cd/casper/filesystem-desktop.manifest
 	lxc exec $$(cat container) -- \
 	  ln -sf /bin/true /sbin/initctl
 
+	# This is the minimal (or close to it) list of packages needed to bring up
+	# the casper GUI within X Windows. --no-install-recommends works, but drops
+	# some of the niceties like wallpaper and menu bar items.
+	#
+	# Including ubuntu-desktop^ and ubuntu-live^ (which are the tasks installed
+	# on a normal desktop live image) makes the installation equally nice with
+	# the added benefit of being a working live distro at the expense of a
+	# larger download.
+	#
+	# If we decide that this is actually valuable, make sure that it can be
+	# logged into or that it logs in automatically (because it currently
+	# can't be as a result of the ubuntu user not having a password).
+	#
+	# These packages are all uninstalled during the postinstall phase, as we
+	# have no use for a GUI on a running POSM.
 	lxc exec $$(cat container) -- \
 	 	apt install -y \
 		  apt-clone \
