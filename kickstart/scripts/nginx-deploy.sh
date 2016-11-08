@@ -12,7 +12,7 @@ deploy_nginx_ubuntu() {
   mkdir -p /opt/posm-www
   chmod 755 /opt/posm-www
 
-  from_github "https://github.com/AmericanRedCross/posm-local-home" "$dst"
+  git clone --recursive --depth 1 https://github.com/AmericanRedCross/posm-local-home "$dst"
 }
 
 deploy nginx
