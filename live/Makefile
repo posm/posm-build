@@ -265,8 +265,6 @@ postinstall: cd/casper/filesystem-desktop.manifest
 	lxc exec $$(cat container) -- \
 		apt-get clean
 	lxc exec $$(cat container) -- \
-	  rm /var/lib/dbus/machine-id
-	lxc exec $$(cat container) -- \
 	  rm -f /etc/init/console.override
 	lxc exec $$(cat container) -- \
 	  rm -f /etc/init/tty1.override

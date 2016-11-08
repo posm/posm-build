@@ -11,3 +11,6 @@ chroot /target apt-get autoremove
 chroot /target /root/posm-build/kickstart/scripts/bootstrap.sh hotspot captive
 chroot /target ln -s /root/posm-build/kickstart/scripts /root/scripts
 chroot /target ln -s /root/posm-build/kickstart/etc /root/etc
+chroot /target rm -f /etc/ssh/ssh_host_*
+chroot /target dpkg-reconfigure openssh-server
+chroot /target rm -f /var/lib/dbus/machine-id
