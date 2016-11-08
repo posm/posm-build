@@ -156,6 +156,8 @@ telegraf: influxdb
 	touch $@
 
 posm: base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker redis opendronemap imagery wifi influxdb telegraf
+	lxc exec $$(cat container) -- apt upgrade -y
+	lxc exec $$(cat container) -- apt-get autoremove -y
 	lxc snapshot $$(cat container) $@
 	touch $@
 
