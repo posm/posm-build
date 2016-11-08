@@ -267,15 +267,15 @@ postinstall: cd/casper/filesystem-desktop.manifest
 	lxc exec $$(cat container) -- \
 	  rm /var/lib/dbus/machine-id
 	lxc exec $$(cat container) -- \
-	  rm /etc/init/console.override
+	  rm -f /etc/init/console.override
 	lxc exec $$(cat container) -- \
-	  rm /etc/init/tty1.override
+	  rm -f /etc/init/tty1.override
 	lxc exec $$(cat container) -- \
-	  rm /etc/init/tty2.override
+	  rm -f /etc/init/tty2.override
 	lxc exec $$(cat container) -- \
-	  rm /etc/init/tty3.override
+	  rm -f /etc/init/tty3.override
 	lxc exec $$(cat container) -- \
-	  rm /etc/init/tty4.override
+	  rm -f /etc/init/tty4.override
 
 	# this will be recreated
 	lxc exec $$(cat container) -- \
