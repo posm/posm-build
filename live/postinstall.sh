@@ -10,3 +10,5 @@ awk '{print $1}' /cdrom/casper/filesystem-remove.manifest | xargs chroot /target
 chroot /target apt-get autoremove
 # TODO split wifi into package installation and configuration
 chroot /target /root/posm-build/kickstart/scripts/bootstrap.sh wifi captive
+chroot /target ln -s /root/posm-build/kickstart/scripts /root/scripts
+chroot /target ln -s /root/posm-build/kickstart/etc /root/etc
