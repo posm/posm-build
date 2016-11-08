@@ -1,0 +1,10 @@
+description     "Redis"
+
+start on (local-filesystems and started docker)
+stop on runlevel [!2345]
+
+respawn
+
+script
+  /usr/bin/docker start -a redis
+end script

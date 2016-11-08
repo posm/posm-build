@@ -1,0 +1,10 @@
+description     "Imagery API - web"
+
+start on (local-filesystems and started redis)
+stop on runlevel [!2345]
+
+respawn
+
+script
+  /usr/bin/docker start -a imagery-web
+end script
