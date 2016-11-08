@@ -27,7 +27,7 @@ d-i partman-auto/method string regular
 ### Account setup
 d-i passwd/root-login boolean true
 d-i passwd/make-user boolean false
-d-i passwd/root-password-crypted password $1$foobar12$1XX5fPEUg/6I1MhChN1ad1
+d-i passwd/root-password-crypted password $1$opossum!$PjO/OtFsw5f3/wbGBYEBt/
 
 # set hostname
 d-i netcfg/get_hostname string posm
