@@ -23,6 +23,7 @@ deploy_wifi_ubuntu() {
 
 	  # allow lo to use remote DNS servers (don't modify /etc/resolve.conf)
 	  grep -qe "^DNSMASQ_EXCEPT" /etc/default/dnsmasq || echo DNSMASQ_EXCEPT=\"lo\" >> /etc/default/dnsmasq
+	  expand etc/hosts "/etc/hosts"
 
 	  # configure network interfaces
 	  expand etc/network/interfaces.d/usb0.cfg "/etc/network/interfaces.d/usb0.cfg"
