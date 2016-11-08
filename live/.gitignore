@@ -10,6 +10,7 @@ docker
 fieldpapers
 gis
 imagery
+influxdb
 live-cd.iso
 mysql
 network
@@ -26,6 +27,7 @@ rootfs
 rootfs.tar.gz
 ruby
 samba
+telegraf
 tessera
 tl
 ubuntu-14.04-desktop-amd64.iso

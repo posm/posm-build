@@ -145,7 +145,17 @@ wifi: base
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-posm: base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker redis opendronemap imagery wifi
+influxdb: base
+	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
+	lxc snapshot $$(cat container) $@
+	touch $@
+
+telegraf: influxdb
+	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
+	lxc snapshot $$(cat container) $@
+	touch $@
+
+posm: base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker redis opendronemap imagery wifi influxdb telegraf
 	lxc snapshot $$(cat container) $@
 	touch $@
 
@@ -339,4 +349,4 @@ live-cd.iso: cd/.disk cd/boot cd/dists cd/EFI cd/casper/filesystem.squashfs cd/c
 
 clean:
 	test -f container && lxc delete $$(cat container) --force || true
-	rm -rf admin base blink1 carto cd/ container container-init deps docker fieldpapers gis imagery live-cd.iso mysql nginx nodejs omk opendronemap osm posm postgis postinstall redis rootfs ruby samba tessera tl wifi
+	rm -rf admin base blink1 carto cd/ container container-init deps docker fieldpapers gis imagery influxdb live-cd.iso mysql nginx nodejs omk opendronemap osm posm postgis postinstall redis rootfs ruby samba telegraf tessera tl wifi
