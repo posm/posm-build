@@ -1,7 +1,7 @@
 #!/bin/bash
 
-pgsql_ver="${pgsql_ver:-9.5}"
-postgis_ver="${postgis_ver:-2.2}"
+pgsql_ver="${pgsql_ver:-9.6}"
+postgis_ver="${postgis_ver:-2.3}"
 
 deploy_postgis_ubuntu() {
   wget -q -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
