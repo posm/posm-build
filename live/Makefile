@@ -139,20 +139,12 @@ imagery: redis
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-network: container-init
-	lxc exec $$(cat container) -- apt install --no-install-recommends -y \
-	  linux-image-generic-lts-xenial \
-		wireless-tools \
-		dnsmasq \
-		dnsmasq-utils \
-		hostapd \
-		iw \
-		rfkill \
-		rng-tools
+wifi: base
+	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-posm: base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker redis opendronemap imagery network
+posm: base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker redis opendronemap imagery wifi
 	lxc snapshot $$(cat container) $@
 	touch $@
 
@@ -329,4 +321,4 @@ live-cd.iso: cd/.disk cd/boot cd/dists cd/EFI cd/casper/filesystem.squashfs cd/c
 
 clean:
 	test -f container && lxc delete $$(cat container) --force || true
-	rm -rf admin base blink1 carto cd/ container container-init deps docker fieldpapers gis imagery live-cd.iso mysql network nginx nodejs omk opendronemap osm posm postgis postinstall redis rootfs ruby samba tessera tl
+	rm -rf admin base blink1 carto cd/ container container-init deps docker fieldpapers gis imagery live-cd.iso mysql nginx nodejs omk opendronemap osm posm postgis postinstall redis rootfs ruby samba tessera tl wifi
