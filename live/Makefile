@@ -25,7 +25,8 @@ container:
 	lxc launch ubuntu:$(DIST)/$(ARCH) -p default -p docker \
 		-c security.privileged=true \
 		-c environment.DEBIAN_FRONTEND=noninteractive \
-		-c environment.DEBCONF_NONINTERACTIVE_SEEN=true | \
+		-c environment.DEBCONF_NONINTERACTIVE_SEEN=true \
+		-c linux.kernel_modules="overlay, nf_nat, aufs" | \
 		tail -1 | cut -d " " -f 2 > $@
 	sleep 5
 
