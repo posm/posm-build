@@ -5,7 +5,7 @@ postgis_ver="${postgis_ver:-2.3}"
 
 deploy_postgis_ubuntu() {
   wget -q -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-  add-apt-repository -s "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -c -s)-pgdg main"
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -c -s)-pgdg main" > /etc/apt/sources.list.d/postgresql.list
   apt-get update
   apt-get install --no-install-recommends -y \
     postgis \
