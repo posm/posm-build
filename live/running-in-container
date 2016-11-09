@@ -1,0 +1,4 @@
+  #!/bin/sh
+  test -f /run/container_type && cat /run/container_type
+  exit 0
+  EOF
