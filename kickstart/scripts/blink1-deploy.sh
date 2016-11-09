@@ -6,6 +6,8 @@ deploy_blink1_ubuntu() {
   unzip -d /usr/local/bin $TMPFILE
   chmod +x /usr/local/bin/blink1-tool
   rm $TMPFILE
+
+  expand etc/init/blink1.conf /etc/init/blink1.conf
 }
 
 deploy blink1
