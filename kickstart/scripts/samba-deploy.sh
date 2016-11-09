@@ -33,6 +33,7 @@ deploy_samba_ubuntu() {
   chmod 644 /opt/data/backups
 
   expand etc/smb.conf /etc/samba/smb.conf
+  expand init/smbd.override /etc/init/smbd.override
 
   service samba restart
 }
