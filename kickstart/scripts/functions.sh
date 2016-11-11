@@ -79,23 +79,37 @@ ubuntu_backport_install() {
 deploy() {
   export DEBIAN_FRONTEND=noninteractive
 
-  vendor=`lsb_release -si 2>/dev/null`
+  vendor=$(lsb_release -si 2> /dev/null)
   if [ -z "$vendor" ]; then
-    if [ -e /etc/redhat-release ]; then
-      vendor=`awk '{print $1}' /etc/redhat-release`
-    fi
+    >&2 echo "Unknown distribution"
+    exit 1
+  fi
+
+  release=$(lsb_release -sr 2> /dev/null)
+  if [ -z "$release" ]; then
+    >&2 echo "Unknown release"
+    exit 1
   fi
 
   case $vendor in
     Ubuntu)
       fn="deploy_${1}_ubuntu"
       ;;
-    CentOS|Red*)
-      fn="deploy_${1}_rhel"
-      ;;
     *)
+      echo "Unsupported distribution: ${vendor}"
+      exit 1
       ;;
   esac
+
+  case $release in
+    14.04)
+      ;;
+    *)
+      echo "Unsupported release: ${release}"
+      exit 1
+      ;;
+  esac
+
   if [ x"$(type -t $fn)" != x"function" ]; then
     fn="deploy_${1}"
   fi

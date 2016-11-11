@@ -8,32 +8,6 @@ mysql_id="${mysql_id:-1}"
 mysql_conf=
 mysql_svc=
 
-deploy_mysql_rhel() {
-  mysql_svc=mysqld
-  mysql_conf=/etc/my.cnf
-
-  # Install server
-  yum install mysql-server -y
-
-  # Configure
-  if [ -n "$mysql_size" ]; then
-    cp "/usr/share/mysql/my-$mysql_size.cnf" $mysql_conf
-  fi
-
-  # Set runlevels
-  chkconfig --levels 345 $mysql_svc on
-
-  # start
-  service $mysql_svc start
-
-  if [ -n "$mysql_pw" ]; then
-    mysql -u root <<SQL
-      UPDATE mysql.user SET Password=PASSWORD('$mysql_pw') WHERE User='root';
-      FLUSH PRIVILEGES;
-SQL
-  fi
-}
-
 deploy_mysql_ubuntu() {
   mysql_svc=mysql
   mysql_conf=/etc/mysql/my.cnf
