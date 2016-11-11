@@ -48,25 +48,8 @@ deploy_posm_admin() {
   # grant read and execute rights for other users
   chmod -R 755 $dst/posm-admin/scripts
 
-  # These should be specifically allowed in sudoers to be executed by as other users.
-  grep -q postgres_api-db-backup /etc/sudoers || echo "$user ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/postgres_api-db-backup.sh" >> /etc/sudoers
-  grep -q postgres_api-db-drop-create /etc/sudoers || echo "$user ALL=(postgres) NOPASSWD: $dst/posm-admin/scripts/postgres_api-db-drop-create.sh" >> /etc/sudoers
-  grep -q osm_api-db-init.sh /etc/sudoers || echo "$user ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_api-db-init.sh" >> /etc/sudoers
-  grep -q osm_api-db-populate.sh /etc/sudoers || echo "$user ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_api-db-populate.sh" >> /etc/sudoers
-  grep -q osm_render-db-api2pbf /etc/sudoers || echo "$user ALL=(osm) NOPASSWD: $dst/posm-admin/scripts/osm_render-db-api2pbf.sh" >> /etc/sudoers
-  grep -q gis_render-db-pbf2render /etc/sudoers || echo "$user ALL=(gis) NOPASSWD: $dst/posm-admin/scripts/gis_render-db-pbf2render.sh" >> /etc/sudoers
-  grep -q tessera /etc/sudoers || echo "$user ALL=(root) NOPASSWD: /usr/sbin/service tessera restart" >> /etc/sudoers
-  grep -q fp-web /etc/sudoers || echo "$user ALL=(root) NOPASSWD: /usr/sbin/service fp-web restart" >> /etc/sudoers
-  grep -q root_change-osm-id-key.sh /etc/sudoers || echo "osm ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-osm-id-key.sh" >> /etc/sudoers
-  grep -q root_fp-production-db-backup.sh /etc/sudoers || echo "$user ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_fp-production-db-backup.sh" >> /etc/sudoers
-  grep -q root_change-fp-center.sh /etc/sudoers || echo "$user ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-fp-center.sh" >> /etc/sudoers
-  grep -q root_change-wpa-passphrase.sh /etc/sudoers || echo "$user ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-wpa-passphrase.sh" >> /etc/sudoers
-  grep -q root_change-ssid.sh /etc/sudoers || echo "$user ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-ssid.sh" >> /etc/sudoers
-  grep -q root_change-wpa.sh /etc/sudoers || echo "$user ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-wpa.sh" >> /etc/sudoers
-  grep -q root_change-network-mode.sh /etc/sudoers || echo "$user ALL=(root) NOPASSWD: $dst/posm-admin/scripts/root_change-network-mode.sh" >> /etc/sudoers
-  grep -q osm_omk-osm.sh /etc/sudoers || echo "$user ALL=(osm) NOPASSWD: /opt/admin/posm-admin/scripts/osm_omk-osm.sh" >> /etc/sudoers
-  grep -q gis_omk-posm-mbtiles.sh /etc/sudoers || echo "$user ALL=(gis) NOPASSWD: /opt/admin/posm-admin/scripts/gis_omk-posm-mbtiles.sh" >> /etc/sudoers
-  grep -q gis_omk-aoi-mbtiles.sh /etc/sudoers || echo "$user ALL=(gis) NOPASSWD: /opt/admin/posm-admin/scripts/gis_omk-aoi-mbtiles.sh" >> /etc/sudoers
+  expand etc/sudoers.d/posm-admin /etc/sudoers.d/posm-admin
+  chmod 600 /etc/suoders.d/posm-admin
 
   # The dumps should be readable by anyone.
   chmod -R a+r "$api_db_dumps_dir"

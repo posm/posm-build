@@ -1,0 +1,22 @@
+osm ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_change-osm-id-key.sh
+
+{{user}} ALL=(root) NOPASSWD: /usr/sbin/service tessera restart
+{{user}} ALL=(root) NOPASSWD: /usr/sbin/service fp-web restart
+{{user}} ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_fp-production-db-backup.sh
+{{user}} ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_change-fp-center.sh
+{{user}} ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_change-wpa-passphrase.sh
+{{user}} ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_change-ssid.sh
+{{user}} ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_change-wpa.sh
+{{user}} ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_change-network-mode.sh
+
+{{user}} ALL=(gis) NOPASSWD: {{dst}}/posm-admin/scripts/gis_render-db-pbf2render.sh
+{{user}} ALL=(gis) NOPASSWD: {{dst}}/posm-admin/scripts/gis_omk-posm-mbtiles.sh
+{{user}} ALL=(gis) NOPASSWD: {{dst}}/posm-admin/scripts/gis_omk-aoi-mbtiles.sh
+
+{{user}} ALL=(osm) NOPASSWD: {{dst}}/posm-admin/scripts/osm_api-db-init.sh
+{{user}} ALL=(osm) NOPASSWD: {{dst}}/posm-admin/scripts/osm_api-db-populate.sh
+{{user}} ALL=(osm) NOPASSWD: {{dst}}/posm-admin/scripts/osm_render-db-api2pbf.sh
+{{user}} ALL=(osm) NOPASSWD: {{dst}}/posm-admin/scripts/osm_omk-osm.sh
+
+{{user}} ALL=(postgres) NOPASSWD: {{dst}}/posm-admin/scripts/postgres_api-db-backup.sh
+{{user}} ALL=(postgres) NOPASSWD: {{dst}}/posm-admin/scripts/postgres_api-db-drop-create.sh
