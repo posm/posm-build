@@ -9,11 +9,6 @@ user="posm-admin"
 group="posm-admin"
 
 deploy_admin_ubuntu() {
-  # deps
-  apt-get update
-  apt-get install --no-install-recommends -y \
-    pv
-
   # admin user
   useradd -c 'POSM admin' -d "$dst" -m -r -s /bin/bash -U $user
   mkdir -p "$dst"
