@@ -6,7 +6,7 @@ deploy_nginx_ubuntu() {
   apt-get install --no-install-recommends -y nginx
   expand etc/nginx-posm.conf /etc/nginx/sites-available/posm
   rm -f /etc/nginx/sites-enabled/default
-  ln -s -f ../sites-available/posm /etc/nginx/sites-enabled/
+  ln -sf ../sites-available/posm /etc/nginx/sites-enabled/00-posm
   service nginx restart
 
   mkdir -p /opt/posm-www
