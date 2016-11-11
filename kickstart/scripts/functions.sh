@@ -79,9 +79,15 @@ ubuntu_backport_install() {
 deploy() {
   export DEBIAN_FRONTEND=noninteractive
 
-  vendor=`lsb_release -si 2>/dev/null`
+  vendor=$(lsb_release -si 2> /dev/null)
   if [ -z "$vendor" ]; then
     >&2 echo "Unknown distribution"
+    exit 1
+  fi
+
+  release=$(lsb_release -sr 2> /dev/null)
+  if [ -z "$release" ]; then
+    >&2 echo "Unknown release"
     exit 1
   fi
 
@@ -94,6 +100,16 @@ deploy() {
       exit 1
       ;;
   esac
+
+  case $release in
+    14.04)
+      ;;
+    *)
+      echo "Unsupported release: ${release}"
+      exit 1
+      ;;
+  esac
+
   if [ x"$(type -t $fn)" != x"function" ]; then
     fn="deploy_${1}"
   fi
