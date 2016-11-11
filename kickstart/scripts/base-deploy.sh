@@ -29,12 +29,4 @@ deploy_base_ubuntu() {
   sed -i 's/^PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 }
 
-deploy_base_rhel() {
-  yum install -y \
-    curl \
-    git \
-    openssh \
-    vim-enhanced
-}
-
 deploy base

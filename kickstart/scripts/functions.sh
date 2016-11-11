@@ -81,19 +81,17 @@ deploy() {
 
   vendor=`lsb_release -si 2>/dev/null`
   if [ -z "$vendor" ]; then
-    if [ -e /etc/redhat-release ]; then
-      vendor=`awk '{print $1}' /etc/redhat-release`
-    fi
+    >&2 echo "Unknown distribution"
+    exit 1
   fi
 
   case $vendor in
     Ubuntu)
       fn="deploy_${1}_ubuntu"
       ;;
-    CentOS|Red*)
-      fn="deploy_${1}_rhel"
-      ;;
     *)
+      echo "Unsupported distribution: ${vendor}"
+      exit 1
       ;;
   esac
   if [ x"$(type -t $fn)" != x"function" ]; then
