@@ -46,7 +46,7 @@ deploy_posm_admin() {
   export user
   export dst
   expand etc/sudoers.d/posm-admin /etc/sudoers.d/posm-admin
-  chmod 600 /etc/suoders.d/posm-admin
+  chmod 600 /etc/sudoers.d/posm-admin
 
   # The dumps should be readable by anyone.
   chmod -R a+r "$api_db_dumps_dir"
