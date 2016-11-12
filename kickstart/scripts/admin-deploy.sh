@@ -43,6 +43,8 @@ deploy_posm_admin() {
   # grant read and execute rights for other users
   chmod -R 755 $dst/posm-admin/scripts
 
+  export user
+  export dst
   expand etc/sudoers.d/posm-admin /etc/sudoers.d/posm-admin
   chmod 600 /etc/suoders.d/posm-admin
 
