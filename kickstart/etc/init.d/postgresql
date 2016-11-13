@@ -38,11 +38,11 @@ case "$1" in
 	for v in $versions; do
 	    $1 $v || EXIT=$?
 	done
-	if [ "$1" = start -o "$1" = restart ]; then
-	    initctl emit -n started JOB=postgresql
-	fi
-	if [ "$1" = stop -o "$1" = restart ]; then
+	if [ $(whoami) = "root" ] && [ "$1" = stop -o "$1" = restart ]; then
 	    initctl emit -n stopped JOB=postgresql
+	fi
+	if [ $(whoami) = "root" ] && [ "$1" = start -o "$1" = restart ]; then
+	    initctl emit -n started JOB=postgresql
 	fi
 	exit ${EXIT:-0}
         ;;
