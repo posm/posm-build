@@ -1,7 +1,7 @@
 #!/bin/bash
 
 dst=/opt/osm
-osmosis_ver="${osmosis_ver:-0.44.1}"
+osmosis_ver="${osmosis_ver:-0.45}"
 
 # requires nodejs, postgis
 deploy_osm_rails_ubuntu() {
