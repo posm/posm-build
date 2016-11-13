@@ -1,5 +1,5 @@
 127.0.0.1       localhost
-{{posm_wlan_ip}}       {{posm_fqdn}} {{posm_hostname}}.{{lan_domain}} {{posm_hostname}}
+{{posm_wlan_ip}}      {{posm_fqdn}} {{osm_fqdn}} {{posm_hostname}}.{{lan_domain}} {{posm_hostname}}
 ::1             localhost ip6-localhost ip6-loopback
 ff02::1         ip6-allnodes
 ff02::2         ip6-allrouters
