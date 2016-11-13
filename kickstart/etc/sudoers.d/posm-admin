@@ -1,3 +1,4 @@
+gis ALL=(root) NOPASSWD: /usr/sbin/service tessera restart
 osm ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_change-osm-id-key.sh
 
 {{user}} ALL=(root) NOPASSWD: /usr/sbin/service tessera restart

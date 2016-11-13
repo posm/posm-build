@@ -41,6 +41,9 @@ deploy_carto_posm() {
 
   # restart
   service tessera restart
+
+  # register a cron job that reads diffs and updates the rendering database
+  crontab -u $carto_user etc/gis.crontab
 }
 
 deploy_carto_osm() {
