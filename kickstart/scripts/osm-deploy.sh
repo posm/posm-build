@@ -10,7 +10,7 @@ configure_osm_replication() {
   mkdir -p /etc/osmosis
   expand etc/osmosis/osm.properties /etc/osmosis/osm.properties
 
-  crontab -u osm etc/osm.crontab
+  crontab -u osm ${BOOTSTRAP_HOME}/etc/osm.crontab
 }
 
 # requires nodejs, postgis

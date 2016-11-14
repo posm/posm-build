@@ -43,7 +43,7 @@ deploy_carto_posm() {
   service tessera restart
 
   # register a cron job that reads diffs and updates the rendering database
-  crontab -u $carto_user etc/gis.crontab
+  crontab -u $carto_user ${BOOTSTRAP_HOME}/etc/gis.crontab
 
   mkdir -p /opt/data/osm/expiry
   chown "$carto_user:$carto_user" /opt/data/osm
