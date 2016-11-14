@@ -4,18 +4,11 @@ dst=/opt/osm
 osmosis_ver="${osmosis_ver:-0.45}"
 
 configure_osm_replication() {
-  mkdir -p /opt/data/osm/expiry
-  chown -R gis:gis /opt/data/osm
-
   mkdir -p /opt/data/osm/replication/minute
   chown -R osm:osm /opt/data/osm/replication
 
   mkdir /etc/osmosis
   expand etc/osmosis/osm.properties /etc/osmosis/osm.properties
-
-  sudo -u gis osmosis --read-replication-interval-init workingDirectory=/opt/data/osm
-  sudo -u gis sed -Ei 's!^baseUrl\s?=.*$!baseUrl=file:///opt/data/osm/replication/minute!' /opt/data/osm/configuration.txt
-  sudo -u gis sed -Ei 's!^maxInterval\s?=.*$!maxInterval=0!' /opt/data/osm/configuration.txt
 
   crontab -u osm etc/osm.crontab
 }
