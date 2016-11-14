@@ -1,3 +1,3 @@
 PATH=/usr/local/bin:/usr/sbin:/usr/bin:/bin
 
-* * * * * sleep 30 && apply-updates.sh
+* * * * * apply-updates.sh
