@@ -19,6 +19,10 @@ deploy_carto_ubuntu() {
   su - postgres -c "psql --dbname='$osm_carto_pg_temp_dbname' --command='CREATE EXTENSION postgis'"
   su - postgres -c "psql --dbname='$osm_carto_pg_temp_dbname' --command='CREATE EXTENSION hstore'"
   su - postgres -c "psql -d postgres -c 'ALTER USER $carto_user CREATEDB;'"
+
+  expand etc/apply-updates.sh /usr/local/bin/apply-updates.sh
+  chmod +x /usr/local/bin/apply-updates.sh
+
   local s
   for s in $carto_styles; do
     local fn="deploy_carto_$s"

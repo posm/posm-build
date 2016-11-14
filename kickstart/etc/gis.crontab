@@ -1,7 +1,3 @@
 PATH=/usr/local/bin:/usr/sbin:/usr/bin:/bin
 
-# --rri will automatically fetch the latest state.txt; it will initialized when osm2pgsql fully imports an extract
-# TODO extract this into a standalone command
-# TODO only restart tessera if tiles need to be expired
-# TODO delete expiration lists if they're 0-length
-* * * * * test -f /opt/data/osm/state.txt && sleep 30 && osmosis --read-replication-interval workingDirectory=/opt/data/osm --simplify-change --write-xml-change - 2> /dev/null | osm2pgsql -a --hstore-all --hstore-add-index --extra-attributes -d $(jq -r .osm_carto_pg_dbname /etc/posm.json) --slim --expire-tiles 10-22 -o /opt/data/osm/expiry/$(date -u +\%Y\%m\%d-\%H\%M).txt - 2> /dev/null && sudo service tessera restart > /dev/null
+* * * * * sleep 30 && apply-updates.sh
