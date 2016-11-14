@@ -19,6 +19,10 @@ deploy_carto_ubuntu() {
   su - postgres -c "psql --dbname='$osm_carto_pg_temp_dbname' --command='CREATE EXTENSION postgis'"
   su - postgres -c "psql --dbname='$osm_carto_pg_temp_dbname' --command='CREATE EXTENSION hstore'"
   su - postgres -c "psql -d postgres -c 'ALTER USER $carto_user CREATEDB;'"
+
+  expand etc/apply-updates.sh /usr/local/bin/apply-updates.sh
+  chmod +x /usr/local/bin/apply-updates.sh
+
   local s
   for s in $carto_styles; do
     local fn="deploy_carto_$s"
@@ -41,6 +45,17 @@ deploy_carto_posm() {
 
   # restart
   service tessera restart
+
+  # register a cron job that reads diffs and updates the rendering database
+  crontab -u $carto_user ${BOOTSTRAP_HOME}/etc/gis.crontab
+
+  mkdir -p /opt/data/osm/expiry
+  chown "$carto_user:$carto_user" /opt/data/osm
+  chown "$carto_user:$carto_user" /opt/data/osm/expiry
+
+  sudo -u $carto_user osmosis --read-replication-interval-init workingDirectory=/opt/data/osm
+  sudo -u $carto_user sed -Ei 's!^baseUrl\s?=.*$!baseUrl=file:///opt/data/osm/replication/minute!' /opt/data/osm/configuration.txt
+  sudo -u $carto_user sed -Ei 's!^maxInterval\s?=.*$!maxInterval=0!' /opt/data/osm/configuration.txt
 }
 
 deploy_carto_osm() {

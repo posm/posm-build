@@ -3,6 +3,24 @@
 dst=/opt/osm
 osmosis_ver="${osmosis_ver:-0.45}"
 
+configure_osm_replication() {
+  mkdir -p /opt/data/osm/replication/minute
+  chown -R osm:osm /opt/data/osm/replication
+
+  mkdir -p /etc/osmosis
+  expand etc/osmosis/osm.properties /etc/osmosis/osm.properties
+
+  # initialize minutely replication
+  osmosis \
+    --replicate-apidb \
+      authFile=/etc/osmosis/osm.properties \
+      allowIncorrectSchemaVersion=true \
+    --write-replication \
+      workingDirectory=/opt/data/osm/replication/minute
+
+  crontab -u osm ${BOOTSTRAP_HOME}/etc/osm.crontab
+}
+
 # requires nodejs, postgis
 deploy_osm_rails_ubuntu() {
   apt-get install --no-install-recommends -y \
@@ -146,6 +164,8 @@ deploy_osm_ubuntu() {
 
   deploy_osm_cgimap_ubuntu
   deploy_osm_cgimap_common
+
+  configure_osm_replication
 }
 
 deploy_osmosis_prebuilt() {
