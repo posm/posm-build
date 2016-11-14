@@ -10,6 +10,14 @@ configure_osm_replication() {
   mkdir -p /etc/osmosis
   expand etc/osmosis/osm.properties /etc/osmosis/osm.properties
 
+  # initialize minutely replication
+  osmosis \
+    --replicate-apidb \
+      authFile=/etc/osmosis/osm.properties \
+      allowIncorrectSchemaVersion=true \
+    --write-replication \
+      workingDirectory=/opt/data/osm/replication/minute
+
   crontab -u osm ${BOOTSTRAP_HOME}/etc/osm.crontab
 }
 
