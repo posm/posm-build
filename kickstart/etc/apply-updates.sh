@@ -8,6 +8,7 @@ PATH=/usr/local/bin:/usr/sbin:/usr/bin:/bin
 if [ -f /opt/data/osm/state.txt ]; then
   db=$(jq -r .osm_carto_pg_dbname /etc/posm.json)
   timestamp=$(date -u +\%Y\%m\%d-\%H\%M)
+  # TODO use a named pipe
   expiry_file=/opt/data/osm/expiry/${timestamp}.txt
 
   osmosis \
