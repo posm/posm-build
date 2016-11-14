@@ -24,7 +24,7 @@ if [ -f /opt/data/osm/state.txt ]; then
       --extra-attributes \
       --database $db \
       --slim \
-      --expire-tiles 10-22 \
+      --expire-tiles 22 \
       --expire-output $expiry_file \
       - \
     2> /dev/null
