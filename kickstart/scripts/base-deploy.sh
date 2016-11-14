@@ -21,7 +21,11 @@ deploy_base_ubuntu() {
     lsb-release \
     virt-what \
     default-jre-headless \
-    libnss-mdns
+    libnss-mdns \
+    postfix
+
+  # configure postfix
+  expand etc/postfix/main.cf /etc/postfix/main.cf
 
   curl -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -o /usr/local/bin/jq
   chmod +x /usr/local/bin/jq
