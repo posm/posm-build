@@ -7,7 +7,7 @@ configure_osm_replication() {
   mkdir -p /opt/data/osm/replication/minute
   chown -R osm:osm /opt/data/osm/replication
 
-  mkdir /etc/osmosis
+  mkdir -p /etc/osmosis
   expand etc/osmosis/osm.properties /etc/osmosis/osm.properties
 
   crontab -u osm etc/osm.crontab
