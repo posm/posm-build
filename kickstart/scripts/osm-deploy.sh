@@ -11,7 +11,7 @@ configure_osm_replication() {
   expand etc/osmosis/osm.properties /etc/osmosis/osm.properties
 
   # initialize minutely replication
-  osmosis \
+  sudo -u osm osmosis \
     --replicate-apidb \
       authFile=/etc/osmosis/osm.properties \
       allowIncorrectSchemaVersion=true \
