@@ -14,17 +14,19 @@ it onto a USB stick (at least 8GB).
 
 Ubuntu provides instructions on [how to create a bootable USB stick on
 Windows](https://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows) and [on
-macOS](https://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx).
+macOS](https://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx). The easiest way on macOS, however, is to use 7z.
 
-You can also use `7z` (Homebrew package: `p7zip`) in a terminal and extract it onto a
-FAT32-formatted USB stick (named `USB Stick` here; it should tab-complete) yourself:
-
-```bash
-7z x path/to/posm-0.6-beta.2.iso -o/Volumes/USB\ Stick
+```
+brew install p7zip
 ```
 
-Once you have a suitable USB stick, boot the target device from it (you may need to press `F10` or
-something to choose a suitable boot device) and wait for the installation to complete. It will
+Extract the POSM ISO onto the USB stick. This drive should be FAT32 formatted with a GUID partition table. Here, we have named it `POSM_INSTALL`.
+
+```bash
+7z x path/to/posm-0.6-beta.2.iso -o/Volumes/POSM_INSTALL
+```
+
+Once you have created your installer USB stick, boot the target device from it. On the Intel NUC, press `F10` on startup to get to the boot device menu. You will then be prompted to select `Automated Installation`. This is what we want. Wait for the installation to complete. It will
 reboot to a login prompt once complete and a `POSM` wireless network should be available (assuming
 that the device contains a compatible wireless card). The default WPA password is `awesomeposm` and
 it will start in "captive portal mode", intercepting requests to HTTP web sites and redirecting
