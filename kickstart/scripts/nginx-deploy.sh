@@ -14,6 +14,9 @@ deploy_nginx_ubuntu() {
 
   git clone --recursive --depth 1 https://github.com/AmericanRedCross/posm-local-home "$dst"
 
+  # fetch software to be bundled
+  make -C "$dst"
+
   sed -i -e \"s/osm.posm.io/${osm_fqdn}/\" /opt/posm-www/index.html"
 }
 
