@@ -92,8 +92,8 @@ deploy_osm_rails() {
 
   su - osm -c "cd '$dst/osm-web' && bundle exec rake db:migrate"
 
-  su - osm -c "cd '$dst/osm-web' && sed -i -e \"s/posm.io/${posm_fqdn}/\" vendor/assets/iD/imagery.js"
-  su - osm -c "cd '$dst/osm-web' && sed -i -e \"s/posm.io/${posm_fqdn}/\" app/assets/javascripts/leaflet.map.js"
+  su - osm -c "sed -i -e \"s/posm.io/${posm_fqdn}/\" $dst/osm-web/vendor/assets/iD/imagery.js"
+  su - osm -c "sed -i -e \"s/posm.io/${posm_fqdn}/\" $dst/osm-web/app/assets/javascripts/leaflet.map.js"
 
   # assets
   su - osm -c "cd '$dst/osm-web' && bundle exec rake assets:precompile"
