@@ -21,6 +21,7 @@ deploy_opendronemap_ubuntu() {
     -p 10001:8000 \
     --link redis \
     --name odm-web \
+    --tmpfs /tmp \
     -u "$(id -u posm-admin):$(id -g posm-admin)" \
     -v /opt/data/opendronemap:/app/projects \
     -v /opt/data/uploads:/app/uploads \
@@ -33,6 +34,7 @@ deploy_opendronemap_ubuntu() {
     -e SERVER_NAME="${posm_fqdn}" \
     --link redis \
     --name odm-worker \
+    --tmpfs /tmp \
     -u "$(id -u posm-admin):$(id -g posm-admin)" \
     -v /opt/data/opendronemap:/app/projects \
     -v /opt/data/uploads:/app/uploads \

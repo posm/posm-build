@@ -21,6 +21,7 @@ deploy_imagery_ubuntu() {
     -p 10000:8000 \
     --link redis \
     --name imagery-web \
+    --tmpfs /tmp \
     -u "$(id -u posm-admin):$(id -g posm-admin)" \
     -v /opt/data/imagery:/app/imagery \
     -v /opt/data/uploads:/app/uploads \
@@ -33,6 +34,7 @@ deploy_imagery_ubuntu() {
     -e SERVER_NAME="${posm_fqdn}" \
     --link redis \
     --name imagery-worker \
+    --tmpfs /tmp \
     -u "$(id -u posm-admin):$(id -g posm-admin)" \
     -v /opt/data/imagery:/app/imagery \
     -v /opt/data/uploads:/app/uploads \
