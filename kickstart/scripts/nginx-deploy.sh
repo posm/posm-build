@@ -13,6 +13,8 @@ deploy_nginx_ubuntu() {
   chmod 755 /opt/posm-www
 
   git clone --recursive --depth 1 https://github.com/AmericanRedCross/posm-local-home "$dst"
+
+  sed -i -e \"s/osm.posm.io/${osm_fqdn}/\" /opt/posm-www/index.html"
 }
 
 deploy nginx
