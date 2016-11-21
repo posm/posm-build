@@ -17,7 +17,7 @@ deploy_nginx_ubuntu() {
   # fetch software to be bundled
   make -C "$dst"
 
-  sed -i -e \"s/osm.posm.io/${osm_fqdn}/\" /opt/posm-www/index.html"
+  sed -i -e \"s/osm.posm.io/${osm_fqdn}/\" /opt/posm-www/index.html
 }
 
 deploy nginx
