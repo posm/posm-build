@@ -61,8 +61,8 @@ same network as the POSM's uplink, referring to it as `posm.local`.
 
 ## POSM Cloud
 
-POSM runs in the cloud! To prepare a suitable instance, provision a virtual server running Ubuntu
-14.04 and ensure that you either have `root` or `sudo` access. 8GB of RAM is recommended, although
+POSM runs in the cloud! To prepare a suitable instance, provision a virtual server running **Ubuntu
+14.04** and ensure that you either have `root` or `sudo` access. 8GB of RAM is recommended, although
 we've seen success with 4GB (and less may be necessary depending what you're doing). 10GB of disk
 space should be sufficient.
 
@@ -101,8 +101,9 @@ sensible-editor posm-build/kickstart/etc/settings
   mysql postgis nginx osm fieldpapers omk tl carto tessera admin
 ```
 
-### Hardware Requirements
+### Requirements
 
+* **Ubuntu 14.04**
 * At least 2GB RAM, 8GB+ preferred
 * At least 10GB of attached storage
 
