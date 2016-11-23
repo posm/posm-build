@@ -150,13 +150,11 @@ deploy_osm_cgimap() {
 }
 
 deploy_osm_ubuntu() {
-  add-apt-repository -s -y ppa:kakrueger/openstreetmap
+  add-apt-repository -s -y ppa:posm/ppa
   apt-get update
   apt-get install --no-install-recommends -y \
-    osmpbf-bin libosmpbf-dev
+    osmctools osm2pgsql
 
-  type osmconvert || ubuntu_backport_install osmctools
-  type osm2pgsql || ubuntu_backport_install osm2pgsql xenial
   deploy_osmosis_prebuilt
 
   deploy_osm_rails_ubuntu
