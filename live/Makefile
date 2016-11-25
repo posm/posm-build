@@ -95,7 +95,7 @@ tl: nodejs
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-carto: postgis tessera
+carto: postgis tessera gis
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@
