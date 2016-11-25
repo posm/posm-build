@@ -38,7 +38,8 @@ deploy_carto_posm() {
   chown $carto_user:$carto_user "$dst/posm-carto/.env"
 
   sudo -EHu "$carto_user" bash -c "cd '$dst/posm-carto' && npm install --quiet"
-  sudo -EHu "$carto_user" make -j $(nproc) -C "$dst/posm-carto" project.xml smaller
+  sudo -EHu "$carto_user" make -j $(nproc) -C "$dst/posm-carto" project.xml
+  sudo -EHu "$carto_user" make -j $(nproc) -C "$dst/posm-carto" smaller
 
   # create/update configuration entry
   expand etc/posm-carto.json /etc/tessera.conf.d/posm-carto.json
