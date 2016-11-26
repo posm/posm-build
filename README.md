@@ -9,7 +9,7 @@ POSM runs on physical hardware! Intel NUCs work best (that's what we test on), b
 that it will work elsewhere.
 
 The easiest way to get started is to [download the latest
-release](http://posm.s3.amazonaws.com/releases/posm-0.6-beta.2.iso) (currently 0.6-beta.2) and copy
+release](http://posm.s3.amazonaws.com/releases/posm-0.6.iso) (currently 0.6) and copy
 it onto a USB stick (at least 8GB).
 
 Ubuntu provides instructions on [how to create a bootable USB stick on
@@ -28,7 +28,7 @@ Extract the POSM ISO onto the USB stick. This drive should be FAT32 formatted wi
 table. Here, we have named it `POSM_INSTALL`.
 
 ```bash
-7z x path/to/posm-0.6-beta.2.iso -o/Volumes/POSM_INSTALL
+7z x path/to/posm-0.6.iso -o/Volumes/POSM_INSTALL
 ```
 
 Once you have created your installer USB stick, boot the target device from it. On the Intel NUC,
