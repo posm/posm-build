@@ -75,7 +75,7 @@ nginx: base
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-osm: nodejs ruby postgis
+osm: nodejs ruby postgis nginx
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@
