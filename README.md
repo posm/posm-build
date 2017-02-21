@@ -59,6 +59,25 @@ same network as the POSM's uplink, referring to it as `posm.local`.
 * At least a 16GB drive
 * A compatible wireless adapter, for running a wireless network
 
+## SuperPOSM
+
+POSM has superhuman capabilities!
+
+To add SuperPOSM capabilities (OpenDroneMap + GeoTIFF processing), add `docker redis opendronemap
+imagery` to the list of modules being deployed.
+
+The minimal list of modules for SuperPOSM is: `base virt nginx admin docker redis opendronemap imagery`.
+
+### Hardware Requirements
+
+* As much RAM as you can spare
+* Fast storage
+* Fast CPU(s), as many cores as you can spare
+
+When building the OpenDroneMap integration, we tested using a [Skull Canyon
+NUC](http://www.intel.com/content/www/us/en/nuc/nuc-kit-nuc6i7kyk-features-configurations.html) with
+32GB RAM and a 256GB Samsung 950 Pro NVMe SSD.
+
 ## POSM Cloud
 
 POSM runs in the cloud! To prepare a suitable instance, provision a virtual server running **Ubuntu
@@ -93,8 +112,8 @@ apt update && apt install --no-install-recommends -y git
 # clone this repository
 git clone https://github.com/AmericanRedCross/posm-build
 
-# edit your settings (posm_hostname, posm_domain, posm_fqdn)
-sensible-editor posm-build/kickstart/etc/settings
+# edit your settings (posm_hostname, posm_domain)
+vi posm-build/kickstart/etc/settings
 
 # bootstrap the necessary components (this will take a little while)
 /root/posm-build/kickstart/scripts/bootstrap.sh base virt nodejs ruby gis \
@@ -106,22 +125,3 @@ sensible-editor posm-build/kickstart/etc/settings
 * **Ubuntu 14.04**
 * At least 2GB RAM, 8GB+ preferred
 * At least 10GB of attached storage
-
-## SuperPOSM
-
-POSM has superhuman capabilities!
-
-To add SuperPOSM capabilities (OpenDroneMap + GeoTIFF processing), add `docker redis opendronemap
-imagery` to the list of modules being deployed.
-
-The minimal list of modules for SuperPOSM is: `base virt nginx admin docker redis opendronemap imagery`.
-
-### Hardware Requirements
-
-* As much RAM as you can spare
-* Fast storage
-* Fast CPU(s), as many cores as you can spare
-
-When building the OpenDroneMap integration, we tested using a [Skull Canyon
-NUC](http://www.intel.com/content/www/us/en/nuc/nuc-kit-nuc6i7kyk-features-configurations.html) with
-32GB RAM and a 256GB Samsung 950 Pro NVMe SSD.
