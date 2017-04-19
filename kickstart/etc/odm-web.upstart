@@ -8,3 +8,7 @@ respawn
 script
   /usr/bin/docker start -a odm-web
 end script
+
+post-stop script
+  /usr/bin/docker stop odm-web
+end script

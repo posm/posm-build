@@ -8,3 +8,7 @@ respawn
 script
   /usr/bin/docker start -a imagery-worker
 end script
+
+post-stop script
+  /usr/bin/docker stop imagery-worker
+end script

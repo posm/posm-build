@@ -8,3 +8,7 @@ respawn
 script
   /usr/bin/docker start -a odm-worker
 end script
+
+post-stop script
+  /usr/bin/docker stop odm-worker
+end script
