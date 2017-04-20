@@ -23,7 +23,7 @@ EOF
 
 deploy_omk_server() {
 	# install OMK Server
-  from_github "https://github.com/AmericanRedCross/OpenMapKitServer" "$dst/OpenMapKitServer"
+  from_github "https://github.com/AmericanRedCross/OpenMapKitServer" "$dst/OpenMapKitServer" v0.8.1
 
   mkdir -p /root/sources
 
