@@ -5,7 +5,7 @@ deploy_tessera_ubuntu() {
   apt-get update
   apt-get install -y libstdc++6
 
-  npm install -g mapnik mbtiles tilelive tilelive-mapnik tilelive-carto tilelive-tmstyle \
+  npm install -g mapnik@~3.5.14 mbtiles tilelive tilelive-mapnik tilelive-carto tilelive-tmstyle \
     tilelive-tmsource tilelive-file tilelive-http tilelive-mapbox tilejson tilelive-vector \
     tilelive-blend tessera
 
