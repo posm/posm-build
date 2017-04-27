@@ -38,6 +38,11 @@ posm_admin_port=3211
 osm_web_port=9000
 cgimap_port=54321
 
+# web
+# auth=true # uncomment this to enable web authentication
+auth_user=POSM
+auth_password=awesomeposm
+
 # field papers
 fp_secret_key_base=redacted
 fp_mapzen_search_key=redacted
