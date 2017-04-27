@@ -68,6 +68,13 @@ bootstrap_init() {
     set +a
   done
 
+  kernel_args=$(python -c 'import shlex; print "\n".join(shlex.split(None))' < /proc/cmdline)
+  for arg in $kernel_args; do
+    if [[ $arg =~ ^posm_ ]]; then
+      export ${arg/posm_/}
+    fi
+  done
+
   expand etc/posm.json /etc/posm.json
 
   if [ -n "$debug" ] && [ "$debug" != 0 ]; then
