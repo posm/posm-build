@@ -25,7 +25,7 @@ usage: $0 [options] component1 ... componentN
   options:
     -n           dry-run
     -f           delay bootstrap execution until firstboot
-    -k URL       kickstart server url (for settings and compoent scripts)
+    -k URL       kickstart server url (for settings and component scripts)
     -r           reboot when done
     -s VAR=val   override a setting variable
     -x           turn on debug (bash -x)
