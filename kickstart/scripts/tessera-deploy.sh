@@ -7,7 +7,7 @@ deploy_tessera_ubuntu() {
 
   npm install -g mapnik@~3.5.14 mbtiles tilelive tilelive-mapnik tilelive-carto tilelive-tmstyle \
     tilelive-tmsource tilelive-file tilelive-http tilelive-mapbox tilejson tilelive-vector \
-    tilelive-blend tessera posm/posm-imagery-updater
+    tilelive-blend tessera @posm/posm-imagery-updater
 
   # configure
   mkdir -p /etc/tessera.conf.d
