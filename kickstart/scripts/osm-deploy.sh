@@ -59,7 +59,7 @@ deploy_osm_rails() {
   npm install -g svgo
 
   # install OSM WEB
-  from_github "https://github.com/AmericanRedCross/openstreetmap-website" "$dst/osm-web" "posm"
+  from_github "https://github.com/AmericanRedCross/openstreetmap-website" "$dst/osm-web" "posm-v0.7.0"
   chown -R osm:osm "$dst/osm-web"
 
   # upstart-friendly serving + logging
@@ -92,7 +92,7 @@ deploy_osm_rails() {
 
   su - osm -c "cd '$dst/osm-web' && bundle exec rake db:migrate"
 
-  su - osm -c "sed -i -e \"s/posm.io/${posm_fqdn}/\" $dst/osm-web/vendor/assets/iD/imagery.js"
+  su - osm -c "sed -i -e \"s/posm.io/${posm_fqdn}/\" $dst/osm-web/app/assets/javascripts/id.js"
   su - osm -c "sed -i -e \"s/posm.io/${posm_fqdn}/\" $dst/osm-web/app/assets/javascripts/leaflet.map.js"
 
   # assets
