@@ -22,6 +22,11 @@ EOF
 }
 
 deploy_omk_server() {
+  # how to install future versions of OMK Server
+  # TODO figure out where settings.js should go since there's no actual clone
+  # TODO map /opt/data/whatever in
+  # docker create -p 3210:3210 -e PORT=3210 -e NODE_ENV=production --name omk-server --tmpfs /tmp -u "$(id -u omk):$(id -g omk)" -v /opt/omk/OpenMapKitServer/data:/app/data -v /opt/omk/OpenMapKitServer/settings.js:/app/settings.js quay.io/americanredcross/openmapkitserver
+
 	# install OMK Server
   from_github "https://github.com/AmericanRedCross/OpenMapKitServer" "$dst/OpenMapKitServer" v0.8.1
 
@@ -38,10 +43,10 @@ deploy_omk_server() {
 
   # user / group omk should own this
   chown -R omk:omk "$dst/OpenMapKitServer"
-  
+
   # allow posm-admin and others to write forms
   chmod -R a+rwx "$dst/OpenMapKitServer/data/forms"
-  
+
   # setup python virtualenv
   su - omk -c "virtualenv --system-site-packages '$dst/env'"
   # install python packages for pyxform
