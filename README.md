@@ -117,7 +117,7 @@ vi posm-build/kickstart/etc/settings
 
 # bootstrap the necessary components (this will take a little while)
 /root/posm-build/kickstart/scripts/bootstrap.sh base virt nodejs ruby gis \
-  mysql postgis nginx osm fieldpapers omk tl carto tessera admin
+  mysql postgis nginx osm fieldpapers docker omk tl carto tessera admin
 ```
 
 ### Requirements
