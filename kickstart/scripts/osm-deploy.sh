@@ -59,7 +59,7 @@ deploy_osm_rails() {
   npm install -g svgo
 
   # install OSM WEB
-  from_github "https://github.com/AmericanRedCross/openstreetmap-website" "$dst/osm-web" "posm-v0.7.0"
+  from_github "https://github.com/mojodna/openstreetmap-website" "$dst/osm-web" "custom-damage-assessment"
   chown -R osm:osm "$dst/osm-web"
 
   # upstart-friendly serving + logging
