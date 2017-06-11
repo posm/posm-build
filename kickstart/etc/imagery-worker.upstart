@@ -6,9 +6,18 @@ stop on runlevel [!2345]
 respawn
 
 script
-  /usr/bin/docker start -a imagery-worker
-end script
-
-post-stop script
-  /usr/bin/docker stop imagery-worker
+  docker run \
+    --rm \
+    --dns $(jq -r .posm_wlan_ip /etc/posm.json) \
+    --entrypoint celery \
+    -e REDIS_URL="redis://redis" \
+    -e SERVER_NAME="$(jq -r .posm_fqdn /etc/posm.json)" \
+    --link redis \
+    --name imagery-worker \
+    --tmpfs /tmp \
+    -u "$(id -u posm-admin):$(id -g posm-admin)" \
+    -v /opt/data/imagery:/app/imagery \
+    -v /opt/data/uploads:/app/uploads \
+    quay.io/mojodna/posm-imagery-api \
+    worker -A app.celery --loglevel=info
 end script

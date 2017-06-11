@@ -14,33 +14,6 @@ deploy_imagery_ubuntu() {
 
   docker pull quay.io/mojodna/posm-imagery-api
 
-  docker create \
-    --dns ${posm_wlan_ip} \
-    -e REDIS_URL="redis://redis" \
-    -e SERVER_NAME="${posm_fqdn}" \
-    -p 10000:8000 \
-    --link redis \
-    --name imagery-web \
-    --tmpfs /tmp \
-    -u "$(id -u posm-admin):$(id -g posm-admin)" \
-    -v /opt/data/imagery:/app/imagery \
-    -v /opt/data/uploads:/app/uploads \
-    quay.io/mojodna/posm-imagery-api
-
-  docker create \
-    --dns ${posm_wlan_ip} \
-    --entrypoint celery \
-    -e REDIS_URL="redis://redis" \
-    -e SERVER_NAME="${posm_fqdn}" \
-    --link redis \
-    --name imagery-worker \
-    --tmpfs /tmp \
-    -u "$(id -u posm-admin):$(id -g posm-admin)" \
-    -v /opt/data/imagery:/app/imagery \
-    -v /opt/data/uploads:/app/uploads \
-    quay.io/mojodna/posm-imagery-api \
-    worker -A app.celery --loglevel=info
-
   expand etc/imagery-web.upstart /etc/init/imagery-web.conf
   expand etc/imagery-worker.upstart /etc/init/imagery-worker.conf
 
