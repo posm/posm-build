@@ -15,7 +15,7 @@ deploy_samba_ubuntu() {
 
   # read-only spot to copy backups from
   mkdir -p /opt/data/backups
-  chmod 644 /opt/data/backups
+  chmod 755 /opt/data/backups
 
   expand etc/smb.conf /etc/samba/smb.conf
   expand etc/init/smbd.override /etc/init/smbd.override

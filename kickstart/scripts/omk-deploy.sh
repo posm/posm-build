@@ -47,7 +47,7 @@ EOF
   # create backup directory
   mkdir -p /opt/data/backups/omk
   chown omk:omk /opt/data/backups/omk
-  chmod 644 /opt/data/backups/omk
+  chmod 755 /opt/data/backups/omk
 
   # start
   expand etc/omk-server.upstart /etc/init/omk-server.conf
