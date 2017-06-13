@@ -17,6 +17,7 @@ deploy_nginx_ubuntu() {
   chmod 755 "$dst"
 
   git clone --recursive --depth 1 -b dist https://github.com/posm/posm-admin-ui "$dst"
+  git clone --recursive --depth 1 -b guide https://github.com/posm/posm.github.io "$dst/guide"
 
   expand etc/www/config.json /opt/posm-www/config.json
 }
