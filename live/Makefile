@@ -2,7 +2,7 @@ ARCH ?= amd64
 DIST ?= trusty
 DEBIAN_FRONTEND = noninteractive
 DEBCONF_NONINTERACTIVE_SEEN = true
-GIT_REPO ?= "https://github.com/AmericanRedCross/posm-build"
+GIT_REPO ?= "https://github.com/posm/posm-build"
 GIT_BRANCH ?= "master"
 
 default: live-cd.iso
