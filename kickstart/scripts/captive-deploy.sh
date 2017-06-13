@@ -19,6 +19,8 @@ deploy_captive_ubuntu() {
 
     service dnsmasq restart
     service nginx restart
+
+    posm_network_bridged=0 expand etc/posm.json /etc/posm.json
   fi
 }
 

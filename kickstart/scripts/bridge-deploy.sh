@@ -28,6 +28,8 @@ deploy_bridge_ubuntu() {
 		rm -f /etc/nginx/sites-enabled/captive
 
 		service nginx restart
+
+		posm_network_bridged=1 expand etc/posm.json /etc/posm.json
 	fi
 }
 

@@ -1,6 +1,7 @@
 {
   "posm_env": "{{posm_env}}",
   "posm_network": "{{posm_network}}",
+  "posm_network_bridged": "{{posm_network_bridged}}",
   "posm_wlan_subnet": "{{posm_wlan_subnet}}",
   "posm_lan_subnet": "{{posm_lan_subnet}}",
   "posm_lan_ip": "{{posm_lan_ip}}",
