@@ -18,6 +18,8 @@ deploy_nginx_ubuntu() {
 
   git clone --recursive --depth 1 -b dist https://github.com/posm/posm-admin-ui "$dst"
   git clone --recursive --depth 1 -b guide https://github.com/posm/posm.github.io "$dst/guide"
+  git clone --recursive --depth 1 -b dist https://github.com/AmericanRedCross/OpenMapKitWebsite.git "$dst/openmapkit-website"
+  git clone --recursive --depth 1 -b dist https://github.com/posm/posm-gcpi.git "$dst/posm-gcpi"
 
   expand etc/www/config.json /opt/posm-www/config.json
 }
