@@ -16,12 +16,9 @@ deploy_nginx_ubuntu() {
   mkdir -p "$dst"
   chmod 755 "$dst"
 
-  git clone --recursive --depth 1 https://github.com/AmericanRedCross/posm-local-home "$dst"
+  git clone --recursive --depth 1 -b dist https://github.com/posm/posm-admin-ui "$dst"
 
-  # fetch software to be bundled
-  make -C "$dst"
-
-  sed -i -e "s/osm.posm.io/${osm_fqdn}/" "$dst/index.html"
+  expand etc/www/config.json /opt/posm-www/config.json
 }
 
 deploy nginx
