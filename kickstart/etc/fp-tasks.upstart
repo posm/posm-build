@@ -20,11 +20,11 @@ respawn
 #respawn limit 5 60
 
 pre-start script
-    echo "[`date '+%c'`] Starting: fp-tasks" >> /var/log/fp-tasks.log
+    echo "[`date '+%c'`] Starting: fp-tasks"
 end script
 
 pre-stop script
-    echo "[`date '+%c'`] Stopping: fp-tasks" >> /var/log/fp-tasks.log
+    echo "[`date '+%c'`] Stopping: fp-tasks"
 end script
 
 exec start-stop-daemon \

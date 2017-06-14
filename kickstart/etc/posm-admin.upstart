@@ -14,11 +14,11 @@ respawn
 #respawn limit 5 60
 
 pre-start script
-    echo "[`date '+%c'`] Starting: posm-admin" >> /var/log/posm-admin.log
+    echo "[`date '+%c'`] Starting: posm-admin"
 end script
 
 pre-stop script
-    echo "[`date '+%c'`] Stopping: posm-admin" >> /var/log/posm-admin.log
+    echo "[`date '+%c'`] Stopping: posm-admin"
 end script
 
 exec start-stop-daemon \

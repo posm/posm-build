@@ -10,11 +10,11 @@ respawn
 #respawn limit 5 60
 
 pre-start script
-    echo "[`date '+%c'`] Starting: fp-watch" >> /var/log/fp-watch.log
+    echo "[`date '+%c'`] Starting: fp-watch"
 end script
 
 pre-stop script
-    echo "[`date '+%c'`] Stopping: fp-watch" >> /var/log/fp-watch.log
+    echo "[`date '+%c'`] Stopping: fp-watch"
 end script
 
 exec start-stop-daemon \

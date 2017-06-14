@@ -28,11 +28,11 @@ respawn
 #respawn limit 5 60
 
 pre-start script
-    echo "[`date '+%c'`] Starting: fp-web" >> /var/log/fp-web.log
+    echo "[`date '+%c'`] Starting: fp-web"
 end script
 
 pre-stop script
-    echo "[`date '+%c'`] Stopping: fp-web" >> /var/log/fp-web.log
+    echo "[`date '+%c'`] Stopping: fp-web"
 end script
 
 exec start-stop-daemon \

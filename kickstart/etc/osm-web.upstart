@@ -17,11 +17,11 @@ respawn
 #respawn limit 5 60
 
 pre-start script
-    echo "[`date '+%c'`] Starting: osm-web" >> /var/log/osm-web.log
+    echo "[`date '+%c'`] Starting: osm-web"
 end script
 
 pre-stop script
-    echo "[`date '+%c'`] Stopping: osm-web" >> /var/log/osm-web.log
+    echo "[`date '+%c'`] Stopping: osm-web"
 end script
 
 exec start-stop-daemon \

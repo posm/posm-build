@@ -14,11 +14,11 @@ respawn
 #respawn limit 5 60
 
 pre-start script
-    echo "[`date '+%c'`] Starting: cgimap" >> /var/log/osm-cgimap.log
+    echo "[`date '+%c'`] Starting: cgimap"
 end script
 
 pre-stop script
-    echo "[`date '+%c'`] Stopping: cgimap" >> /var/log/osm-cgimap.log
+    echo "[`date '+%c'`] Stopping: cgimap"
 end script
 
 exec start-stop-daemon \

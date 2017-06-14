@@ -16,11 +16,11 @@ pre-start script
     if [ -z "$TESSERA_OPTS" ]; then
       exit 1
     fi
-    echo "[`date '+%c'`] Starting: tessera" >> /var/log/tessera.log
+    echo "[`date '+%c'`] Starting: tessera"
 end script
 
 pre-stop script
-    echo "[`date '+%c'`] Stopping: tessera" >> /var/log/tessera.log
+    echo "[`date '+%c'`] Stopping: tessera"
 end script
 
 exec start-stop-daemon \

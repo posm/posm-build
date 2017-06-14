@@ -16,11 +16,11 @@ respawn
 #respawn limit 5 60
 
 pre-start script
-    echo "[`date '+%c'`] Starting: fp-tiler" >> /var/log/fp-tiler.log
+    echo "[`date '+%c'`] Starting: fp-tiler"
 end script
 
 pre-stop script
-    echo "[`date '+%c'`] Stopping: fp-tiler" >> /var/log/fp-tiler.log
+    echo "[`date '+%c'`] Stopping: fp-tiler"
 end script
 
 exec start-stop-daemon \
