@@ -128,7 +128,8 @@ deploy_osm_cgimap_ubuntu() {
     libxml2-dev libpqxx-dev libfcgi-dev libboost-dev libboost-regex-dev \
     libboost-program-options-dev libboost-date-time-dev \
     libboost-filesystem-dev libboost-system-dev libboost-locale-dev \
-    libmemcached-dev libcrypto++-dev
+    libmemcached-dev libcrypto++-dev build-essential automake autoconf \
+    libtool
 }
 
 deploy_osm_cgimap_common() {
