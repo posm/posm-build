@@ -17,6 +17,7 @@ deploy_hotspot_ubuntu() {
 
 	  grep -qe "^DAEMON_CONF" /etc/default/hostapd || echo DAEMON_CONF=\"/etc/hostapd/hostapd.conf\" >> /etc/default/hostapd
 
+	  service dnsmasq restart
 	  service hostapd restart
   fi
 }
