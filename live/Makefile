@@ -333,7 +333,7 @@ cd/preseed/posm-full.seed: posm-full.seed
 cd/casper/filesystem.squashfs: rootfs deps cd/casper/vmlinuz cd/casper/initrd.img cd/casper/filesystem.manifest
 	lxc stop $$(cat container) || true
 	mkdir -p $$(dirname $@)
-	sudo mksquashfs $</ $@ -noappend -comp xz -b 1M -Xdict-size 100% -Xbcj x86
+	sudo mksquashfs $</ $@ -noappend
 	sudo chown $$(whoami):$$(whoami) $@
 
 cd/casper/filesystem.size: rootfs
