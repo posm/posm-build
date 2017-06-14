@@ -85,7 +85,7 @@ fieldpapers: nodejs ruby mysql
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-omk: nodejs
+omk: docker
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@
