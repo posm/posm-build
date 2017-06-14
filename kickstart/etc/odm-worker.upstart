@@ -3,6 +3,7 @@ description     "OpenDroneMap API - worker"
 start on (local-filesystems and started odm-web)
 stop on runlevel [!2345]
 
+console log
 respawn
 
 script

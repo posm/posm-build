@@ -11,6 +11,7 @@ env PORT="{{fp_tiler_port}}"
 env NODE_ENV="{{posm_env}}"
 env PATH_PREFIX="/fp-tiler"
 
+console log
 respawn
 #respawn limit 5 60
 
@@ -28,4 +29,4 @@ exec start-stop-daemon \
 		--chuid fp \
 		--make-pidfile \
 		--pidfile /var/run/fp-tiler.pid \
-		--exec /usr/bin/nodejs -- /opt/fp/fp-tiler/server.js >> /var/log/fp-tiler.log 2>&1
+		--exec /usr/bin/nodejs -- /opt/fp/fp-tiler/server.js

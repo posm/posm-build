@@ -9,6 +9,7 @@ env CGIMAP_BACKEND="apidb"
 env CGIMAP_DBNAME="{{osm_pg_dbname}}"
 env CGIMAP_PORT={{cgimap_port}}
 
+console log
 respawn
 #respawn limit 5 60
 
@@ -26,4 +27,4 @@ exec start-stop-daemon \
 		--chuid osm \
 		--make-pidfile \
 		--pidfile /var/run/osm-cgimap.pid \
-		--exec /opt/osm/osm-cgimap/openstreetmap-cgimap >> /var/log/osm-cgimap.log 2>&1
+		--exec /opt/osm/osm-cgimap/openstreetmap-cgimap

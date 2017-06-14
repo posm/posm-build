@@ -23,6 +23,7 @@ env DISABLE_LOGIN_CONFIRMATIONS="true"
 env ATLAS_INDEX_HEADER_TILELAYER="{{posm_base_url}}/tiles/mm/{z}/{x}/{y}.png"
 env DEFAULT_CENTER="3/0.00/20.00"
 
+console log
 respawn
 #respawn limit 5 60
 
@@ -40,4 +41,4 @@ exec start-stop-daemon \
 		--chuid fp \
 		--make-pidfile \
 		--pidfile /var/run/fp-web.pid \
-		--exec /usr/local/bin/bundle -- exec puma -C config/puma.rb >> /var/log/fp-web.log 2>&1
+		--exec /usr/local/bin/bundle -- exec puma -C config/puma.rb

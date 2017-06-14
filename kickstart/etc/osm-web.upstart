@@ -12,6 +12,7 @@ env OSM_ID_KEY="{{osm_id_key}}"
 env OSM_POSM_USER="{{osm_posm_user}}"
 env DATABASE_URL="postgres://{{osm_pg_owner}}:{{osm_pg_pass}}@localhost/{{osm_pg_dbname}}"
 
+console log
 respawn
 #respawn limit 5 60
 
@@ -29,4 +30,4 @@ exec start-stop-daemon \
 		--chuid osm \
 		--make-pidfile \
 		--pidfile /var/run/osm-web.pid \
-		--exec /usr/local/bin/bundle -- exec puma -C config/puma.rb >> /var/log/osm-web.log 2>&1
+		--exec /usr/local/bin/bundle -- exec puma -C config/puma.rb

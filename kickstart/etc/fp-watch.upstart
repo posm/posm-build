@@ -5,6 +5,7 @@ description     "Field Papers Watcher"
 start on (local-filesystems and net-device-up and runlevel [2345])
 stop on shutdown
 
+console log
 respawn
 #respawn limit 5 60
 
@@ -22,4 +23,4 @@ exec start-stop-daemon \
 		--chuid fp \
 		--make-pidfile \
 		--pidfile /var/run/fp-watch.pid \
-		--exec /opt/fp/bin/fp-watch.sh >> /var/log/fp-watch.log 2>&1
+		--exec /opt/fp/bin/fp-watch.sh

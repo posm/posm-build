@@ -8,6 +8,7 @@ stop on shutdown
 env PORT="{{tessera_port}}"
 env TESSERA_OPTS="--config /etc/tessera.conf.d"
 
+console log
 respawn
 #respawn limit 5 60
 
@@ -28,4 +29,4 @@ exec start-stop-daemon \
 		--chuid {{osm_carto_pg_owner}} \
 		--make-pidfile \
 		--pidfile /var/run/tessera.pid \
-		--exec /usr/bin/tessera -- >> /var/log/tessera.log 2>&1
+		--exec /usr/bin/tessera

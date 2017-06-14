@@ -15,6 +15,7 @@ env STATIC_PATH="/opt/fp/data"
 env STATIC_URI_PREFIX="{{fp_api_base_url}}/_"
 #env SENTRY_DSN
 
+console log
 respawn
 #respawn limit 5 60
 
@@ -32,4 +33,4 @@ exec start-stop-daemon \
 		--chuid fp \
 		--make-pidfile \
 		--pidfile /var/run/fp-tasks.pid \
-		--exec /usr/bin/nodejs -- /opt/fp/fp-tasks/server.js >> /var/log/fp-tasks.log 2>&1
+		--exec /usr/bin/nodejs -- /opt/fp/fp-tasks/server.js
