@@ -17,7 +17,7 @@ deploy_tessera_ubuntu() {
 
   service tessera restart
 
-  crontab -u osm ${BOOTSTRAP_HOME}/etc/root.crontab
+  crontab ${BOOTSTRAP_HOME}/etc/root.crontab
 }
 
 deploy tessera
