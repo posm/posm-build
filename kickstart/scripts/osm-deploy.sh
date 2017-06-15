@@ -125,18 +125,19 @@ deploy_osm_rails() {
 
 deploy_osm_cgimap_ubuntu() {
   apt-get install --no-install-recommends -y \
-    libxml2-dev libpqxx3-dev libfcgi-dev libboost-dev libboost-regex-dev \
+    libxml2-dev libpqxx-dev libfcgi-dev libboost-dev libboost-regex-dev \
     libboost-program-options-dev libboost-date-time-dev \
-    libboost-filesystem-dev libboost-system-dev libmemcached-dev \
-    build-essential automake autoconf libtool
+    libboost-filesystem-dev libboost-system-dev libboost-locale-dev \
+    libmemcached-dev libcrypto++-dev build-essential automake autoconf \
+    libtool
 }
 
 deploy_osm_cgimap_common() {
-  test -f '$dst/osm-cgimap/map' || deploy_osm_cgimap
+  test -f '$dst/osm-cgimap/openstreetmap-cgimap' || deploy_osm_cgimap
 }
 
 deploy_osm_cgimap() {
-  from_github "https://github.com/AmericanRedCross/openstreetmap-cgimap" "$dst/osm-cgimap"
+  from_github "https://github.com/posm/openstreetmap-cgimap" "$dst/osm-cgimap" "v0.6.0"
   chown -R osm:osm "$dst/osm-cgimap"
 
   su - osm -c "cd '$dst/osm-cgimap' && ./autogen.sh"

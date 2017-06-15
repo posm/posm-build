@@ -3,6 +3,7 @@ description     "Imagery API - web"
 start on (local-filesystems and started redis)
 stop on runlevel [!2345]
 
+console log
 respawn
 
 script

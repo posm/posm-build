@@ -3,6 +3,7 @@ description     "Imagery API - worker"
 start on (local-filesystems and started imagery-web)
 stop on runlevel [!2345]
 
+console log
 respawn
 
 script

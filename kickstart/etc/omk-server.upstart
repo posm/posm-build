@@ -1,9 +1,10 @@
 # omk-server
 description     "OpenMapKitServer"
 
-start on local-filesystems
+start on (local-filesystems and started docker)
 stop on runlevel [!2345]
 
+console log
 respawn
 
 script

@@ -9,15 +9,16 @@ env PATH=/opt/admin/env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
 env PORT="{{posm_admin_port}}"
 env NODE_ENV="{{posm_env}}"
 
+console log
 respawn
 #respawn limit 5 60
 
 pre-start script
-    echo "[`date '+%c'`] Starting: posm-admin" >> /var/log/posm-admin.log
+    echo "[`date '+%c'`] Starting: posm-admin"
 end script
 
 pre-stop script
-    echo "[`date '+%c'`] Stopping: posm-admin" >> /var/log/posm-admin.log
+    echo "[`date '+%c'`] Stopping: posm-admin"
 end script
 
 exec start-stop-daemon \
@@ -26,4 +27,4 @@ exec start-stop-daemon \
 		--chuid posm-admin \
 		--make-pidfile \
 		--pidfile /var/run/posm-admin.pid \
-		--exec /usr/bin/npm start >> /var/log/posm-admin.log 2>&1
+		--exec /usr/bin/npm start
