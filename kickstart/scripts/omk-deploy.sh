@@ -27,27 +27,13 @@ module.exports = {
 EOF
 
   # create data directories if necessary
-  mkdir -p /opt/data/{forms,submissions}
-  chown -R omk:omk /opt/data/{forms,submissions}
-
-  docker create \
-    -p ${omk_server_port}:${omk_server_port} \
-    -e PORT=${omk_server_port} \
-    -e NODE_ENV=${posm_env} \
-    --name omk-server \
-    --tmpfs /tmp \
-    -u "$(id -u omk):$(id -g omk)" \
-    --dns ${posm_wlan_ip} \
-    -v /etc/omk-server.js:/app/settings.js \
-    -v /opt/data/forms:/app/data/forms \
-    -v /opt/data/submissions:/app/data/submissions \
-    -v /opt/data/deployments:/app/data/deployments \
-    quay.io/americanredcross/openmapkitserver
+  mkdir -p /opt/data/omk/{forms,submissions}
+  chown -R omk:omk /opt/data/omk/{forms,submissions}
 
   # create backup directory
   mkdir -p /opt/data/backups/omk
   chown omk:omk /opt/data/backups/omk
-  chmod 644 /opt/data/backups/omk
+  chmod 755 /opt/data/backups/omk
 
   # start
   expand etc/omk-server.upstart /etc/init/omk-server.conf

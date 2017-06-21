@@ -15,10 +15,13 @@ deploy_samba_ubuntu() {
 
   # read-only spot to copy backups from
   mkdir -p /opt/data/backups
-  chmod 644 /opt/data/backups
+  chmod 755 /opt/data/backups
 
   expand etc/smb.conf /etc/samba/smb.conf
   expand etc/init/smbd.override /etc/init/smbd.override
+
+  curl -sfL https://github.com/AmericanRedCross/OpenMapKitAndroid/releases/download/v1.2/OpenMapKit_v1.2.apk -o /opt/data/public/OpenMapKit_v1.2.apk
+  curl -sfL https://opendatakit.org/download/4489/ -o /opt/data/public/ODKCollect_v1.4.1.apk
 
   service samba restart
 }

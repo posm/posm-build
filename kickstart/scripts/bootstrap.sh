@@ -68,6 +68,18 @@ bootstrap_init() {
     set +a
   done
 
+  # etc/settings (etc.) doesn't necessarily have authoritative state
+  if [[ -f /etc/posm.json ]]; then
+    # jq may not be installed yet
+    if [[ $(grep -E '"posm_network_bridged":\s?"1"' /etc/posm.json) ]]; then
+      # bridged
+      export posm_network_bridged=1
+    else
+      # captive
+      export posm_network_bridged=0
+    fi
+  fi
+
   kernel_args=$(python -c 'import shlex; print "\n".join(shlex.split(None))' < /proc/cmdline)
   for arg in $kernel_args; do
     if [[ $arg =~ ^posm_ ]]; then

@@ -14,6 +14,11 @@ deploy_hotspot_ubuntu() {
 	  test "$posm_wlan_netif" != "" && expand etc/network/interfaces.d/wlan.cfg "/etc/network/interfaces.d/${posm_wlan_netif}.cfg"
 	  expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
 	  expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
+
+	  grep -qe "^DAEMON_CONF" /etc/default/hostapd || echo DAEMON_CONF=\"/etc/hostapd/hostapd.conf\" >> /etc/default/hostapd
+
+	  service dnsmasq restart
+	  service hostapd restart
   fi
 }
 

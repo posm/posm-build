@@ -1,18 +1,25 @@
 # omk-server
 description     "OpenMapKitServer"
 
-start on local-filesystems
+start on (local-filesystems and started docker)
 stop on runlevel [!2345]
 
-env PORT="{{omk_server_port}}"
-env NODE_ENV="{{posm_env}}"
-
+console log
 respawn
 
 script
-  /usr/bin/docker start -a omk-server
-end script
-
-post-stop script
-  /usr/bin/docker stop omk-server
+  docker run \
+    --rm \
+    --dns $(jq -r .posm_wlan_ip /etc/posm.json) \
+    -p $(jq -r .omk_server_port /etc/posm.json):$(jq -r .omk_server_port /etc/posm.json) \
+    -e PORT=$(jq -r .omk_server_port /etc/posm.json) \
+    -e NODE_ENV=$(jq -r .posm_env /etc/posm.json) \
+    --name omk-server \
+    --tmpfs /tmp \
+    -u "$(id -u omk):$(id -g omk)" \
+    -v /etc/omk-server.js:/app/settings.js \
+    -v /opt/data/omk/forms:/app/data/forms \
+    -v /opt/data/omk/submissions:/app/data/submissions \
+    -v /opt/data/deployments:/app/data/deployments \
+    quay.io/americanredcross/openmapkitserver
 end script

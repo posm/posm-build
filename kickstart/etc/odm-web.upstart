@@ -3,12 +3,21 @@ description     "OpenDroneMap API - web"
 start on (local-filesystems and started redis)
 stop on runlevel [!2345]
 
+console log
 respawn
 
 script
-  /usr/bin/docker start -a odm-web
-end script
-
-post-stop script
-  /usr/bin/docker stop odm-web
+  docker run \
+    --rm \
+    --dns $(jq -r .posm_wlan_ip /etc/posm.json) \
+    -e REDIS_URL="redis://redis" \
+    -e SERVER_NAME="$(jq -r .posm_fqdn /etc/posm.json)" \
+    -p 10001:8000 \
+    --link redis \
+    --name odm-web \
+    --tmpfs /tmp \
+    -u "$(id -u posm-admin):$(id -g posm-admin)" \
+    -v /opt/data/opendronemap:/app/projects \
+    -v /opt/data/uploads:/app/uploads \
+    quay.io/mojodna/posm-opendronemap-api
 end script

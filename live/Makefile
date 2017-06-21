@@ -2,7 +2,7 @@ ARCH ?= amd64
 DIST ?= trusty
 DEBIAN_FRONTEND = noninteractive
 DEBCONF_NONINTERACTIVE_SEEN = true
-GIT_REPO ?= "https://github.com/AmericanRedCross/posm-build"
+GIT_REPO ?= "https://github.com/posm/posm-build"
 GIT_BRANCH ?= "master"
 
 default: live-cd.iso
@@ -85,7 +85,7 @@ fieldpapers: nodejs ruby mysql
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-omk: nodejs
+omk: docker
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@
@@ -333,7 +333,7 @@ cd/preseed/posm-full.seed: posm-full.seed
 cd/casper/filesystem.squashfs: rootfs deps cd/casper/vmlinuz cd/casper/initrd.img cd/casper/filesystem.manifest
 	lxc stop $$(cat container) || true
 	mkdir -p $$(dirname $@)
-	sudo mksquashfs $</ $@ -noappend -comp xz -b 1M -Xdict-size 100% -Xbcj x86
+	sudo mksquashfs $</ $@ -noappend
 	sudo chown $$(whoami):$$(whoami) $@
 
 cd/casper/filesystem.size: rootfs

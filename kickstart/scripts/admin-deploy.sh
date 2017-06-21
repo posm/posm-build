@@ -20,6 +20,7 @@ deploy_admin_ubuntu() {
   chown $user:$group "$dst/tmp"
   chown $user:$group "$deployments_dir"
   chown $user:$group "$api_db_dumps_dir"
+  # TODO tighten up permissions
   chmod -R a+rwx "$dst/tmp"
   chmod -R a+rx "$deployments_dir"
   chmod -R a+rwx "$api_db_dumps_dir"
