@@ -42,6 +42,10 @@ case "$1" in
 	    initctl emit -n stopped JOB=postgresql
 	fi
 	if [ $(whoami) = "root" ] && [ "$1" = start -o "$1" = restart ]; then
+	    export shared_buffers=$(awk 'NR == 1 { print int($2*.25/1024) } ' /proc/meminfo)
+	    export effective_cache_size=$(awk 'NR == 1 { print int($2*.5/1024) } ' /proc/meminfo)
+	    interp < /etc/postgresql/9.6/main/postgresql.conf.local.hbs > /etc/postgresql/9.6/main/postgresql.conf.local
+
 	    initctl emit -n started JOB=postgresql
 	fi
 	exit ${EXIT:-0}

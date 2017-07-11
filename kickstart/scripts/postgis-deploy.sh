@@ -19,9 +19,7 @@ deploy_postgis_ubuntu() {
   grep -q "postgresql.conf.local" /etc/postgresql/${pgsql_ver}/main/postgresql.conf || \
     echo "include '/etc/postgresql/${pgsql_ver}/main/postgresql.conf.local'" >> /etc/postgresql/${pgsql_ver}/main/postgresql.conf
 
-  export shared_buffers=$(awk 'NR == 1 { print int($2*.25/1024) } ' /proc/meminfo)
-  export effective_cache_size=$(awk 'NR == 1 { print int($2*.5/1024) } ' /proc/meminfo)
-  expand etc/postgresql/postgresql.conf.local /etc/postgresql/${pgsql_ver}/main/postgresql.conf.local
+  cp ${BOOTSTRAP_HOME}/etc/postgresql/postgresql.conf.local /etc/postgresql/${pgsql_ver}/main/postgresql.conf.local.hbs
 
   expand etc/init.d/postgresql /etc/init.d/postgresql
 
