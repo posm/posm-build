@@ -4,7 +4,6 @@ dst=/opt/admin
 deployments_dir=/opt/data/deployments
 api_db_dumps_dir=/opt/data/api-db-dumps
 aoi_dir=/opt/data/aoi
-omk_deployments_dir=/opt/omk/OpenMapKitServer/data/deployments
 user="posm-admin"
 group="posm-admin"
 
@@ -25,10 +24,6 @@ deploy_admin_ubuntu() {
   chmod -R a+rx "$deployments_dir"
   chmod -R a+rwx "$api_db_dumps_dir"
   chmod -R a+rwx "$aoi_dir"
-
-  # Have OpenMapKit Server refer to this new deployments directory instead of default.
-  rm -rf $omk_deployments_dir
-  ln -s $deployments_dir $omk_deployments_dir
 
   deploy_posm_admin
 }
