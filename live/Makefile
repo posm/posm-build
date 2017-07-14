@@ -65,7 +65,7 @@ mysql: base
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-postgis: base
+postgis: nodejs
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@
