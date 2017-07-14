@@ -1,7 +1,7 @@
 #!/bin/bash
 
 carto_user="${carto_user:-${osm_carto_pg_owner:-gis}}"
-carto_styles="${carto_styles:-posm osm}"
+carto_styles="${carto_styles:-posm}"
 dst="/opt/$carto_user"
 tessera_config_dir=/etc/tessera.conf.d
 
@@ -57,21 +57,6 @@ deploy_carto_posm() {
   sudo -u $carto_user osmosis --read-replication-interval-init workingDirectory=/opt/data/osm
   sudo -u $carto_user sed -Ei 's!^baseUrl\s?=.*$!baseUrl=file:///opt/data/osm/replication/minute!' /opt/data/osm/configuration.txt
   sudo -u $carto_user sed -Ei 's!^maxInterval\s?=.*$!maxInterval=0!' /opt/data/osm/configuration.txt
-}
-
-deploy_carto_osm() {
-  echo "openstreetmap-mapnik-carto-stylesheet-data openstreetmap-mapnik-carto-stylesheet-data/dloadcoastlines boolean true" | debconf-set-selections
-  apt-get install --no-install-recommends -y \
-    openstreetmap-mapnik-carto-stylesheet-data \
-    fonts-droid fonts-khmeros fonts-khmeros-core fonts-sil-padauk fonts-sipa-arundina ttf-dejavu ttf-dejavu-core ttf-dejavu-extra ttf-indic-fonts-core ttf-kannada-fonts ttf-tamil-fonts ttf-unifont
-
-  ln -s /etc/mapnik-osm-carto-data "$dst/osm"
-
-  # create/update configuration entry
-  expand etc/openstreetmap-carto.json /etc/tessera.conf.d/openstreetmap-carto.json
-
-  # restart
-  service tessera restart
 }
 
 deploy carto
