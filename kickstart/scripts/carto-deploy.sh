@@ -23,7 +23,7 @@ deploy_carto_ubuntu() {
   expand etc/apply-updates.sh /usr/local/bin/apply-updates.sh
   chmod +x /usr/local/bin/apply-updates.sh
 
-  su - postgres -c "pg_restore --dbname='$osm_carto_pg_dbname' ${BOOTSTRAP_HOME}/etc/gis.pgdump"
+  su - postgres -c "pg_restore --dbname='$osm_carto_pg_dbname'" < "${BOOTSTRAP_HOME}/etc/gis.pgdump"
 
   local s
   for s in $carto_styles; do
