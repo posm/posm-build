@@ -34,7 +34,7 @@ container-init: container
 	lxc exec $$(cat container) -- apt update
 	lxc exec $$(cat container) -- apt upgrade -y
 	lxc exec $$(cat container) -- apt install -y ubuntu-standard
-	lxc exec $$(cat container) -- apt purge -y cloud-init pppd landscape-client
+	lxc exec $$(cat container) -- apt purge -y cloud-init ppp landscape-client
 	lxc snapshot $$(cat container) $@
 	touch $@
 
