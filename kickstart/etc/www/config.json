@@ -1,6 +1,6 @@
 {
-  "posm": "http://{{posm_fqdn}}",
-  "imageryEndpoint": "http://{{posm_fqdn}}",
-  "odmEndpoint": "http://{{posm_fqdn}}",
+  "posm": "//{{posm_fqdn}}",
+  "imageryEndpoint": "//{{posm_fqdn}}",
+  "odmEndpoint": "//{{posm_fqdn}}",
   "refreshInterval": 10000
 }
