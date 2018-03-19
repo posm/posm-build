@@ -10,7 +10,6 @@ respawn
 script
   docker run \
     --rm \
-    --dns $(jq -r .posm_wlan_ip /etc/posm.json) \
     -p $(jq -r .omk_server_port /etc/posm.json):$(jq -r .omk_server_port /etc/posm.json) \
     -e PORT=$(jq -r .omk_server_port /etc/posm.json) \
     -e NODE_ENV=$(jq -r .posm_env /etc/posm.json) \
@@ -21,5 +20,5 @@ script
     -v /opt/data/omk/forms:/app/data/forms \
     -v /opt/data/omk/submissions:/app/data/submissions \
     -v /opt/data/deployments:/app/data/deployments \
-    quay.io/americanredcross/openmapkitserver
+    quay.io/hotosm/openmapkitserver:react-frontend
 end script
