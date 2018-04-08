@@ -17,7 +17,7 @@ module.exports = {
   port: ${omk_server_port},
   dataDir: __dirname + '/data',
   pagesDir: __dirname + '/frontend/build',
-  hostUrl: '${posm_base_url}',
+  hostUrl: '${posm_base_url}/omk',
   osmApi: {
       server: '${osm_base_url}',
       user: 'POSM',
