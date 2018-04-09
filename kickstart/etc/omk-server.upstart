@@ -16,9 +16,10 @@ script
     --name omk-server \
     --tmpfs /tmp \
     -u "$(id -u omk):$(id -g omk)" \
+    -v /etc/omk-users.json:/app/util/users.json \
     -v /etc/omk-server.js:/app/settings.js \
     -v /opt/data/omk/forms:/app/data/forms \
     -v /opt/data/omk/submissions:/app/data/submissions \
     -v /opt/data/deployments:/app/data/deployments \
-    quay.io/hotosm/openmapkitserver:react-frontend
+    quay.io/hotosm/openmapkitserver
 end script
