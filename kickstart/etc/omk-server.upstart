@@ -18,6 +18,7 @@ script
     -u "$(id -u omk):$(id -g omk)" \
     -v /etc/omk-users.json:/app/util/users.json \
     -v /etc/omk-server.js:/app/settings.js \
+    -v /opt/data/omk/archive:/app/data/archive \
     -v /opt/data/omk/forms:/app/data/forms \
     -v /opt/data/omk/submissions:/app/data/submissions \
     -v /opt/data/deployments:/app/data/deployments \
