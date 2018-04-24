@@ -16,8 +16,8 @@ module.exports = {
   description: 'OpenMapKit Server',
   port: ${omk_server_port},
   dataDir: __dirname + '/data',
-  pagesDir: __dirname + '/pages',
-  hostUrl: '${posm_base_url}',
+  pagesDir: __dirname + '/frontend/build',
+  hostUrl: '${posm_base_url}/omk',
   osmApi: {
       server: '${osm_base_url}',
       user: 'POSM',
@@ -30,10 +30,17 @@ EOF
   mkdir -p /opt/data/omk/{forms,submissions}
   chown -R omk:omk /opt/data/omk/{forms,submissions}
 
+  # create archive directories if necessary
+  mkdir -p /opt/data/omk/archive/{forms,submissions}
+  chown -R omk:omk /opt/data/omk/archive/{forms,submissions}
+
   # create backup directory
   mkdir -p /opt/data/backups/omk
   chown omk:omk /opt/data/backups/omk
   chmod 755 /opt/data/backups/omk
+
+  # modify deployments for omk-admin user access
+  chmod 777 -R /opt/data/deployments
 
   # start
   expand etc/omk-server.upstart /etc/init/omk-server.conf
