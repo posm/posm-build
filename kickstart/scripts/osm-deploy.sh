@@ -25,7 +25,7 @@ configure_osm_replication() {
 deploy_osm_rails_ubuntu() {
   apt-get install --no-install-recommends -y \
     libmagickwand-dev libxml2-dev libxslt1-dev build-essential \
-     postgresql-contrib libpq-dev postgresql-server-dev-9.6 \
+     postgresql-contrib-9.6 libpq-dev postgresql-server-dev-9.6 \
      libsasl2-dev imagemagick
 
   # OSM user & env
