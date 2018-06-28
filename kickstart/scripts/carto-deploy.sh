@@ -6,7 +6,7 @@ dst="/opt/$carto_user"
 tessera_config_dir=/etc/tessera.conf.d
 
 deploy_carto_ubuntu() {
-  apt-get install --no-install-recommends -y unzip make postgresql-contrib
+  apt-get install --no-install-recommends -y unzip make postgresql-contrib-9.6
   useradd -c 'OSM/GIS User' -d "$dst" -m -r -s /bin/bash -U "$carto_user"
   mkdir -p $tessera_config_dir
   chown $carto_user:$carto_user $tessera_config_dir
