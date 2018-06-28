@@ -14,7 +14,7 @@ configure_osm_replication() {
   sudo -u osm osmosis \
     --replicate-apidb \
       authFile=/etc/osmosis/osm.properties \
-      allowIncorrectSchemaVersion=true \
+      validateSchemaVersion=no \
     --write-replication \
       workingDirectory=/opt/data/osm/replication/minute
 
