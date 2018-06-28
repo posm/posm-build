@@ -10,7 +10,7 @@ respawn
 script
   docker run \
     --rm \
-    --dns $(jq -r .posm_wlan_ip /etc/posm.json) \
+    --add-host $(jq .posm_fqdn /etc/posm.json):$(ifconfig $(jq -r .posm_wan_netif /etc/posm.json) | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1) \
     -p $(jq -r .omk_server_port /etc/posm.json):$(jq -r .omk_server_port /etc/posm.json) \
     -e PORT=$(jq -r .omk_server_port /etc/posm.json) \
     -e NODE_ENV=$(jq -r .posm_env /etc/posm.json) \
