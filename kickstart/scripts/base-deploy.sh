@@ -1,6 +1,17 @@
 #!/bin/bash
 
 deploy_base_ubuntu() {
+  echo "System Info"
+  echo "CPU:"
+  cat /proc/cpuinfo
+  echo "Memory:"
+  free -h
+  echo "Disks:"
+  fdisk -l
+  df -h
+  echo "Network:"
+  ifconfig -a
+
   apt-get purge -y \
     whoopsie
 

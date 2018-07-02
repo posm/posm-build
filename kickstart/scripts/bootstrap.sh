@@ -139,16 +139,6 @@ done
 
 exec &> >(tee -a "${BOOTSTRAP_HOME}/bootstrap.log")
 echo "[`date '+%c'`] Starting bootstrap: $0 $*"
-echo "System Info"
-echo "CPU:"
-cat /proc/cpuinfo
-echo "Memory:"
-free -h
-echo "Disks:"
-fdisk -l
-df -h
-echo "Network:"
-ifconfig -a
 echo "$0 $*" >>/root/.bash_history
 echo -e '\n********** POSM BOOTSTRAP IS RUNNING!!! **********\n' >/etc/motd
 
