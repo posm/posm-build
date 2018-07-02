@@ -316,7 +316,7 @@ cd/boot/grub/grub.cfg: grub.cfg cd/boot
 	cp $< $@
 
 rootfs: postinstall
-	ln -sf /var/lib/lxd/containers/$$(cat container).zfs/rootfs
+	sudo cp -r /var/lib/lxd/containers/$$(cat container)/rootfs $@
 
 cd/casper/postinstall.sh: postinstall.sh
 	mkdir -p $$(dirname $@)
