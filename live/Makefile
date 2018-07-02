@@ -19,7 +19,7 @@ deps:
 	touch $@
 
 cd/.disk cd/boot cd/dists cd/EFI cd/pool: ubuntu-14.04-desktop-amd64.iso deps
-	7z x $< -o$$(dirname $@) $(subst cd/,,$@)
+	7z x $< -o$$(dirname $@) $(subst cd/,,$@) -y
 
 container:
 	lxc launch ubuntu:$(DIST)/$(ARCH) -p default -p docker \
