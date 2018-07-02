@@ -291,7 +291,7 @@ postinstall: cd/casper/filesystem-desktop.manifest
 
 	# this will be recreated
 	lxc exec $$(cat container) -- \
-	  rm /etc/network/interfaces.d/eth0.cfg
+	  rm -f /etc/network/interfaces.d/eth0.cfg
 
 	touch $@
 
