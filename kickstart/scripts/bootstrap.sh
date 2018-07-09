@@ -80,7 +80,7 @@ bootstrap_init() {
     fi
   fi
 
-  kernel_args=$(python -c 'import shlex; print "\n".join(shlex.split(None))' < /proc/cmdline)
+  kernel_args=$(python3 -c 'import shlex; print("\n".join(shlex.split(None)))' < /proc/cmdline)
   for arg in $kernel_args; do
     if [[ $arg =~ ^posm_ ]]; then
       export ${arg/posm_/}
