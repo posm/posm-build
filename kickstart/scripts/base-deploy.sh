@@ -2,13 +2,18 @@
 
 deploy_base_ubuntu() {
   echo "System Info"
+  lsb_release -a
+  uname -a
+  echo
   echo "CPU:"
   cat /proc/cpuinfo
   echo "Memory:"
   free -h
+  echo
   echo "Disks:"
   fdisk -l
   df -h
+  echo
   echo "Network:"
   ifconfig -a
 
