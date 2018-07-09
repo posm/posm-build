@@ -33,7 +33,7 @@ deploy_osm_rails_ubuntu() {
   mkdir -p "$dst"
   chown osm:osm "$dst"
   cat - <<"EOF" >"$dst/.bashrc"
-    # this is for interactive shell, not used by upstart!
+    # this is for interactive shell
     for d in "$HOME" "$HOME"/osm-*; do
       if [ -e "$d/bin" ]; then
         PATH="$PATH:$d/bin"
@@ -62,7 +62,7 @@ deploy_osm_rails() {
   from_github "https://github.com/AmericanRedCross/openstreetmap-website" "$dst/osm-web" "posm-v0.7.0"
   chown -R osm:osm "$dst/osm-web"
 
-  # upstart-friendly serving + logging
+  # service-friendly serving + logging
   grep puma "$dst/osm-web/Gemfile" || echo "gem 'puma'" >> "$dst/osm-web/Gemfile"
   grep rails_stdout_logging "$dst/osm-web/Gemfile" || echo "gem 'rails_stdout_logging'" >> "$dst/osm-web/Gemfile"
 
@@ -105,7 +105,8 @@ deploy_osm_rails() {
   su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:users:create display_name='${osm_posm_user}' description='${osm_posm_description}'"
 
   # update the upstart config
-  expand etc/osm-web.upstart /etc/init/osm-web.conf
+  expand etc/systemd/system/osm-web.service.hbs /etc/systemd/system/osm-web.service
+  systemd enable osm-web
 
   # create backup directory
   mkdir -p /opt/data/backups/osm
@@ -144,7 +145,8 @@ deploy_osm_cgimap() {
   su - osm -c "cd '$dst/osm-cgimap' && ./configure"
   su - osm -c "cd '$dst/osm-cgimap' && make -j $(nproc)"
 
-  expand etc/osm-cgimap.upstart /etc/init/osm-cgimap.conf
+  expand etc/systemd/system/osm-cgimap.service.hbs /etc/systemd/system/osm-cgimap.service
+  systemd enable osm-cgimap
   service osm-cgimap restart
 
   true
