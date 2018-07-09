@@ -12,12 +12,10 @@ deploy_postgis_ubuntu() {
   grep -q "0.0.0.0/0" /etc/postgresql/${pgsql_ver}/main/pg_hba.conf || \
     echo "host	all	all	0.0.0.0/0	md5" >> /etc/postgresql/${pgsql_ver}/main/pg_hba.conf
 
-  grep -q "postgresql.conf.local" /etc/postgresql/${pgsql_ver}/main/postgresql.conf || \
-    echo "include '/etc/postgresql/${pgsql_ver}/main/postgresql.conf.local'" >> /etc/postgresql/${pgsql_ver}/main/postgresql.conf
+  cp ${BOOTSTRAP_HOME}/etc/postgresql/postgresql.conf.local /etc/postgresql/${pgsql_ver}/main/conf.d/local.conf.hbs
 
-  cp ${BOOTSTRAP_HOME}/etc/postgresql/postgresql.conf.local /etc/postgresql/${pgsql_ver}/main/postgresql.conf.local.hbs
-
-  expand etc/init.d/postgresql /etc/init.d/postgresql
+  # TODO
+  # expand etc/init.d/postgresql /etc/init.d/postgresql
 
   service postgresql restart
 }
