@@ -19,15 +19,6 @@ deploy_mysql_ubuntu() {
   fi
   apt-get install --no-install-recommends -y mysql-server-$mysql_ver mysql-server
 
-  # Configure
-  if [ -n "$mysql_size" ]; then
-    if [ -e "/usr/share/doc/mysql-server-$mysql_ver/examples/$mysql_size.cnf" ]; then
-      cp "/usr/share/doc/mysql-server-$mysql_ver/examples/$mysql_size.cnf" $mysql_conf
-    elif [ -e "/usr/share/doc/mysql-server-$mysql_ver/examples/$mysql_size.cnf.gz" ]; then
-      gunzip < "/usr/share/doc/mysql-server-$mysql_ver/examples/$mysql_size.cnf.gz" > $mysql_conf
-    fi
-  fi
-
   # start
   service $mysql_svc restart
 
