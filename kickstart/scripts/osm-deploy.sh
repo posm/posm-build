@@ -1,7 +1,8 @@
 #!/bin/bash
 
 dst=/opt/osm
-osmosis_ver="${osmosis_ver:-0.45}"
+osmosis_ver="${osmosis_ver:-0.46}"
+pgsql_ver="${pgsql_ver:-10}"
 
 configure_osm_replication() {
   mkdir -p /opt/data/osm/replication/minute
@@ -25,7 +26,7 @@ configure_osm_replication() {
 deploy_osm_rails_ubuntu() {
   apt-get install --no-install-recommends -y \
     libmagickwand-dev libxml2-dev libxslt1-dev build-essential \
-     postgresql-contrib-9.6 libpq-dev postgresql-server-dev-9.6 \
+     postgresql-contrib-${pgsql_ver} libpq-dev postgresql-server-dev-${pgsql_ver} \
      libsasl2-dev imagemagick
 
   # OSM user & env
@@ -153,10 +154,8 @@ deploy_osm_cgimap() {
 }
 
 deploy_osm_ubuntu() {
-  add-apt-repository -s -y ppa:posm/ppa
-  apt-get update
   apt-get install --no-install-recommends -y \
-    osmctools osm2pgsql
+    osmctools osm2pgsql osmium-tool
 
   deploy_osmosis_prebuilt
 
