@@ -3,7 +3,7 @@
 dst=/opt/posm-www
 
 deploy_nginx_ubuntu() {
-  apt-get install --no-install-recommends -y nginx make apache2-utils
+  apt install --no-install-recommends -y nginx make apache2-utils
   expand etc/nginx-posm.conf /etc/nginx/sites-available/posm
   rm -f /etc/nginx/sites-enabled/default
   ln -sf ../sites-available/posm /etc/nginx/sites-enabled/00-posm
