@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mysql_ver="${mysql_ver:-5.5}"
+mysql_ver="${mysql_ver:-5.7}"
 mysql_pw="${mysql_pw:-}"
 mysql_size="${mysql_size:-}" # small, medium, large, etc.
 

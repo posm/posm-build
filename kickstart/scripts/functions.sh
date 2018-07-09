@@ -102,7 +102,7 @@ deploy() {
   esac
 
   case $release in
-    14.04)
+    18.04)
       ;;
     *)
       echo "Unsupported release: ${release}"

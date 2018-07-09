@@ -1,12 +1,9 @@
 #!/bin/bash
 
-pgsql_ver="${pgsql_ver:-9.6}"
+pgsql_ver="${pgsql_ver:-10}"
 postgis_ver="${postgis_ver:-2.4}"
 
 deploy_postgis_ubuntu() {
-  wget -q -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -c -s)-pgdg main" > /etc/apt/sources.list.d/postgresql.list
-  apt-get update
   apt-get install --no-install-recommends -y \
     "postgresql-$pgsql_ver-postgis-$postgis_ver" \
     "postgresql-$pgsql_ver-postgis-scripts" \
