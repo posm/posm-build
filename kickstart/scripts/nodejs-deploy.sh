@@ -1,6 +1,6 @@
 #!/bin/bash
 
-node_ver="${node_ver:-6}"
+node_ver="${node_ver:-10}"
 
 deploy_nodejs_ubuntu() {
   wget -q -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
