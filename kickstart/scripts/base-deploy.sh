@@ -34,7 +34,6 @@ deploy_base_ubuntu() {
     moreutils \
     software-properties-common \
     apt-transport-https \
-    lsb-release \
     virt-what \
     default-jre-headless \
     libnss-mdns \
