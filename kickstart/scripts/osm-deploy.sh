@@ -3,6 +3,7 @@
 dst=/opt/osm
 osmosis_ver="${osmosis_ver:-0.46}"
 pgsql_ver="${pgsql_ver:-10}"
+ruby_prefix="${ruby_prefix:-/opt/rbenv}"
 
 configure_osm_replication() {
   mkdir -p /opt/data/osm/replication/minute
@@ -33,18 +34,22 @@ deploy_osm_rails_ubuntu() {
   useradd -c 'OpenStreetMap' -d "$dst" -m -r -s /bin/bash -U osm
   mkdir -p "$dst"
   chown osm:osm "$dst"
-  cat - <<"EOF" >"$dst/.bashrc"
-    # this is for interactive shells
-    for d in "$HOME" "$HOME"/osm-*; do
-      if [ -e "$d/bin" ]; then
-        PATH="$PATH:$d/bin"
-      fi
-      if [ -e "$d/.env" ]; then
-        set -a
-        . "$d/.env"
-        set +a
-      fi
-    done
+  cat - << EOF > "$dst/.bashrc"
+# this is for interactive shells
+export PATH="\$PATH:$ruby_prefix/bin:$ruby_prefix/plugins/ruby-build/bin"
+export RBENV_ROOT="$ruby_prefix"
+eval "\$(rbenv init -)"
+
+for d in "\$HOME" "\$HOME"/osm-*; do
+  if [ -e "$d/bin" ]; then
+    PATH="\$PATH:\$d/bin"
+  fi
+  if [ -e "\$d/.env" ]; then
+    set -a
+    . "\$d/.env"
+    set +a
+  fi
+done
 EOF
 }
 
@@ -53,6 +58,10 @@ deploy_osm_rails_common() {
 }
 
 deploy_osm_rails() {
+  export PATH="$PATH:$ruby_prefix/bin:$ruby_prefix/plugins/ruby-build/bin"
+  export RBENV_ROOT="$ruby_prefix"
+  eval "$(rbenv init -)"
+
   # gems
   type bundler || gem install --no-rdoc --no-ri bundler
 
@@ -107,7 +116,7 @@ deploy_osm_rails() {
 
   # update the upstart config
   expand etc/systemd/system/osm-web.service.hbs /etc/systemd/system/osm-web.service
-  systemd enable osm-web
+  systemctl enable osm-web
 
   # create backup directory
   mkdir -p /opt/data/backups/osm
@@ -147,7 +156,7 @@ deploy_osm_cgimap() {
   su - osm -c "cd '$dst/osm-cgimap' && make -j $(nproc)"
 
   expand etc/systemd/system/osm-cgimap.service.hbs /etc/systemd/system/osm-cgimap.service
-  systemd enable osm-cgimap
+  systemctl enable osm-cgimap
   service osm-cgimap restart
 
   true

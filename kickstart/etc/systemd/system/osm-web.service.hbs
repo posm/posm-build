@@ -9,10 +9,12 @@ Environment=PORT={{osm_web_port}}
 Environment=OSM_ID_KEY="{{osm_id_key}}"
 Environment=OSM_POSM_USER="{{osm_posm_user}}"
 Environment=DATABASE_URL="postgres://{{osm_pg_owner}}:{{osm_pg_pass}}@localhost/{{osm_pg_dbname}}"
+Environment=PATH="{{PATH}}"
+Environment=RBENV_ROOT="{{RBENV_ROOT}}"
 Restart=always
 WorkingDirectory=/opt/osm/osm-web
 User=osm
-ExecStart=/usr/local/bin/bundle exec puma -C config/puma.rb
+ExecStart={{RBENV_ROOT}}/shims/bundle exec puma -C config/puma.rb
 
 [Install]
 WantedBy=multi-user.target
