@@ -20,10 +20,12 @@ Environment=OSM_BASE_URL="{{osm_base_url}}"
 Environment=DISABLE_LOGIN_CONFIRMATIONS="true"
 Environment=ATLAS_INDEX_HEADER_TILELAYER="{{posm_base_url}}/tiles/mm/{z}/{x}/{y}.png"
 Environment=DEFAULT_CENTER="3/0.00/20.00"
+Environment=PATH="{{PATH}}"
+Environment=RBENV_ROOT="{{RBENV_ROOT}}"
 Restart=always
 WorkingDirectory=/opt/fp/fp-web
 User=fp
-ExecStart=/usr/local/bin/bundle exec puma -C config/puma.rb
+ExecStart={{RBENV_ROOT}}/shims/bundle exec puma -C config/puma.rb
 
 [Install]
 WantedBy=multi-user.target
