@@ -1,0 +1,14 @@
+[Unit]
+Description=POSM Admin
+
+[Service]
+Environment=PATH=/opt/admin/env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=PORT="{{posm_admin_port}}"
+Environment=NODE_ENV="{{posm_env}}"
+Restart=always
+WorkingDirectory=/opt/admin/posm-admin
+User=posm-admin
+ExecStart=/usr/bin/npm start
+
+[Install]
+WantedBy=multi-user.target

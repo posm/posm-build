@@ -50,7 +50,8 @@ deploy_posm_admin() {
   su - $user -c "cd $dst/posm-admin && npm install"
 
   # start
-  expand etc/posm-admin.upstart /etc/init/posm-admin.conf
+  expand etc/systemd/system/posm-admin.service.hbs /etc/systemd/system/posm-admin.service
+  systemctl enable posm-admin
   service posm-admin restart
 }
 
