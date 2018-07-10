@@ -36,7 +36,8 @@ EOF
   chmod 755 /opt/data/backups/omk
 
   # start
-  expand etc/omk-server.upstart /etc/init/omk-server.conf
+  expand etc/systemd/system/omk-server.service.hbs /etc/systemd/system/omk-server.service
+  systemctl enable omk-server
   service omk-server restart
 
   true
