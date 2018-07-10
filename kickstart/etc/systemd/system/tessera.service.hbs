@@ -1,0 +1,15 @@
+[Unit]
+Description=Tessera Tile Server
+After=postgresql.service
+Requires=postgresql.service
+
+[Service]
+Environment=PORT="{{tessera_port}}"
+Environment=TESSERA_OPTS="--config /etc/tessera.conf.d"
+Restart=always
+WorkingDirectory=/opt/{{osm_carto_pg_owner}}
+User={{osm_carto_pg_owner}}
+ExecStart=/usr/bin/tessera
+
+[Install]
+WantedBy=multi-user.target
