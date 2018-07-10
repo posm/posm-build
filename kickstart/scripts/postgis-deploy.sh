@@ -14,6 +14,7 @@ deploy_postgis_ubuntu() {
 
   cp ${BOOTSTRAP_HOME}/etc/postgresql/postgresql.conf.local /etc/postgresql/${pgsql_ver}/main/conf.d/local.conf.hbs
 
+  mkdir -p /etc/systemd/system/postgresql@.service.d
   expand etc/systemd/system/postgresql@.service.d/override.conf /etc/systemd/system/postgresql@.service.d/override.conf
 
   service postgresql restart
