@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ruby_ver="${ruby_ver:-2.5}"
+ruby_ver="${ruby_ver:-2.4}"
 
 deploy_ruby_ubuntu() {
   apt-add-repository -y ppa:brightbox/ruby-ng

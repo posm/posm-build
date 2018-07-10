@@ -3,7 +3,7 @@
 dst=/opt/fp
 
 mysql_pw="${mysql_pw:-}"
-ruby_ver="${ruby_ver:-2.5}"
+ruby_ver="${ruby_ver:-2.4}"
 
 deploy_fieldpapers_ubuntu() {
   # deps
