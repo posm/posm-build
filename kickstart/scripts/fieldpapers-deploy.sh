@@ -3,6 +3,7 @@
 dst=/opt/fp
 
 mysql_pw="${mysql_pw:-}"
+ruby_ver="${ruby_ver:-2.5}"
 
 deploy_fieldpapers_ubuntu() {
   # deps
@@ -19,7 +20,7 @@ deploy_fieldpapers_ubuntu() {
     libxml2-dev \
     libxslt1-dev \
     libyaml-dev \
-    ruby2.2-dev \
+    ruby${ruby_ver}-dev \
     sqlite3 \
     zlib1g-dev \
     inotify-tools
@@ -29,7 +30,7 @@ deploy_fieldpapers_ubuntu() {
   mkdir -p "$dst"
   chown fp:fp "$dst"
   cat - <<"EOF" >"$dst/.bashrc"
-    # this is for interactive shell, not used by upstart!
+    # this is for interactive shells
     for d in "$HOME" "$HOME"/fp-*; do
       if [ -e "$d/bin" ]; then
         PATH="$PATH:$d/bin"
@@ -99,7 +100,8 @@ deploy_fp_web() {
   chown fp:fp "$dst/fp-web/config/providers.json"
 
   # start
-  expand etc/fp-web.upstart /etc/init/fp-web.conf
+  expand etc/systemd/system/fp-web.service.hbs /etc/systemd/system/fp-web.service
+  systemctl enable fp-web
   service fp-web restart
 
   true
@@ -113,7 +115,8 @@ deploy_fp_tiler() {
   su - fp -c "cd '$dst/fp-tiler' && npm install --quiet"
 
   # start
-  expand etc/fp-tiler.upstart /etc/init/fp-tiler.conf
+  expand etc/systemd/system/fp-tiler.service.hbs /etc/systemd/system/fp-tiler.service
+  systemctl enable fp-tiler
   service fp-tiler restart
 
   true
@@ -127,7 +130,8 @@ deploy_fp_tasks() {
   su - fp -c "cd '$dst/fp-tasks' && npm install --quiet"
 
   # start
-  expand etc/fp-tasks.upstart /etc/init/fp-tasks.conf
+  expand etc/systemd/system/fp-tasks.service.hbs /etc/systemd/system/fp-tasks.service
+  systemctl enable fp-tasks
   service fp-tasks restart
 
   true
@@ -138,15 +142,15 @@ deploy_fp_legacy() {
   apt-get install --no-install-recommends -y \
     gdal-bin \
     imagemagick \
-    php5-cli \
+    php-cli \
     python-cairo \
     python-dev \
     python-gdal \
-    python-imaging \
+    python-pil \
     python-numpy \
     python-pip \
     python-requests \
-    python-virtualenv \
+    virtualenv \
     qrencode \
     zbar-tools
 
@@ -158,13 +162,14 @@ deploy_fp_legacy() {
   tar -zxf /root/sources/fp-legacy.tar.gz -C "$dst/fp-legacy" --strip=2 --wildcards "*/decoder"
   tar -zxf /root/sources/vlfeat.tar.gz -C "$dst/fp-legacy/vlfeat" --strip=1
 
-  # configure FP
-  expand etc/fp-legacy.env "$dst/fp-legacy/.env"
 
   chown -R fp:fp "$dst/fp-legacy"
 
   su - fp -c "make -C '$dst/fp-legacy' C_LDFLAGS='-Wl,--rpath,\\\$\$ORIGIN/ -L./bin/a64 -lvl -lm'"
-  su - fp -c "cd '$dst/fp-legacy' && virtualenv env --system-site-packages && env PATH='$dst/fp-legacy/env/bin:$PATH' pip install -r requirements.txt"
+  su - fp -c "cd '$dst/fp-legacy' && virtualenv env --system-site-packages && VIRTUAL_ENV='$dst/fp-legacy/env' PATH='$dst/fp-legacy/env/bin:$PATH' pip install -r requirements.txt"
+
+  # configure FP
+  expand etc/fp-legacy.env "$dst/fp-legacy/.env"
 }
 
 deploy fieldpapers
