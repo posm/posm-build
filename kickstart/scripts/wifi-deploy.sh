@@ -1,7 +1,7 @@
 #!/bin/bash
 
 deploy_wifi_ubuntu() {
-  apt-get install --no-install-recommends -y linux-image-generic-lts-xenial wireless-tools
+  apt-get install --no-install-recommends -y wireless-tools
 
   apt-get remove --purge -y \
     network-manager
