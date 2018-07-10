@@ -1,0 +1,26 @@
+[Unit]
+Description=OpenDroneMap API - web
+After=docker.service redis.service
+Requires=docker.service redis.service
+
+[Service]
+Restart=always
+KillSignal=SIGKILL
+ExecStartPre=-/usr/bin/docker kill %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStart=/bin/bash -c "docker run \
+    --rm \
+    --add-host $(jq -r .posm_fqdn /etc/posm.json):$(ifconfig $(jq -r .posm_wan_netif /etc/posm.json) | grep 'inet ' | awk '{print $2}') \
+    -e REDIS_URL=redis://redis \
+    -e SERVER_NAME=$(jq -r .posm_fqdn /etc/posm.json) \
+    -p 10001:8000 \
+    --link redis \
+    --name odm-web \
+    --tmpfs /tmp \
+    -u $(id -u posm-admin):$(id -g posm-admin) \
+    -v /opt/data/opendronemap:/app/projects \
+    -v /opt/data/uploads:/app/uploads \
+    quay.io/mojodna/posm-opendronemap-api"
+
+[Install]
+WantedBy=multi-user.target

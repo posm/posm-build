@@ -14,8 +14,11 @@ deploy_opendronemap_ubuntu() {
 
   docker pull quay.io/mojodna/posm-opendronemap-api
 
-  expand etc/odm-web.upstart /etc/init/odm-web.conf
-  expand etc/odm-worker.upstart /etc/init/odm-worker.conf
+  expand etc/systemd/system/odm-web.service.hbs /etc/systemd/system/odm-web.service
+  expand etc/systemd/system/odm-worker.service.hbs /etc/systemd/system/odm-worker.service
+
+  systemctl enable odm-web
+  systemctl enable odm-worker
 
   service odm-web start
   service odm-worker start

@@ -14,8 +14,11 @@ deploy_imagery_ubuntu() {
 
   docker pull quay.io/mojodna/posm-imagery-api
 
-  expand etc/imagery-web.upstart /etc/init/imagery-web.conf
-  expand etc/imagery-worker.upstart /etc/init/imagery-worker.conf
+  expand etc/systemd/system/imagery-web.service.hbs /etc/systemd/system/imagery-web.service
+  expand etc/systemd/system/imagery-worker.service.hbs /etc/systemd/system/imagery-worker.service
+
+  systemctl enable imagery-web
+  systemctl enable imagery-worker
 
   service imagery-web start
   service imagery-worker start
