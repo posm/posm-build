@@ -124,6 +124,6 @@ vi posm-build/kickstart/etc/settings
 
 ### Requirements
 
-* **Ubuntu 14.04**
+* **Ubuntu 18.04**
 * At least 2GB RAM, 8GB+ preferred
 * At least 10GB of attached storage
