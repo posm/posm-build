@@ -2,6 +2,7 @@
 Description=osm2pgsql replication
 
 [Timer]
+OnBootSec=15
 OnUnitActiveSec=60
 
 [Install]

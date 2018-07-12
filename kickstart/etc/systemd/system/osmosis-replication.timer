@@ -2,6 +2,7 @@
 Description=osmosis replication
 
 [Timer]
+OnBootSec=15
 OnUnitActiveSec=60
 
 [Install]
