@@ -81,6 +81,7 @@ deploy_osm_rails() {
   cp "$dst/osm-web/config/example.application.yml" "$dst/osm-web/config/application.yml"
 
   # configure OSM
+  export ruby_prefix
   expand etc/osm-web.env "$dst/osm-web/.env"
   chown osm:osm "$dst/osm-web/.env"
 

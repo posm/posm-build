@@ -88,7 +88,9 @@ deploy_fp_web() {
   sed -i -e "s/2\\.2\\.[0-9]/$rbver/" "$dst/fp-web/.ruby-version" "$dst/fp-web/Gemfile"
 
   # configure FP
+  export ruby_prefix
   expand etc/fp-web.env "$dst/fp-web/.env"
+  chown fp:fp "$dst/fp-web/.env"
 
   # install vendored deps
   su - fp -c "cd '$dst/fp-web' && bundle install -j `nproc` --path vendor/bundle --with production"
