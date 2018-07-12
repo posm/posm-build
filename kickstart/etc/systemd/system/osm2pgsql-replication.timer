@@ -2,7 +2,7 @@
 Description=osm2pgsql replication
 
 [Timer]
-OnActiveSec=60
+OnUnitActiveSec=60
 
 [Install]
 WantedBy=multi-user.target
