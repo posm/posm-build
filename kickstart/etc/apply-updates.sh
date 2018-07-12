@@ -22,6 +22,7 @@ if [ -f /opt/data/osm/state.txt ]; then
       --extra-attributes \
       --database $db \
       --slim \
+      -r osm \
       - \
     2> /dev/null
 
