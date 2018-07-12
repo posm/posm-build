@@ -1,0 +1,8 @@
+[Unit]
+Description=osmosis replication
+
+[Timer]
+OnUnitActiveSec=60
+
+[Install]
+WantedBy=multi-user.target

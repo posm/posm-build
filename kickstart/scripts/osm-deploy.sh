@@ -20,7 +20,10 @@ configure_osm_replication() {
     --write-replication \
       workingDirectory=/opt/data/osm/replication/minute
 
-  crontab -u osm ${BOOTSTRAP_HOME}/etc/osm.crontab
+  expand etc/systemd/system/osmosis-replication.service /etc/systemd/system/osmosis-replication.service
+  expand etc/systemd/system/osmosis-replication.timer /etc/systemd/system/osmosis-replication.timer
+  systemctl enable osmosis-replication.timer
+  systemctl start osmosis-replication.timer
 }
 
 # requires nodejs, postgis
