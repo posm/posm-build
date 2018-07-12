@@ -1,0 +1,9 @@
+[Unit]
+Description=osm2pgsql replication
+After=postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=oneshot
+User=gis
+ExecStart=/usr/local/bin/apply-updates.sh

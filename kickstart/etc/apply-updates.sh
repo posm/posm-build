@@ -8,6 +8,8 @@ PATH=/usr/local/bin:/usr/sbin:/usr/bin:/bin
 if [ -f /opt/data/osm/state.txt ]; then
   db=$(jq -r .osm_carto_pg_dbname /etc/posm.json)
   timestamp=$(date -u +\%Y\%m\%d-\%H\%M)
+  # TODO use a named pipe
+  expiry_file=/opt/data/osm/expiry/${timestamp}.txt
 
   osmosis \
     --read-replication-interval \
@@ -22,9 +24,16 @@ if [ -f /opt/data/osm/state.txt ]; then
       --extra-attributes \
       --database $db \
       --slim \
+      --expire-tiles "1-22" \
+      --expire-output $expiry_file \
       -r osm \
-      - \
-    2> /dev/null
+      -
 
-  sudo service tessera restart > /dev/null
+  if [ -s $expiry_file ]; then
+    # restart if tiles would be expired
+    sudo service tessera restart
+  else
+    # remove the expiry file
+    rm -f $expiry_file
+  fi
 fi
