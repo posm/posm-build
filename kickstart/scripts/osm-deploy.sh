@@ -34,19 +34,15 @@ deploy_osm_rails_ubuntu() {
   useradd -c 'OpenStreetMap' -d "$dst" -m -r -s /bin/bash -U osm
   mkdir -p "$dst"
   chown osm:osm "$dst"
-  cat - << EOF > "$dst/.bashrc"
+  cat - << "EOF" > "$dst/.bashrc"
 # this is for interactive shells
-export PATH="\$PATH:$ruby_prefix/bin:$ruby_prefix/plugins/ruby-build/bin"
-export RBENV_ROOT="$ruby_prefix"
-eval "\$(rbenv init -)"
-
-for d in "\$HOME" "\$HOME"/osm-*; do
+for d in "$HOME" "\$HOME"/osm-*; do
   if [ -e "$d/bin" ]; then
-    PATH="\$PATH:\$d/bin"
+    PATH="$PATH:$d/bin"
   fi
-  if [ -e "\$d/.env" ]; then
+  if [ -e "$d/.env" ]; then
     set -a
-    . "\$d/.env"
+    . "$d/.env"
     set +a
   fi
 done
@@ -86,6 +82,7 @@ deploy_osm_rails() {
 
   # configure OSM
   expand etc/osm-web.env "$dst/osm-web/.env"
+  chown osm:osm "$dst/osm-web/.env"
 
   # install vendored deps
   su - osm -c "cd '$dst/osm-web' && bundle install -j `nproc` --path vendor/bundle --with production"
