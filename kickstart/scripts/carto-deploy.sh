@@ -54,6 +54,8 @@ deploy_carto_posm() {
   expand etc/systemd/system/osm2pgsql-replication.timer /etc/systemd/system/osm2pgsql-replication.timer
   systemctl enable osm2pgsql-replication.timer
   systemctl start osm2pgsql-replication.timer
+  # run the service to kick things off
+  systemctl start osm2pgsql-replication.service
 
   mkdir -p /opt/data/osm/expiry
   chown "$carto_user:$carto_user" /opt/data/osm

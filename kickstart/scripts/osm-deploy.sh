@@ -24,6 +24,8 @@ configure_osm_replication() {
   expand etc/systemd/system/osmosis-replication.timer /etc/systemd/system/osmosis-replication.timer
   systemctl enable osmosis-replication.timer
   systemctl start osmosis-replication.timer
+  # run the service to kick things off
+  systemctl start osmosis-replication.service
 }
 
 # requires nodejs, postgis
