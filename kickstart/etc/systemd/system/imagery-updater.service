@@ -1,0 +1,9 @@
+[Unit]
+Description=Imagery List Updater
+After=nginx.service
+Requires=nginx.service
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/posm-imagery-updater > /opt/posm-www/posm_imagery.json
