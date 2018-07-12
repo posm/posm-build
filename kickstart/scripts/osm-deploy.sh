@@ -36,7 +36,7 @@ deploy_osm_rails_ubuntu() {
   chown osm:osm "$dst"
   cat - << "EOF" > "$dst/.bashrc"
 # this is for interactive shells
-for d in "$HOME" "\$HOME"/osm-*; do
+for d in "$HOME" "$HOME"/osm-*; do
   if [ -e "$d/bin" ]; then
     PATH="$PATH:$d/bin"
   fi
