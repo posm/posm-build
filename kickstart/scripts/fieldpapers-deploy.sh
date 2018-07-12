@@ -149,6 +149,7 @@ deploy_fp_legacy() {
     gdal-bin \
     imagemagick \
     php-cli \
+    php-mbstring \
     python-cairo \
     python-dev \
     python-gdal \
