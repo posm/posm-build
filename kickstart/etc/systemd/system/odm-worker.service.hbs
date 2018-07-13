@@ -15,7 +15,7 @@ ExecStart=/bin/bash -c "docker run \
     -e REDIS_URL=redis://redis \
     -e SERVER_NAME=$(jq -r .posm_fqdn /etc/posm.json) \
     --link redis \
-    --name odm-worker \
+    --name %n \
     --tmpfs /tmp \
     -u $(id -u posm-admin):$(id -g posm-admin) \
     -v /opt/data/opendronemap:/app/projects \
