@@ -10,7 +10,7 @@ ExecStartPre=-/usr/bin/docker rm %n
 ExecStart=/bin/bash -c "docker run \
     --init \
     --rm \
-    --add-host $(jq -r .posm_fqdn /etc/posm.json):$(ifconfig $(jq -r .posm_wan_netif /etc/posm.json) | grep 'inet ' | awk '{print $2}') \
+    --add-host $(jq -r .posm_fqdn /etc/posm.json):$(ifdata -pa $(jq -r .posm_wan_netif /etc/posm.json)) \
     -p $(jq -r .omk_server_port /etc/posm.json):$(jq -r .omk_server_port /etc/posm.json) \
     -e PORT=$(jq -r .omk_server_port /etc/posm.json) \
     -e NODE_ENV=$(jq -r .posm_env /etc/posm.json) \
