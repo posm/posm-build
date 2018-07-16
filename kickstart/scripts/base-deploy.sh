@@ -20,7 +20,8 @@ deploy_base_ubuntu() {
   apt-get purge -y \
     whoopsie
 
-  apt-get update
+  add-apt-repository universe
+
   apt-get -y upgrade
   apt-get install --no-install-recommends -y \
     avahi-daemon \
