@@ -9,6 +9,8 @@ deploy_telegraf_ubuntu() {
     expand "etc/telegraf/telegraf.d/$(basename $f)" "/etc/telegraf/telegraf.d/$(basename $f)"
   done
 
+  usermod -aG docker telegraf
+
   service telegraf restart
 }
 
