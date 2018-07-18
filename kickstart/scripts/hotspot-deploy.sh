@@ -8,9 +8,13 @@ deploy_hotspot_ubuntu() {
 
     expand etc/hosts "/etc/hosts"
 
-    expand etc/netplan/posm.yaml.hbs /etc/netplan/10-posm.yaml
-    netplan generate
-    netplan apply
+    if [ -z "$posm_lan_netif" ];
+      expand etc/systemd/network/10-lan.network.hbs /etc/systemd/network/10-lan.network
+    fi
+    expand etc/systemd/network/10-wan.network.hbs /etc/systemd/network/10-wan.network
+    expand etc/systemd/network/10-wlan.network.hbs /etc/systemd/network/10-wlan.network
+
+    systemctl restart systemd-networkctl
 
     expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
     expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
