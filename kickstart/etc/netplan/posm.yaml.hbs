@@ -1,0 +1,17 @@
+network:
+  ethernets:
+    {{posm_wan_netif}}:
+      addresses: []
+      dhcp4: true
+      dhcp6: true
+{{#if posm_lan_netif}}
+    {{posm_lan_netif}}:
+      addresses:
+        - {{posm_lan_ip}}/16
+      optional: true
+{{/if}}
+    {{posm_wlan_netif}}:
+      addresses:
+        - {{posm_wlan_ip}}/16
+      optional: true
+  version: 2

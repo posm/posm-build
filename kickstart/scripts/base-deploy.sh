@@ -24,8 +24,6 @@ deploy_base_ubuntu() {
 
   apt-get -y upgrade
   apt-get install --no-install-recommends -y \
-    avahi-daemon \
-    avahi-autoipd \
     ca-certificates \
     curl \
     git \
@@ -37,11 +35,19 @@ deploy_base_ubuntu() {
     apt-transport-https \
     virt-what \
     default-jre-headless \
-    libnss-mdns \
     postfix
 
   # configure postfix
   expand etc/postfix/main.cf /etc/postfix/main.cf
+
+  # enable mDNS (posm.local)
+  mkdir -p /etc/systemd/resolved.conf.d
+  cat << EOF > /etc/systemd/resolved.conf.d/mdns.conf
+[Resolve]
+MulticastDNS=yes
+EOF
+
+  systemctl restart systemd-resolved
 
   curl -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -o /usr/local/bin/jq
   chmod +x /usr/local/bin/jq
