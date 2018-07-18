@@ -12,11 +12,11 @@ deploy_captive_ubuntu() {
     ln -s -f ../sites-available/captive /etc/nginx/sites-enabled/
 
     # disable port forwarding
-    test -f /etc/network/if-down.d/disable_port_forwarding && IFACE=$posm_wan_netif /etc/network/if-down.d/disable_port_forwarding
+    test -f /etc/networkd-dispatcher/off.d/disable_port_forwarding && IFACE=$posm_wan_netif /etc/networkd-dispatcher/off.d/disable_port_forwarding
 
     # remove hook scripts
-    rm -f /etc/network/if-up.d/enable_port_forwarding
-    rm -f /etc/network/if-down.d/disable_port_forwarding
+    rm -f /etc/networkd-dispatcher/routable.d/dnable_port_forwarding
+    rm -f /etc/networkd-dispatcher/off.d/disable_port_forwarding
 
     service dnsmasq restart
     service nginx restart
