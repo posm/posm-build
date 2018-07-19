@@ -18,6 +18,8 @@ deploy_base_ubuntu() {
   ifconfig -a
 
   apt-get purge -y \
+    lxd \
+    lxd-client \
     whoopsie
 
   add-apt-repository universe
