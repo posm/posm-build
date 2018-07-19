@@ -1,3 +1,4 @@
+{{#if posm_lan_netif}}
 [Match]
 Name={{posm_lan_netif}}
 
@@ -7,3 +8,4 @@ RequiredForOnline=no
 [Network]
 Address={{posm_lan_ip}}/16
 MulticastDNS=yes
+{{/if}}
