@@ -1,0 +1,5 @@
+[Unit]
+Description=WAN DHCP timeout
+
+[Timer]
+OnActiveSec=15

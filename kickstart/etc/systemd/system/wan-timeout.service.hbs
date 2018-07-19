@@ -1,0 +1,9 @@
+[Unit]
+Description=WAN DHCP timeout
+
+[Service]
+Type=oneshot
+User=root
+ExecStartPre=/bin/bash -c "networkctl | grep {{posm_wan_netif}} | awk '{print $4}' | grep -qv routable"
+ExecStartPre=/bin/cp /etc/systemd/network/20-wan-static.network /run/systemd/network/09-wan-static.network
+ExecStart=/bin/systemctl restart systemd-networkd

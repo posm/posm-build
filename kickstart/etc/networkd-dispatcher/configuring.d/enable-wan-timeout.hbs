@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [[ "$IFACE" == "{{posm_wan_netif}}" ]]; then
+  rm -f /run/systemd/network/09-wan-static.network
+  systemctl restart systemd-networkd
+  systemctl start wan-timeout.timer
+fi

@@ -11,10 +11,16 @@ deploy_hotspot_ubuntu() {
     if [ -z "$posm_lan_netif" ]; then
       expand etc/systemd/network/lan.network.hbs /etc/systemd/network/lan.network
     fi
-    expand etc/systemd/network/mac0.netdev /etc/systemd/network/mac0.netdev
-    expand etc/systemd/network/mac0.network /etc/systemd/network/mac0.network
-    expand etc/systemd/network/wan.network.hbs /etc/systemd/network/wan.network
+    expand etc/systemd/network/wan.network.hbs /etc/systemd/network/10-wan.network
+    expand etc/systemd/network/wan-static.network.hbs /etc/systemd/network/20-wan-static.network
     expand etc/systemd/network/wlan.network.hbs /etc/systemd/network/wlan.network
+
+    mkdir -p /usr/lib/networkd-dispatcher/configuring.d
+    expand etc/networkd-dispatcher/configuring.d/enable-wan-timeout.hbs /usr/lib/networkd-dispatcher/configuring.d/enable-wan-timeout
+    chmod +x /usr/lib/networkd-dispatcher/configuring.d/enable-wan-timeout
+
+    expand etc/systemd/system/wan-timeout.service.hbs /etc/systemd/system/wan-timeout.service
+    expand etc/systemd/system/wan-timeout.timer /etc/systemd/system/wan-timeout.timer
 
     # we're managing networks fully ourselves
     rm -f /etc/netplan/50-cloud-init.yaml

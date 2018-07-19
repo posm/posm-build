@@ -38,6 +38,15 @@ deploy_base_ubuntu() {
     virt-what \
     default-jre-headless
 
+  # enable mDNS (posm.local)
+  mkdir -p /etc/systemd/resolved.conf.d
+  cat << EOF > /etc/systemd/resolved.conf.d/mdns.conf
+[Resolve]
+MulticastDNS=yes
+EOF
+
+  systemctl restart systemd-resolved
+
   curl -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -o /usr/local/bin/jq
   chmod +x /usr/local/bin/jq
 
