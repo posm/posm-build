@@ -18,7 +18,7 @@ deploy_hotspot_ubuntu() {
     # we're managing networks fully ourselves
     rm -f /etc/netplan/50-cloud-init.yaml
 
-    systemctl restart systemd-networkctl
+    systemctl restart systemd-networkd
 
     expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
     expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
