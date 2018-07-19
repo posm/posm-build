@@ -8,7 +8,7 @@ deploy_hotspot_ubuntu() {
 
     expand etc/hosts "/etc/hosts"
 
-    if [ -z "$posm_lan_netif" ];
+    if [ -z "$posm_lan_netif" ]; then
       expand etc/systemd/network/lan.network.hbs /etc/systemd/network/lan.network
     fi
     expand etc/systemd/network/mac0.network.hbs /etc/systemd/network/mac0.network
