@@ -3,8 +3,7 @@
 deploy_captive_ubuntu() {
   local v="`virt-what 2>/dev/null`"
   if [ $? = 0 ] && [ -z "$v" ]; then
-    expand etc/dnsmasq-captive.conf /etc/dnsmasq.d-available/captive.conf
-    ln -sf /etc/dnsmasq.d-available/captive.conf /etc/dnsmasq.d/99-captive.conf
+    expand etc/dnsmasq-captive.conf /etc/dnsmasq.d/99-captive.conf
 
     apt-get install --no-install-recommends -y nginx
     expand etc/nginx-captive.conf /etc/nginx/sites-available/captive
