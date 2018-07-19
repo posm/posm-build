@@ -1,7 +1,6 @@
 #!/bin/bash
 
 deploy_wifi_ubuntu() {
-  systemctl stop systemd-resolved
 
   apt-get install --no-install-recommends -y \
     dnsmasq \
@@ -12,6 +11,8 @@ deploy_wifi_ubuntu() {
     rng-tools \
     wireless-tools
 
+  systemctl stop systemd-resolved
+  systemctl restart dnsmasq
   systemctl start systemd-resolved
 }
 
