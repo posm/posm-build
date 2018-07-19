@@ -11,7 +11,8 @@ deploy_hotspot_ubuntu() {
     if [ -z "$posm_lan_netif" ]; then
       expand etc/systemd/network/lan.network.hbs /etc/systemd/network/lan.network
     fi
-    expand etc/systemd/network/mac0.network.hbs /etc/systemd/network/mac0.network
+    expand etc/systemd/network/mac0.netdev /etc/systemd/network/mac0.netdev
+    expand etc/systemd/network/mac0.network /etc/systemd/network/mac0.network
     expand etc/systemd/network/wan.network.hbs /etc/systemd/network/wan.network
     expand etc/systemd/network/wlan.network.hbs /etc/systemd/network/wlan.network
 
