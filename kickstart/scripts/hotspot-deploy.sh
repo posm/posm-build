@@ -9,10 +9,14 @@ deploy_hotspot_ubuntu() {
     expand etc/hosts "/etc/hosts"
 
     if [ -z "$posm_lan_netif" ];
-      expand etc/systemd/network/10-lan.network.hbs /etc/systemd/network/10-lan.network
+      expand etc/systemd/network/lan.network.hbs /etc/systemd/network/lan.network
     fi
-    expand etc/systemd/network/10-wan.network.hbs /etc/systemd/network/10-wan.network
-    expand etc/systemd/network/10-wlan.network.hbs /etc/systemd/network/10-wlan.network
+    expand etc/systemd/network/mac0.network.hbs /etc/systemd/network/mac0.network
+    expand etc/systemd/network/wan.network.hbs /etc/systemd/network/wan.network
+    expand etc/systemd/network/wlan.network.hbs /etc/systemd/network/wlan.network
+
+    # we're managing networks fully ourselves
+    rm -f /etc/netplan/50-cloud-init.yaml
 
     systemctl restart systemd-networkctl
 

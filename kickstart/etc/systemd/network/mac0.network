@@ -1,0 +1,9 @@
+# this device / network exists for the sole purpose of providing an IPv4
+# link-local address while also using DHCP on the WAN interface
+[Match]
+Name=mac0
+
+[Network]
+IPForward=yes
+LinkLocalAddressing=yes
+MulticastDNS=true
