@@ -83,9 +83,9 @@ NUC](http://www.intel.com/content/www/us/en/nuc/nuc-kit-nuc6i7kyk-features-confi
 ## POSM Cloud
 
 POSM runs in the cloud! To prepare a suitable instance, provision a virtual server running **Ubuntu
-14.04** and ensure that you either have `root` or `sudo` access. 8GB of RAM is recommended, although
+18.04** and ensure that you either have `root` or `sudo` access. 8GB of RAM is recommended, although
 we've seen success with 4GB (and less may be necessary depending what you're doing). 10GB of disk
-space should be sufficient.
+space should be sufficient, but more is welcome if you're going to incorporate SuperPOSM capabilities.
 
 Before installation, you should choose a domain name and host to use to access your new POSM and
 configure it with your DNS provider. If you don't do this, you won't be able to access the
