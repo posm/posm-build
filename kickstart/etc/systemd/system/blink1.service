@@ -1,0 +1,9 @@
+[Unit]
+Description=blink(1)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/blink1-tool --rgb 00ff00
+
+[Install]
+WantedBy=multi-user.target

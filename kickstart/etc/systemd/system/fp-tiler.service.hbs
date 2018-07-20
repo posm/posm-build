@@ -1,0 +1,17 @@
+[Unit]
+Description=Field Papers Tiler
+After=fp-web.service
+Requires=fp-web.service
+
+[Service]
+Environment=API_BASE_URL="{{fp_api_base_url}}/"
+Environment=PORT="{{fp_tiler_port}}"
+Environment=NODE_ENV="{{posm_env}}"
+Environment=PATH_PREFIX="/fp-tiler"
+Restart=always
+WorkingDirectory=/opt/fp/fp-tiler
+User=fp
+ExecStart=/usr/bin/npm start
+
+[Install]
+WantedBy=multi-user.target

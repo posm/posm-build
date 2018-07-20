@@ -35,8 +35,11 @@ EOF
   chown omk:omk /opt/data/backups/omk
   chmod 755 /opt/data/backups/omk
 
+  docker pull quay.io/americanredcross/openmapkitserver
+
   # start
-  expand etc/omk-server.upstart /etc/init/omk-server.conf
+  expand etc/systemd/system/omk-server.service.hbs /etc/systemd/system/omk-server.service
+  systemctl enable omk-server
   service omk-server restart
 
   true

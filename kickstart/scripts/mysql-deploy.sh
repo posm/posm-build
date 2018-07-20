@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mysql_ver="${mysql_ver:-5.5}"
+mysql_ver="${mysql_ver:-5.7}"
 mysql_pw="${mysql_pw:-}"
 mysql_size="${mysql_size:-}" # small, medium, large, etc.
 
@@ -18,15 +18,6 @@ deploy_mysql_ubuntu() {
     echo "mysql-server-$mysql_ver mysql-server/root_password_again password $mysql_pw" | debconf-set-selections
   fi
   apt-get install --no-install-recommends -y mysql-server-$mysql_ver mysql-server
-
-  # Configure
-  if [ -n "$mysql_size" ]; then
-    if [ -e "/usr/share/doc/mysql-server-$mysql_ver/examples/$mysql_size.cnf" ]; then
-      cp "/usr/share/doc/mysql-server-$mysql_ver/examples/$mysql_size.cnf" $mysql_conf
-    elif [ -e "/usr/share/doc/mysql-server-$mysql_ver/examples/$mysql_size.cnf.gz" ]; then
-      gunzip < "/usr/share/doc/mysql-server-$mysql_ver/examples/$mysql_size.cnf.gz" > $mysql_conf
-    fi
-  fi
 
   # start
   service $mysql_svc restart

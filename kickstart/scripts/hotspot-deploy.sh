@@ -3,22 +3,41 @@
 deploy_hotspot_ubuntu() {
   local v="`virt-what 2>/dev/null`"
   if [ $? = 0 ] && [ -z "$v" ]; then
-	  # allow lo to use remote DNS servers (don't modify /etc/resolve.conf)
-	  grep -qe "^DNSMASQ_EXCEPT" /etc/default/dnsmasq || echo DNSMASQ_EXCEPT=\"lo\" >> /etc/default/dnsmasq
-	  expand etc/hosts "/etc/hosts"
+    # allow lo to use remote DNS servers (don't modify /etc/resolve.conf)
+    grep -qe "^DNSMASQ_EXCEPT" /etc/default/dnsmasq || echo DNSMASQ_EXCEPT=\"lo\" >> /etc/default/dnsmasq
 
-	  # configure network interfaces
-	  expand etc/network/interfaces.d/usb0.cfg "/etc/network/interfaces.d/usb0.cfg"
-	  test "$posm_lan_netif" != "" && expand etc/network/interfaces.d/lan.cfg "/etc/network/interfaces.d/${posm_lan_netif}.cfg"
-	  test "$posm_wan_netif" != "" && expand etc/network/interfaces.d/wan.cfg "/etc/network/interfaces.d/${posm_wan_netif}.cfg"
-	  test "$posm_wlan_netif" != "" && expand etc/network/interfaces.d/wlan.cfg "/etc/network/interfaces.d/${posm_wlan_netif}.cfg"
-	  expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
-	  expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
+    expand etc/hosts "/etc/hosts"
 
-	  grep -qe "^DAEMON_CONF" /etc/default/hostapd || echo DAEMON_CONF=\"/etc/hostapd/hostapd.conf\" >> /etc/default/hostapd
+    if [ -z "$posm_lan_netif" ]; then
+      expand etc/systemd/network/lan.network.hbs /etc/systemd/network/lan.network
+    fi
+    expand etc/systemd/network/wan.network.hbs /etc/systemd/network/10-wan.network
+    expand etc/systemd/network/wan-static.network.hbs /etc/systemd/network/20-wan-static.network
+    expand etc/systemd/network/wlan.network.hbs /etc/systemd/network/wlan.network
 
-	  service dnsmasq restart
-	  service hostapd restart
+    mkdir -p /usr/lib/networkd-dispatcher/configuring.d
+    expand etc/networkd-dispatcher/configuring.d/enable-wan-timeout.hbs /usr/lib/networkd-dispatcher/configuring.d/enable-wan-timeout
+    chmod +x /usr/lib/networkd-dispatcher/configuring.d/enable-wan-timeout
+
+    expand etc/systemd/system/wan-timeout.service.hbs /etc/systemd/system/wan-timeout.service
+    expand etc/systemd/system/wan-timeout.timer /etc/systemd/system/wan-timeout.timer
+
+    # we're managing networks fully ourselves
+    rm -f /etc/netplan/50-cloud-init.yaml
+
+    systemctl restart systemd-networkd
+
+    expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
+    expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
+
+    ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+
+    grep -qe "^DAEMON_CONF" /etc/default/hostapd || echo DAEMON_CONF=\"/etc/hostapd/hostapd.conf\" >> /etc/default/hostapd
+
+    systemctl unmask hostapd.service
+    systemctl enable hostapd.service
+    systemctl start hostapd.service
+    systemctl restart dnsmasq.service
   fi
 }
 

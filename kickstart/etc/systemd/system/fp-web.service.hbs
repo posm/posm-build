@@ -1,0 +1,32 @@
+[Unit]
+Description=Field Papers Web
+After=mysql.service
+Requires=mysql.service
+
+[Service]
+Environment=BASE_URL="{{fp_api_base_url}}"
+Environment=DATABASE_URL="mysql2://root:{{mysql_pw}}@localhost/fieldpapers_{{posm_env}}"
+Environment=RAILS_ENV="{{posm_env}}"
+Environment=RAILS_RELATIVE_URL_ROOT="/fp"
+Environment=SECRET_KEY_BASE="{{fp_secret_key_base}}"
+Environment=TASK_BASE_URL="{{posm_base_url}}/fp-tasks"
+Environment=TILE_BASE_URL="{{fp_tile_base_url}}"
+Environment=PERSIST="local"
+Environment=STATIC_PATH="/opt/fp/data"
+Environment=STATIC_URI_PREFIX="{{fp_api_base_url}}/_"
+Environment=MAPZEN_SEARCH_KEY="{{fp_mapzen_search_key}}"
+Environment=PORT={{fp_web_port}}
+Environment=ATLAS_COMPLETE_WEBHOOKS="{{posm_base_url}}/posm-admin/atlas-deploy"
+Environment=OSM_BASE_URL="{{osm_base_url}}"
+Environment=DISABLE_LOGIN_CONFIRMATIONS="true"
+Environment=ATLAS_INDEX_HEADER_TILELAYER="{{posm_base_url}}/tiles/mm/{z}/{x}/{y}.png"
+Environment=DEFAULT_CENTER="3/0.00/20.00"
+Environment=PATH="{{PATH}}"
+Environment=RBENV_ROOT="{{RBENV_ROOT}}"
+Restart=always
+WorkingDirectory=/opt/fp/fp-web
+User=fp
+ExecStart={{RBENV_ROOT}}/shims/bundle exec puma -C config/puma.rb
+
+[Install]
+WantedBy=multi-user.target

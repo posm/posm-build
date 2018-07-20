@@ -1,0 +1,13 @@
+[Unit]
+Description=Field Papers Watcher
+After=fp-web.service
+Requires=fp-web.service
+
+[Service]
+Restart=always
+WorkingDirectory=/opt/fp
+User=fp
+ExecStart=/opt/fp/bin/fp-watch.sh
+
+[Install]
+WantedBy=multi-user.target

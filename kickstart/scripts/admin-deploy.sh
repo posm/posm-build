@@ -30,7 +30,7 @@ deploy_admin_ubuntu() {
 
 deploy_posm_admin() {
   # Fetch source code.
-  from_github "https://github.com/AmericanRedCross/posm-admin" "$dst/posm-admin"
+  from_github "https://github.com/AmericanRedCross/posm-admin" "$dst/posm-admin" "bionic"
 
   # admin user should own this
   chown -R $user:$group "$dst/posm-admin"
@@ -50,7 +50,8 @@ deploy_posm_admin() {
   su - $user -c "cd $dst/posm-admin && npm install"
 
   # start
-  expand etc/posm-admin.upstart /etc/init/posm-admin.conf
+  expand etc/systemd/system/posm-admin.service.hbs /etc/systemd/system/posm-admin.service
+  systemctl enable posm-admin
   service posm-admin restart
 }
 

@@ -1,0 +1,9 @@
+[Unit]
+Description=osmosis replication
+After=postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=oneshot
+User=osm
+ExecStart=/usr/bin/osmosis --replicate-apidb authFile=/etc/osmosis/osm.properties validateSchemaVersion=no --write-replication workingDirectory=/opt/data/osm/replication/minute

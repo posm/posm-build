@@ -6,7 +6,7 @@ dst="/opt/$carto_user"
 tessera_config_dir=/etc/tessera.conf.d
 
 deploy_carto_ubuntu() {
-  apt-get install --no-install-recommends -y unzip make postgresql-contrib-9.6
+  apt-get install --no-install-recommends -y unzip make postgresql-contrib-10
   useradd -c 'OSM/GIS User' -d "$dst" -m -r -s /bin/bash -U "$carto_user"
   mkdir -p $tessera_config_dir
   chown $carto_user:$carto_user $tessera_config_dir
@@ -49,13 +49,19 @@ deploy_carto_posm() {
   # restart
   service tessera restart
 
-  # register a cron job that reads diffs and updates the rendering database
-  crontab -u $carto_user ${BOOTSTRAP_HOME}/etc/gis.crontab
+  # register a timerthat reads diffs and updates the rendering database
+  expand etc/systemd/system/osm2pgsql-replication.service /etc/systemd/system/osm2pgsql-replication.service
+  expand etc/systemd/system/osm2pgsql-replication.timer /etc/systemd/system/osm2pgsql-replication.timer
+  systemctl enable osm2pgsql-replication.timer
+  systemctl start osm2pgsql-replication.timer
+  # run the service to kick things off
+  systemctl start osm2pgsql-replication.service
 
   mkdir -p /opt/data/osm/expiry
   chown "$carto_user:$carto_user" /opt/data/osm
   chown "$carto_user:$carto_user" /opt/data/osm/expiry
 
+  sudo -u $carto_user rm -f /opt/data/osm/configuration.txt
   sudo -u $carto_user osmosis --read-replication-interval-init workingDirectory=/opt/data/osm
   sudo -u $carto_user sed -Ei 's!^baseUrl\s?=.*$!baseUrl=file:///opt/data/osm/replication/minute!' /opt/data/osm/configuration.txt
   sudo -u $carto_user sed -Ei 's!^maxInterval\s?=.*$!maxInterval=0!' /opt/data/osm/configuration.txt

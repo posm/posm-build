@@ -1,7 +1,9 @@
 #!/bin/bash
 
 dst=/opt/osm
-osmosis_ver="${osmosis_ver:-0.45}"
+osmosis_ver="${osmosis_ver:-0.46}"
+pgsql_ver="${pgsql_ver:-10}"
+ruby_prefix="${ruby_prefix:-/opt/rbenv}"
 
 configure_osm_replication() {
   mkdir -p /opt/data/osm/replication/minute
@@ -18,32 +20,37 @@ configure_osm_replication() {
     --write-replication \
       workingDirectory=/opt/data/osm/replication/minute
 
-  crontab -u osm ${BOOTSTRAP_HOME}/etc/osm.crontab
+  expand etc/systemd/system/osmosis-replication.service /etc/systemd/system/osmosis-replication.service
+  expand etc/systemd/system/osmosis-replication.timer /etc/systemd/system/osmosis-replication.timer
+  systemctl enable osmosis-replication.timer
+  systemctl start osmosis-replication.timer
+  # run the service to kick things off
+  systemctl start osmosis-replication.service
 }
 
 # requires nodejs, postgis
 deploy_osm_rails_ubuntu() {
   apt-get install --no-install-recommends -y \
     libmagickwand-dev libxml2-dev libxslt1-dev build-essential \
-     postgresql-contrib-9.6 libpq-dev postgresql-server-dev-9.6 \
+     postgresql-contrib-${pgsql_ver} libpq-dev postgresql-server-dev-${pgsql_ver} \
      libsasl2-dev imagemagick
 
   # OSM user & env
   useradd -c 'OpenStreetMap' -d "$dst" -m -r -s /bin/bash -U osm
   mkdir -p "$dst"
   chown osm:osm "$dst"
-  cat - <<"EOF" >"$dst/.bashrc"
-    # this is for interactive shell, not used by upstart!
-    for d in "$HOME" "$HOME"/osm-*; do
-      if [ -e "$d/bin" ]; then
-        PATH="$PATH:$d/bin"
-      fi
-      if [ -e "$d/.env" ]; then
-        set -a
-        . "$d/.env"
-        set +a
-      fi
-    done
+  cat - << "EOF" > "$dst/.bashrc"
+# this is for interactive shells
+for d in "$HOME" "$HOME"/osm-*; do
+  if [ -e "$d/bin" ]; then
+    PATH="$PATH:$d/bin"
+  fi
+  if [ -e "$d/.env" ]; then
+    set -a
+    . "$d/.env"
+    set +a
+  fi
+done
 EOF
 }
 
@@ -52,6 +59,10 @@ deploy_osm_rails_common() {
 }
 
 deploy_osm_rails() {
+  export PATH="$PATH:$ruby_prefix/bin:$ruby_prefix/plugins/ruby-build/bin"
+  export RBENV_ROOT="$ruby_prefix"
+  eval "$(rbenv init -)"
+
   # gems
   type bundler || gem install --no-rdoc --no-ri bundler
 
@@ -59,10 +70,10 @@ deploy_osm_rails() {
   npm install -g svgo
 
   # install OSM WEB
-  from_github "https://github.com/AmericanRedCross/openstreetmap-website" "$dst/osm-web" "posm-v0.7.0"
+  from_github "https://github.com/AmericanRedCross/openstreetmap-website" "$dst/osm-web" "posm-v0.8.0"
   chown -R osm:osm "$dst/osm-web"
 
-  # upstart-friendly serving + logging
+  # service-friendly serving + logging
   grep puma "$dst/osm-web/Gemfile" || echo "gem 'puma'" >> "$dst/osm-web/Gemfile"
   grep rails_stdout_logging "$dst/osm-web/Gemfile" || echo "gem 'rails_stdout_logging'" >> "$dst/osm-web/Gemfile"
 
@@ -75,7 +86,9 @@ deploy_osm_rails() {
   cp "$dst/osm-web/config/example.application.yml" "$dst/osm-web/config/application.yml"
 
   # configure OSM
+  export ruby_prefix
   expand etc/osm-web.env "$dst/osm-web/.env"
+  chown osm:osm "$dst/osm-web/.env"
 
   # install vendored deps
   su - osm -c "cd '$dst/osm-web' && bundle install -j `nproc` --path vendor/bundle --with production"
@@ -105,7 +118,8 @@ deploy_osm_rails() {
   su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:users:create display_name='${osm_posm_user}' description='${osm_posm_description}'"
 
   # update the upstart config
-  expand etc/osm-web.upstart /etc/init/osm-web.conf
+  expand etc/systemd/system/osm-web.service.hbs /etc/systemd/system/osm-web.service
+  systemctl enable osm-web
 
   # create backup directory
   mkdir -p /opt/data/backups/osm
@@ -144,17 +158,16 @@ deploy_osm_cgimap() {
   su - osm -c "cd '$dst/osm-cgimap' && ./configure"
   su - osm -c "cd '$dst/osm-cgimap' && make -j $(nproc)"
 
-  expand etc/osm-cgimap.upstart /etc/init/osm-cgimap.conf
+  expand etc/systemd/system/osm-cgimap.service.hbs /etc/systemd/system/osm-cgimap.service
+  systemctl enable osm-cgimap
   service osm-cgimap restart
 
   true
 }
 
 deploy_osm_ubuntu() {
-  add-apt-repository -s -y ppa:posm/ppa
-  apt-get update
   apt-get install --no-install-recommends -y \
-    osmctools osm2pgsql
+    osmctools osm2pgsql osmium-tool
 
   deploy_osmosis_prebuilt
 

@@ -1,0 +1,21 @@
+[Unit]
+Description=Field Papers Tasks
+After=fp-web.service
+Requires=fp-web.service
+
+[Service]
+Environment=PATH=/opt/fp/fp-legacy/env/bin:/opt/fp/fp-legacy:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=API_BASE_URL="{{fp_api_base_url}}/"
+Environment=PORT="{{fp_tasks_port}}"
+Environment=NODE_ENV="{{posm_env}}"
+Environment=VIRTUAL_ENV=/opt/fp/fp-legacy/env
+Environment=PERSIST="local"
+Environment=STATIC_PATH="/opt/fp/data"
+Environment=STATIC_URI_PREFIX="{{fp_api_base_url}}/_"
+Restart=always
+WorkingDirectory=/opt/fp/fp-tasks
+User=fp
+ExecStart=/usr/bin/npm start
+
+[Install]
+WantedBy=multi-user.target

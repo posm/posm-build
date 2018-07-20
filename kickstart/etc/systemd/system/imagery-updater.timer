@@ -1,0 +1,9 @@
+[Unit]
+Description=Imagery List Updater
+
+[Timer]
+OnBootSec=15
+OnUnitActiveSec=60
+
+[Install]
+WantedBy=multi-user.target

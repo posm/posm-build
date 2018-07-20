@@ -1,1 +1,0 @@
-* * * * * /usr/bin/osmosis --replicate-apidb authFile=/etc/osmosis/osm.properties allowIncorrectSchemaVersion=true --write-replication workingDirectory=/opt/data/osm/replication/minute 2> /dev/null

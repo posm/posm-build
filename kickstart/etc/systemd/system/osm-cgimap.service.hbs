@@ -1,0 +1,16 @@
+[Unit]
+Description=OpenStreetMap API
+After=postgresql.service
+Requires=postgresql.service
+
+[Service]
+Environment=CGIMAP_BACKEND="apidb"
+Environment=CGIMAP_DBNAME="{{osm_pg_dbname}}"
+Environment=CGIMAP_PORT={{cgimap_port}}
+Restart=always
+WorkingDirectory=/opt/osm/osm-cgimap
+User=osm
+ExecStart=/opt/osm/osm-cgimap/openstreetmap-cgimap
+
+[Install]
+WantedBy=multi-user.target
