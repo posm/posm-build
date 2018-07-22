@@ -151,7 +151,6 @@ posm: base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tess
 	touch $@
 
 posm.tgz: posm
-	lxc stop $$(cat container) || true
 	sudo tar cf - -p -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
 	sudo chown $$(whoami):$$(whoami) $@
 
