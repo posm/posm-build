@@ -24,6 +24,7 @@ deploy_base_ubuntu() {
 
   add-apt-repository universe
 
+  apt-get update
   apt-get -y upgrade
   apt-get install --no-install-recommends -y \
     ca-certificates \
