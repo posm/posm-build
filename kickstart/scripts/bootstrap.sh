@@ -105,7 +105,7 @@ bootstrap() {
     chmod +x "${BOOTSTRAP_HOME}/scripts/${i}-deploy.sh"
     echo "==> Deploying: $i"
     if [ -z "$dryrun" ]; then
-      echo "Disk usage after $i:"
+      echo "Disk usage before $i:"
       df -h
       if ! . "${BOOTSTRAP_HOME}/scripts/${i}-deploy.sh"; then
         err=1
