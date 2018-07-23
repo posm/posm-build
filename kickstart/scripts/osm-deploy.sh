@@ -140,6 +140,10 @@ deploy_osm_rails() {
 
 deploy_osm_cgimap_ubuntu() {
   apt-get install --no-install-recommends -y \
+    libboost-date-time1.65.1 libboost-filesystem1.65.1 libboost-locale1.65.1 \
+    libboost-regex1.65.1 libboost-serialization1.65.1 libboost-system1.65.1 \
+    libboost-thread1.65.1 libcrypto++6 libfcgi0ldbl libhashkit2 libmemcached11 \
+    libmemcachedutil2 libpqxx-4.0v5 \
     libxml2-dev libpqxx-dev libfcgi-dev libboost-dev libboost-regex-dev \
     libboost-program-options-dev libboost-date-time-dev \
     libboost-filesystem-dev libboost-system-dev libboost-locale-dev \
