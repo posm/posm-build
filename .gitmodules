@@ -1,0 +1,3 @@
+[submodule "live/subiquity"]
+	path = live/subiquity
+	url = https://github.com/posm/subiquity
