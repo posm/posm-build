@@ -158,4 +158,4 @@ posm.iso: posm.tgz bionic-live-server-amd64.iso
 
 clean:
 	test -f container && lxc delete $$(cat container) --force || true
-	rm -rf admin base blink1 carto container docker fieldpapers gis imagery influxdb nginx nodejs omk opendronemap osm posm postgis redis ruby samba telegraf tessera tl wifi posm.tgz
+	rm -rf admin base blink1 carto container docker fieldpapers gis imagery influxdb nginx nodejs omk opendronemap osm posm postgis redis ruby samba telegraf tessera tl wifi posm.tgz posm.iso
