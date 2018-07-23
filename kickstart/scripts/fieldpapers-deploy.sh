@@ -2,7 +2,6 @@
 
 dst=/opt/fp
 
-mysql_pw="${mysql_pw:-}"
 ruby_prefix="${ruby_prefix:-/opt/rbenv}"
 
 deploy_fieldpapers_ubuntu() {
@@ -13,7 +12,7 @@ deploy_fieldpapers_ubuntu() {
     git \
     libcurl4-openssl-dev \
     libffi-dev \
-    libmysqlclient-dev \
+    libpq-dev \
     libreadline-dev \
     libsqlite3-dev \
     libssl-dev \
@@ -91,12 +90,15 @@ deploy_fp_web() {
   export ruby_prefix
   expand etc/fp-web.env "$dst/fp-web/.env"
   chown fp:fp "$dst/fp-web/.env"
+  expand etc/fieldpapers/database.yml "$dst/fp-web/config/database.yml"
 
   # install vendored deps
   su - fp -c "cd '$dst/fp-web' && bundle install -j `nproc` --path vendor/bundle --with production"
 
   # init database
-  su - fp -c "cd '$dst/fp-web' && bundle exec rake db:create && bundle exec rake db:schema:load"
+  echo -e "${fp_pg_pass}\n${fp_pg_pass}" | su - postgres -c "createuser --no-superuser --no-createdb --no-createrole --pwprompt '$fp_pg_owner'"
+  su - postgres -c "createdb --owner='$fp_pg_owner' '$fp_pg_dbname'"
+  su - fp -c "cd '$dst/fp-web' && bundle exec rake db:schema:load"
 
   # fp assets
   su - fp -c "cd '$dst/fp-web' && bundle exec rake assets:precompile"

@@ -1,11 +1,11 @@
 [Unit]
 Description=Field Papers Web
-After=mysql.service
-Requires=mysql.service
+After=postgresql.service
+Requires=postgresql.service
 
 [Service]
 Environment=BASE_URL="{{fp_api_base_url}}"
-Environment=DATABASE_URL="mysql2://root:{{mysql_pw}}@localhost/fieldpapers_{{posm_env}}"
+Environment=DATABASE_URL="postgres://{{fp_pg_owner}}:{{fp_pg_pass}}@localhost/{{fp_pg_dbname}}"
 Environment=RAILS_ENV="{{posm_env}}"
 Environment=RAILS_RELATIVE_URL_ROOT="/fp"
 Environment=SECRET_KEY_BASE="{{fp_secret_key_base}}"

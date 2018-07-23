@@ -55,8 +55,9 @@ osm_posm_user="POSM"
 osm_posm_description="Portable OpenStreetMap"
 
 # databases
-mysql_pw=posm
-mysql_size=small
+fp_pg_owner="fieldpapers"
+fp_pg_pass="fieldpapers"
+fp_pg_dbname="fieldpapers_${posm_env}"
 osm_pg_owner="osm"
 osm_pg_pass="openstreetmap"
 osm_pg_dbname="osm"

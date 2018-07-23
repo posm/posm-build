@@ -42,11 +42,6 @@ gis: base
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-mysql: base
-	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
-	lxc snapshot $$(cat container) $@
-	touch $@
-
 postgis: nodejs
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
@@ -62,7 +57,7 @@ osm: nodejs ruby postgis nginx
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-fieldpapers: nodejs ruby mysql
+fieldpapers: nodejs ruby postgis
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@
@@ -137,7 +132,7 @@ telegraf: influxdb
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-posm: base nodejs ruby gis mysql postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker redis opendronemap imagery influxdb telegraf wifi
+posm: base nodejs ruby gis postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker redis opendronemap imagery influxdb telegraf wifi
 	lxc exec $$(cat container) -- apt-get autoremove -y
 	lxc exec $$(cat container) -- apt-get clean
 	echo 'root:posm' | lxc exec $$(cat container) -- chpasswd
@@ -156,4 +151,4 @@ posm.tgz: posm
 
 clean:
 	test -f container && lxc delete $$(cat container) --force || true
-	rm -rf admin base blink1 carto container docker fieldpapers gis imagery influxdb mysql nginx nodejs omk opendronemap osm posm postgis redis ruby samba telegraf tessera tl wifi posm.tgz
+	rm -rf admin base blink1 carto container docker fieldpapers gis imagery influxdb nginx nodejs omk opendronemap osm posm postgis redis ruby samba telegraf tessera tl wifi posm.tgz
