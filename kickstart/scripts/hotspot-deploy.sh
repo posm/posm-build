@@ -38,6 +38,11 @@ deploy_hotspot_ubuntu() {
     systemctl enable hostapd.service
     systemctl start hostapd.service
     systemctl restart dnsmasq.service
+  else
+    # configure the VM's WAN interface
+    expand etc/systemd/network/wan.network.hbs /etc/systemd/network/10-wan.network
+
+    systemctl restart systemd-networkd
   fi
 }
 
