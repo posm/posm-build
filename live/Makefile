@@ -5,7 +5,7 @@ DEBCONF_NONINTERACTIVE_SEEN = true
 GIT_REPO ?= "https://github.com/posm/posm-build"
 GIT_BRANCH ?= "master"
 
-default: posm.tgz
+default: posm.iso
 
 # can't run apt in parallel
 .NOTPARALLEL:
@@ -148,6 +148,12 @@ posm: base nodejs ruby gis postgis nginx osm fieldpapers omk tl carto tessera ad
 posm.tgz: posm
 	sudo tar cf - -p -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
 	sudo chown $$(whoami):$$(whoami) $@
+
+bionic-live-server-amd64.iso:
+	curl -sfL http://cdimage.ubuntu.com/ubuntu-server/bionic/daily-live/current/bionic-live-server-amd64.iso -o $@
+
+posm.iso: posm.tgz bionic-live-server-amd64.iso
+	make -C subiquity $@
 
 clean:
 	test -f container && lxc delete $$(cat container) --force || true
