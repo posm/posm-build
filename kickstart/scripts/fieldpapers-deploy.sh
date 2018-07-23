@@ -94,7 +94,7 @@ deploy_fp_web() {
 
   # install vendored deps
   su - fp -c "cd '$dst/fp-web' && bundle install -j `nproc` --path vendor/bundle --with production"
-  su - fp -c "rm -rf '$dst/fp-web/vendor/bundle/ruby/*/cache'
+  su - fp -c "rm -rf '$dst/fp-web/vendor/bundle/ruby/*/cache'"
 
   # init database
   echo -e "${fp_pg_pass}\n${fp_pg_pass}" | su - postgres -c "createuser --no-superuser --no-createdb --no-createrole --pwprompt '$fp_pg_owner'"
