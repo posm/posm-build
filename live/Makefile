@@ -18,6 +18,7 @@ container:
 		-c linux.kernel_modules="overlay, nf_nat, aufs" | \
 		tail -1 | cut -d " " -f 2 > $@
 	sleep 5
+	lxc exec $$(cat container) -- apt update
 	lxc exec $$(cat container) -- apt install --no-install-recommends -y linux-generic
 
 base: container
