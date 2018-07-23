@@ -147,6 +147,18 @@ deploy_osm_cgimap_ubuntu() {
     libtool
 }
 
+cleanup_osm_cgimap_ubuntu() {
+  apt purge -y \
+    autoconf automake autotools-dev libboost-date-time-dev \
+    libboost-date-time1.65-dev libboost-dev libboost-filesystem-dev \
+    libboost-filesystem1.65-dev libboost-locale-dev libboost-locale1.65-dev \
+    libboost-program-options-dev libboost-program-options1.65-dev \
+    libboost-regex-dev libboost-regex1.65-dev libboost-serialization1.65-dev \
+    libboost-system-dev libboost-system1.65-dev libboost1.65-dev \
+    libcrypto++-dev libfcgi-dev libhashkit-dev libmemcached-dev libpqxx-dev \
+    libtool m4
+}
+
 deploy_osm_cgimap_common() {
   test -f '$dst/osm-cgimap/openstreetmap-cgimap' || deploy_osm_cgimap
 }
@@ -177,6 +189,7 @@ deploy_osm_ubuntu() {
 
   deploy_osm_cgimap_ubuntu
   deploy_osm_cgimap_common
+  cleanup_osm_cgimap_ubuntu
 
   configure_osm_replication
 }
