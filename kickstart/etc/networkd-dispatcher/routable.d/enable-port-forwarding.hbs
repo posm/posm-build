@@ -3,8 +3,8 @@
 # ifup hook script to enable port forwarding
 
 case "$IFACE" in
-  "{{posm_wlan_netif}}") exit 0 ;;
-  "{{posm_lan_netif}}") exit 0 ;;
+  "{{posm_wan_netif}}") ;;
+  *) exit 0 ;;
 esac
 
 iptables -t nat -C POSTROUTING -o $IFACE -j MASQUERADE 2> /dev/null || iptables -t nat -A POSTROUTING -o $IFACE -j MASQUERADE
