@@ -62,7 +62,6 @@ deploy_fieldpapers_common() {
 
   apps=$(jq .apps /opt/posm-www/config.json)
   new_apps=$(cat << EOF | jq -s '.[0] + .[1] | unique'
-$apps
 [
   {
     "name": "Field Papers",
@@ -70,6 +69,7 @@ $apps
     "url": "//${posm_fqdn}/fp/"
   }
 ]
+$apps
 EOF
 )
 

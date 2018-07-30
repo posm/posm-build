@@ -59,7 +59,6 @@ deploy_osm_rails_common() {
 
   apps=$(jq .apps /opt/posm-www/config.json)
   new_apps=$(cat << EOF | jq -s '.[0] + .[1] | unique'
-$apps
 [
   {
     "name": "OpenStreetMap",
@@ -67,6 +66,7 @@ $apps
     "url": "//${osm_fqdn}/"
   }
 ]
+$apps
 EOF
 )
 

@@ -44,7 +44,6 @@ EOF
 
   apps=$(jq .apps /opt/posm-www/config.json)
   new_apps=$(cat << EOF | jq -s '.[0] + .[1] | unique'
-$apps
 [
   {
     "name": "OpenMapKit",
@@ -52,6 +51,7 @@ $apps
     "url": "//${posm_fqdn}/omk/"
   }
 ]
+$apps
 EOF
 )
 
