@@ -42,6 +42,27 @@ EOF
   systemctl enable omk-server
   service omk-server restart
 
+  apps=$(jq .apps /opt/posm-www/config.json)
+  new_apps=$(cat << EOF | jq -s '.[0] + .[1] | unique'
+$apps
+[
+  {
+    "name": "OpenMapKit",
+    "icon": "mobile-phone",
+    "url": "//${posm_fqdn}/omk/"
+  }
+]
+EOF
+)
+
+  config=$(jq . /opt/posm-www/config.json)
+  cat << EOF | jq -s '.[0] * .[1]' > /opt/posm-www/config.json
+$config
+{
+  "apps": $new_apps
+}
+EOF
+
   true
 }
 

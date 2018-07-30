@@ -59,6 +59,27 @@ deploy_fieldpapers_common() {
   systemctl enable fp-watch
 
   service fp-watch restart
+
+  apps=$(jq .apps /opt/posm-www/config.json)
+  new_apps=$(cat << EOF | jq -s '.[0] + .[1] | unique'
+$apps
+[
+  {
+    "name": "Field Papers",
+    "icon": "clipboard",
+    "url": "//${posm_fqdn}/fp/"
+  }
+]
+EOF
+)
+
+  config=$(jq . /opt/posm-www/config.json)
+  cat << EOF | jq -s '.[0] * .[1]' > /opt/posm-www/config.json
+$config
+{
+  "apps": $new_apps
+}
+EOF
 }
 
 deploy_fp_web() {

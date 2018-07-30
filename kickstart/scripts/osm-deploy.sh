@@ -56,6 +56,27 @@ EOF
 
 deploy_osm_rails_common() {
   deploy_osm_rails
+
+  apps=$(jq .apps /opt/posm-www/config.json)
+  new_apps=$(cat << EOF | jq -s '.[0] + .[1] | unique'
+$apps
+[
+  {
+    "name": "OpenStreetMap",
+    "icon": "send-to-map",
+    "url": "//${osm_fqdn}/"
+  }
+]
+EOF
+)
+
+  config=$(jq . /opt/posm-www/config.json)
+  cat << EOF | jq -s '.[0] * .[1]' > /opt/posm-www/config.json
+$config
+{
+  "apps": $new_apps
+}
+EOF
 }
 
 deploy_osm_rails() {
