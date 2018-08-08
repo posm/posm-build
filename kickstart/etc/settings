@@ -45,6 +45,8 @@ cgimap_port=54321
 # auth=true # uncomment this to enable web authentication
 auth_user=POSM
 auth_password=awesomeposm
+# change this to 'true' to display admin entries in the POSM admin sidebar
+posm_show_admin=false
 
 # field papers
 fp_secret_key_base=redacted

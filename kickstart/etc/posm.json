@@ -40,5 +40,6 @@
   "osm_pg_dbname": "{{osm_pg_dbname}}",
   "osm_carto_pg_dbname": "{{osm_carto_pg_dbname}}",
   "osm_carto_pg_owner": "{{osm_carto_pg_owner}}",
-  "osm_carto_pg_pass": "{{osm_carto_pg_pass}}"
+  "osm_carto_pg_pass": "{{osm_carto_pg_pass}}",
+  "posm_show_admin": {{posm_show_admin}}
 }
