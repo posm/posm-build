@@ -3,5 +3,5 @@
   "imageryEndpoint": "//{{posm_fqdn}}",
   "odmEndpoint": "//{{posm_fqdn}}",
   "refreshInterval": 10000,
-  "showAdmin": {{show_admin}}
+  "showAdmin": {{posm_show_admin}}
 }
