@@ -16,7 +16,7 @@ module.exports = {
   description: 'OpenMapKit Server',
   port: ${omk_server_port},
   dataDir: __dirname + '/data',
-  pagesDir: __dirname + '/pages',
+  pagesDir: __dirname + '/frontend/build',
   hostUrl: '${posm_base_url}',
   osmApi: {
       server: '${osm_base_url}',
