@@ -24,6 +24,7 @@ posm_domain="io"
 lan_domain="lan"
 posm_fqdn="${posm_hostname}.${posm_domain}"
 osm_fqdn="osm.${posm_fqdn}"
+webodm_fqdn="webodm.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
@@ -68,6 +69,9 @@ osm_carto_pg_temp_dbname="gis_temp"
 osm_carto_pg_owner="gis"
 osm_carto_pg_users="root fp omk"
 osm_carto_pg_pass="openstreetmap"
+webodm_pg_owner="webodm"
+webodm_pg_pass="webodm"
+webodm_pg_dbname="webodm"
 
 # tile styles [posm, osm]
 carto_styles="posm"

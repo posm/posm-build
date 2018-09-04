@@ -1,3 +1,4 @@
+listen_addresses = '*'
 shared_preload_libraries = 'pg_stat_statements'
 pg_stat_statements.max = 100
 pg_stat_statements.track = top
