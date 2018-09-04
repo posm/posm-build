@@ -1,3 +1,4 @@
 settings.local
 kickstart/bootstrap.log
 kickstart/sources/
+.vscode
