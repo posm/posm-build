@@ -61,7 +61,6 @@ fi
 
 # Generate MBTiles
 if hash gdal_translate 2>/dev/null; then
-	g2t_options="-z 12-21 -n -w none"
 	orthophoto_path="odm_orthophoto/odm_orthophoto.tif"
 	orthophoto_mbtiles_path="odm_orthophoto/odm_orthophoto.mbtiles"
 	
