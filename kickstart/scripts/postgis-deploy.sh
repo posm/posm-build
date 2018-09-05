@@ -12,7 +12,7 @@ deploy_postgis_ubuntu() {
   grep -q "0.0.0.0/0" /etc/postgresql/${pgsql_ver}/main/pg_hba.conf || \
     echo "host	all	all	0.0.0.0/0	md5" >> /etc/postgresql/${pgsql_ver}/main/pg_hba.conf
 
-  grep -qe "^listen_addresses" /etc/postgresql/10/main/postgresql.conf || echo listen_addresses='*' >> /etc/postgresql/10/main/postgresql.conf
+  grep -qe "^listen_addresses" /etc/postgresql/10/main/postgresql.conf || echo "listen_addresses = '*'" >> /etc/postgresql/10/main/postgresql.conf
 
   cp ${BOOTSTRAP_HOME}/etc/postgresql/postgresql.conf.local /etc/postgresql/${pgsql_ver}/main/conf.d/local.conf.hbs
 
