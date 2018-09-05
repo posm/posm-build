@@ -27,6 +27,12 @@ deploy_webodm_ubuntu() {
   service webodm-web start
   service webodm-worker start
 
+  # wait for Docker containers to come online
+  echo Waiting for WebODM to become available...
+  while ! (systemctl is-active webodm-web); do
+    sleep 1
+  done
+
   docker exec webodm-web.service /webodm/wait-for-it.sh -t 0 localhost:8000
   docker exec webodm-web.service python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('posm', '', 'awesomeposm')"
   docker exec webodm-web.service python manage.py shell -c "from nodeodm.models import ProcessingNode; ProcessingNode.objects.update_or_create(hostname='nodeodm.service', defaults={'hostname': 'nodeodm.service', 'port': 3000})"
