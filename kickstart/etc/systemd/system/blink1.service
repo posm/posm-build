@@ -1,5 +1,6 @@
 [Unit]
 Description=blink(1)
+After=multi-user.target
 
 [Service]
 Type=oneshot
