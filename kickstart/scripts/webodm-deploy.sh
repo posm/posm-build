@@ -32,7 +32,7 @@ deploy_webodm_ubuntu() {
 
   # wait for Docker containers to come online
   echo Waiting for WebODM to become available...
-  while ! (systemctl is-active webodm-web); do
+  while ! (docker ps | grep -q webodm-web.service); do
     sleep 1
   done
 
