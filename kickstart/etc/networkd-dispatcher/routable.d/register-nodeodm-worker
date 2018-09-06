@@ -3,8 +3,8 @@
 # ifup hook script to register nodeodm workers
 
 case "$IFACE" in
-  "{{posm_wan_netif}}") ;;
-  "{{posm_lan_netif}}") ;;
+  "$(jq -r .posm_wan_netif /etc/posm.json)") ;;
+  "$(jq -r .posm_lan_netif /etc/posm.json)") ;;
   *) exit 0 ;;
 esac
 
