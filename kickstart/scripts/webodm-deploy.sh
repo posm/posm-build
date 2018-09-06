@@ -18,8 +18,11 @@ deploy_webodm_ubuntu() {
   expand etc/systemd/system/webodm-web.service.hbs /etc/systemd/system/webodm-web.service
   expand etc/systemd/system/webodm-worker.service.hbs /etc/systemd/system/webodm-worker.service
 
-  # not Handlebars templates to avoid interaction w/ JSX
-  cp -r $BOOTSTRAP_HOME/etc/webodm/ /opt/
+  mkdir -p /opt/webapp/app/static/js/classes
+  mkdir -p /opt/webapp/plugins/osm-quickedit/public
+
+  expand etc/webodm/app/static/app/js/classes/Basemaps.js /opt/webodm/app/static/app/js/classes/Basemaps.js
+  expand etc/webodm/plugins/osm-quickedit/public/main.js /opt/webodm/plugins/osm-quickedit/public/main.js
 
   systemctl enable webodm-web
   systemctl enable webodm-worker

@@ -18,8 +18,8 @@ ExecStart=/bin/bash -c "docker run \
     --tmpfs /tmp \
     -v /opt/data/webodm:/webodm/app/media \
     -v /etc/webodm.py:/webodm/webodm/local_settings.py \
-    -v /opt/webodm/app/models/task.py:/webodm/app/models/task.py \
-    opendronemap/webodm_webapp /webodm/worker.sh start"
+    opendronemap/webodm_webapp@sha256:e8f4029a88d39c692a428a606d6432ea44bedab6473a262faff331ad8286fa22 \
+    /webodm/worker.sh start"
 
 [Install]
 WantedBy=multi-user.target

@@ -16,7 +16,7 @@ PluginsAPI.Map.addActionButton(function (options) {
         var mapLocation = options.map.getZoom() + "/" +
           options.map.getCenter().lat + "/" +
           options.map.getCenter().lng;
-        window.location.href = "//osm.posm.io/edit?editor=id#map=" + mapLocation +
+        window.location.href = "//{{osm_fqdn}}/edit?editor=id#map=" + mapLocation +
           "&background=custom:" + url;
       }
     }, React.createElement("i", { className: "fa fa-map" }, ""),
