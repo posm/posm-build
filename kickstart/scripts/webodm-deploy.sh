@@ -8,8 +8,8 @@ deploy_webodm_ubuntu() {
   echo -e "${webodm_pg_pass}\n${webodm_pg_pass}" | su - postgres -c "createuser --no-superuser --no-createdb --no-createrole --pwprompt '$webodm_pg_owner'"
   su - postgres -c "createdb --owner='$webodm_pg_owner' '$webodm_pg_dbname'"
   su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='CREATE EXTENSION postgis'"
-  su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='ALTER DATABASE webodm_dev SET postgis.gdal_enabled_drivers TO 'GTiff';'"
-  su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='ALTER DATABASE webodm_dev SET postgis.enable_outdb_rasters TO True;'"
+  su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='ALTER DATABASE $webodm_pg_dbname SET postgis.gdal_enabled_drivers TO 'GTiff';'"
+  su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='ALTER DATABASE $webodm_pg_dbname SET postgis.enable_outdb_rasters TO True;'"
 
   docker pull opendronemap/webodm_webapp
 
@@ -37,7 +37,7 @@ deploy_webodm_ubuntu() {
   done
 
   docker exec webodm-web.service /webodm/wait-for-it.sh -t 0 localhost:8000
-  docker exec webodm-web.service python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('posm', '', 'awesomeposm')"
+  docker exec webodm-web.service python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('$webodm_user', '', '$webodm_password')"
   docker exec webodm-web.service python manage.py shell -c "from nodeodm.models import ProcessingNode; ProcessingNode.objects.update_or_create(hostname='nodeodm.service', defaults={'hostname': 'nodeodm.service', 'port': 3000})"
 
   # add the nginx config for the WebODM virtualhost

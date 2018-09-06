@@ -57,6 +57,10 @@ fp_mapzen_search_key=redacted
 osm_posm_user="POSM"
 osm_posm_description="Portable OpenStreetMap"
 
+# webodm
+webodm_user="POSM"
+webodm_password="awesomeposm"
+
 # databases
 fp_pg_owner="fieldpapers"
 fp_pg_pass="fieldpapers"

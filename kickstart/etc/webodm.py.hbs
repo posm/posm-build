@@ -32,7 +32,7 @@ class AutomaticLoginUserMiddleware(MiddlewareMixin):
     from django.contrib import auth
 
     if not request.user.is_authenticated:
-      user = auth.authenticate(username='posm', password='awesomeposm')
+      user = auth.authenticate(username='{{webodm_user}}', password='{{webodm_password}}')
       if user:
         request.user = user
         auth.login(request, user)

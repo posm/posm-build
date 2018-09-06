@@ -45,5 +45,7 @@
   "posm_show_admin": {{posm_show_admin}},
   "webodm_pg_owner": "{{webodm_pg_owner}}",
   "webodm_pg_pass": "{{webodm_pg_pass}}",
-  "webodm_pg_dbname": "{{webodm_pg_dbname}}"
+  "webodm_pg_dbname": "{{webodm_pg_dbname}}",
+  "webodm_user": "{{webodm_user}}",
+  "webodm_password": "{{webodm_password}}"
 }
