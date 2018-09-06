@@ -14,7 +14,7 @@ ExecStart=/bin/bash -c "docker run \
     -e WO_HOST=$(jq -r .posm_fqdn /etc/posm.json) \
     -e WO_BROKER=redis://redis \
     -e WO_PGHOST=$(hostname -I | awk '{print $1}') \
-    -p 11111:8000 \
+    -p {{webodm_port}}:8000 \
     --link redis \
     --link nodeodm.service \
     --name %n \
