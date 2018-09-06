@@ -18,7 +18,7 @@ deploy_webodm_ubuntu() {
   expand etc/systemd/system/webodm-web.service.hbs /etc/systemd/system/webodm-web.service
   expand etc/systemd/system/webodm-worker.service.hbs /etc/systemd/system/webodm-worker.service
 
-  mkdir -p /opt/webodm/app/static/js/classes
+  mkdir -p /opt/webodm/app/static/app/js/classes
   mkdir -p /opt/webodm/plugins/osm-quickedit/public
 
   expand etc/webodm/app/static/app/js/classes/Basemaps.js /opt/webodm/app/static/app/js/classes/Basemaps.js
