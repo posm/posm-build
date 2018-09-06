@@ -7,8 +7,7 @@ deploy_worker_ubuntu() {
   expand usr/local/bin/register-nodeodm-worker.sh /usr/local/bin/register-nodeodm-worker.sh
   chmod +x /usr/local/bin/register-nodeodm-worker.sh
 
-  mkdir -p /etc/systemd/system/nodeodm.service.d
-  expand etc/systemd/system/nodeodm.service.d/override.conf /etc/systemd/system/nodeodm.service.d/override.conf
+  ln -s /usr/local/bin/register-nodeodm-worker.sh /usr/lib/networkd-dispatcher/routable.d/
 }
 
 deploy worker
