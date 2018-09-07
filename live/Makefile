@@ -108,11 +108,6 @@ redis: docker
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-opendronemap: redis
-	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
-	lxc snapshot $$(cat container) $@
-	touch $@
-
 nodeodm: docker nodejs
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
