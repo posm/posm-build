@@ -37,7 +37,8 @@ deploy_base_ubuntu() {
     software-properties-common \
     apt-transport-https \
     virt-what \
-    default-jre-headless
+    default-jre-headless \
+    thermald
 
   # enable mDNS (posm.local)
   mkdir -p /etc/systemd/resolved.conf.d
