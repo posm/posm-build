@@ -38,6 +38,10 @@ deploy_hotspot_ubuntu() {
     systemctl enable hostapd.service
     systemctl start hostapd.service
     systemctl restart dnsmasq.service
+
+    # rewrite Samba config to include active interfaces
+    expand etc/smb.conf /etc/samba/smb.conf
+    service smbd restart
   else
     # configure the VM's WAN interface
     expand etc/systemd/network/wan.network.hbs /etc/systemd/network/10-wan.network
