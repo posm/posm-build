@@ -158,7 +158,7 @@ posm: posm-core wifi
 	lxc exec $$(cat container) -- ln -sf /root/posm-build/kickstart/etc /root/etc
 	lxc exec $$(cat container) -- rm -f /etc/ssh/ssh_host_*
 	lxc exec $$(cat container) -- rm -f /var/lib/dbus/machine-id
-	lxc exec $$(cat container) -- userdel -r ubuntu
+	lxc exec $$(cat container) -- userdel -r ubuntu || true
 	lxc delete $$(cat container)/$@ || true
 	lxc snapshot $$(cat container) $@
 	touch $@
@@ -171,7 +171,7 @@ superposm: posm-core docker redis webodm imagery wifi
 	lxc exec $$(cat container) -- ln -sf /root/posm-build/kickstart/etc /root/etc
 	lxc exec $$(cat container) -- rm -f /etc/ssh/ssh_host_*
 	lxc exec $$(cat container) -- rm -f /var/lib/dbus/machine-id
-	lxc exec $$(cat container) -- userdel -r ubuntu
+	lxc exec $$(cat container) -- userdel -r ubuntu || true
 	lxc delete $$(cat container)/$@ || true
 	lxc snapshot $$(cat container) $@
 	touch $@
@@ -184,7 +184,7 @@ posm-aux: odm-worker blink1 influxdb telegraf
 	lxc exec $$(cat container) -- ln -sf /root/posm-build/kickstart/etc /root/etc
 	lxc exec $$(cat container) -- rm -f /etc/ssh/ssh_host_*
 	lxc exec $$(cat container) -- rm -f /var/lib/dbus/machine-id
-	lxc exec $$(cat container) -- userdel -r ubuntu
+	lxc exec $$(cat container) -- userdel -r ubuntu || true
 	lxc delete $$(cat container)/$@ || true
 	lxc snapshot $$(cat container) $@
 	touch $@
