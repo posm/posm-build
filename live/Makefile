@@ -48,7 +48,7 @@ postgis: nodejs
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-nginx: base
+nginx: base nodejs
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@
@@ -113,6 +113,21 @@ opendronemap: redis
 	lxc snapshot $$(cat container) $@
 	touch $@
 
+nodeodm: docker nodejs
+	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
+	lxc snapshot $$(cat container) $@
+	touch $@
+
+odm-worker: nodeodm
+	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
+	lxc snapshot $$(cat container) $@
+	touch $@
+
+webodm: nginx nodejs nodeodm postgis redis
+	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
+	lxc snapshot $$(cat container) $@
+	touch $@
+
 imagery: redis
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
@@ -133,7 +148,35 @@ telegraf: influxdb
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-posm: base nodejs ruby gis postgis nginx osm fieldpapers omk tl carto tessera admin samba blink1 docker redis opendronemap imagery influxdb telegraf wifi
+posm-core: gis nginx osm fieldpapers omk tl carto tessera admin samba blink1 influxdb telegraf
+
+posm: posm-core wifi
+	lxc exec $$(cat container) -- apt-get autoremove -y
+	lxc exec $$(cat container) -- apt-get clean
+	echo 'root:posm' | lxc exec $$(cat container) -- chpasswd
+	lxc exec $$(cat container) -- ln -sf /root/posm-build/kickstart/scripts /root/scripts
+	lxc exec $$(cat container) -- ln -sf /root/posm-build/kickstart/etc /root/etc
+	lxc exec $$(cat container) -- rm -f /etc/ssh/ssh_host_*
+	lxc exec $$(cat container) -- rm -f /var/lib/dbus/machine-id
+	lxc exec $$(cat container) -- userdel -r ubuntu
+	lxc delete $$(cat container)/$@ || true
+	lxc snapshot $$(cat container) $@
+	touch $@
+
+superposm: posm-core docker redis webodm imagery wifi
+	lxc exec $$(cat container) -- apt-get autoremove -y
+	lxc exec $$(cat container) -- apt-get clean
+	echo 'root:posm' | lxc exec $$(cat container) -- chpasswd
+	lxc exec $$(cat container) -- ln -sf /root/posm-build/kickstart/scripts /root/scripts
+	lxc exec $$(cat container) -- ln -sf /root/posm-build/kickstart/etc /root/etc
+	lxc exec $$(cat container) -- rm -f /etc/ssh/ssh_host_*
+	lxc exec $$(cat container) -- rm -f /var/lib/dbus/machine-id
+	lxc exec $$(cat container) -- userdel -r ubuntu
+	lxc delete $$(cat container)/$@ || true
+	lxc snapshot $$(cat container) $@
+	touch $@
+
+posm-aux: odm-worker blink1 influxdb telegraf
 	lxc exec $$(cat container) -- apt-get autoremove -y
 	lxc exec $$(cat container) -- apt-get clean
 	echo 'root:posm' | lxc exec $$(cat container) -- chpasswd
@@ -150,12 +193,26 @@ posm.tgz: posm
 	sudo tar cf - -p -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
 	sudo chown $$(whoami):$$(whoami) $@
 
+superposm.tgz: superposm
+	sudo tar cf - -p -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
+	sudo chown $$(whoami):$$(whoami) $@
+
+posm-aux.tgz: posm-aux
+	sudo tar cf - -p -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
+	sudo chown $$(whoami):$$(whoami) $@
+
 bionic-live-server-amd64.iso:
 	curl -sfL http://cdimage.ubuntu.com/ubuntu-server/bionic/daily-live/current/bionic-live-server-amd64.iso -o $@
 
 posm.iso: posm.tgz bionic-live-server-amd64.iso
-	make -C subiquity $@
+	ROOTFS=$$(readlink -f $<) make -C subiquity $@
+
+superposm.iso: superposm.tgz bionic-live-server-amd64.iso
+	ROOTFS=$$(readlink -f $<) make -C subiquity $@
+
+posm-aux.iso: posm-aux.tgz bionic-live-server-amd64.iso
+	ROOTFS=$$(readlink -f $<) POSM_HOSTNAME=posm-aux make -C subiquity $@
 
 clean:
 	test -f container && lxc delete $$(cat container) --force || true
-	rm -rf admin base blink1 carto container docker fieldpapers gis imagery influxdb nginx nodejs omk opendronemap osm posm postgis redis ruby samba telegraf tessera tl wifi posm.tgz posm.iso
+	rm -rf admin base blink1 carto container docker fieldpapers gis imagery influxdb nginx nodejs omk opendronemap osm posm postgis redis ruby samba telegraf tessera tl wifi odm-worker posm.tgz posm.iso posm-aux posm-aux.tgz posm-aux.iso superposm superposm.tgz superposm.iso
