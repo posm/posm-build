@@ -14,7 +14,6 @@ deploy_tessera_ubuntu() {
 
   service tessera restart
 
-  crontab ${BOOTSTRAP_HOME}/etc/root.crontab
   expand etc/systemd/system/imagery-updater.service /etc/systemd/system/imagery-updater.service
   expand etc/systemd/system/imagery-updater.timer /etc/systemd/system/imagery-updater.timer
   systemctl enable imagery-updater.timer
