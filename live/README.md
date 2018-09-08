@@ -1,48 +1,46 @@
 # Live USB Installer
 
-This folder contains scripts and resources to facilitate the creation of a Live USB installer.
+This folder contains scripts and resources to facilitate the creation of a
+Live USB installer.
 
-It uses the [Ubuntu Live CD/USB
-process](https://help.ubuntu.com/community/LiveCDCustomizationFromScratch)
-([casper](http://manpages.ubuntu.com/manpages/wily/man7/casper.7.html)) with some modifications to
-create an installer that runs under a GUI and copies a pre-installed set of packages + files to a
-target system.
+There are 3 variants:
 
-## Benefits over the previous installer
+* `posm` - the POSM you know and love
+* `superposm` - POSM with drone imagery processing capabilities
+* `posm-aux` - auxiliary services to allow
+  [WebODM](https://www.opendronemap.org/webodm/) to use multiple devices
 
-* No need for USB workarounds on fresh systems
-  ([AmericanRedCross/posm#116](https://github.com/AmericanRedCross/posm/issues/116))
-* Installs quickly
-* Doesn't require an internet connection
-* Distributed as an ISO (for Legacy BIOS support + VMs)
-* Consistently installs a known set of dependencies / versions, simplifying validation
-* Theoretically more CI-friendly (depends if LXD is installable in CI environments)
-* Image can be created in a controlled environment with an HTTP cache / fast internet
+The installer uses the same mechanism as [MaaS](https://maas.io/) to install
+a pre-built root filesystem on a bare system:
+[subiquity](https://github.com/CanonicalLtd/subiquity), Ubuntu's new server
+installer. Under the hood, subiquity uses
+[curtin](https://launchpad.net/curtin) to configure and image the hardware.
 
-## Downsides over the previous installer
+This means that there are 2 components to creating an installer:
 
-* Less control over disk partitioning (creates single `/` partition)
-* Larger initial download (full ISO)
-* Not directly suited for cloud hosts (although it uses the same bootstrapping process)
+* initialization of a root filesystem with desired components
+* creation of an installer ISO with subiquity confgured to install the POSM
+  root filesystem
 
-## Why LXD?
+[LXD](https://linuxcontainers.org/lxd/) containers are driven by the
+`Makefile` to run the various bootstrap scripts.
 
-If you read the
-[LiveCDCustomizationFromScratch](https://help.ubuntu.com/community/LiveCDCustomizationFromScratch)
-wiki, you'll see that `chroot`s are used extensively. `initctl` is diverted and
-[`policy-rc.d`](https://people.debian.org/~hmh/invokerc.d-policyrc.d-specification.txt) is used to
-prevent services from starting during installation. For producing a base system installer (i.e.
-Ubuntu Desktop), this is desirable.
+[POSM's subiquity fork](https://github.com/posm/subiquity) contains changes
+that strip out unnecessary user interaction during installation.
 
-However, POSM needs to access a running PostgreSQL instance in order to initialize OSM (etc.). It's
-possible to do this in a `chroot`, but with a high likelihood of port and device conflicts. Using
-something that uses `cgroups` (e.g. Docker or LXC) makes it feasible.
+## Why LXD
 
-[LXD](https://www.ubuntu.com/cloud/lxd) is an Ubuntu (etc.) wrapper around LXC that makes it behave
-like a VM host, even allowing containers to run without privileges (so the full gamut of users
-present in a container map to the user who invoked it). Guests are persistent, so commands can be
-executed as though they were targeting a `chroot`ed environment while being able to access services
-that were started (after removing the `initctl` diversion).
+POSM needs to access a running PostgreSQL instance in order to initialize OSM
+(etc.). It's possible to do this in a `chroot`, but with a high likelihood of
+port and device conflicts. Using something that uses `cgroups` (e.g. Docker
+or LXC) makes it feasible.
+
+[LXD](https://www.ubuntu.com/cloud/lxd) is an Ubuntu (etc.) wrapper around
+LXC that makes it behave like a VM host, even allowing containers to run
+without privileges (so the full gamut of users present in a container map to
+the user who invoked it). Guests are persistent, so commands can be executed
+as though they were targeting a `chroot`ed environment while being able to
+access services that were started.
 
 ## ISO Creation
 
@@ -52,37 +50,43 @@ To create a Live Installer ISO, run:
 make
 ```
 
-This will produce `live-cd.iso`.
+This will produce `posm.iso`. If you'd like the SuperPOSM or `aux` variants,
+use `make superposm.iso` or `make posm-aux.iso`.
 
-The git repo and branch used to bootstrap the installer can be provided as environment variables,
-allowing for builds containing experimental features:
+The git repo and branch used to bootstrap the installer can be provided as
+environment variables, allowing for builds containing experimental features:
 
 ```bash
 GIT_REPO=https://github.com/mojodna/posm-build GIT_BRANCH=integration make
 ```
 
-To clean both the file artifacts and to remove the container used for installer creation
-(appropriately named after adjectified animals, e.g. `noble gopher` or `promoted mastodon`), run:
+To clean both the file artifacts and to remove the container used for
+installer creation (appropriately named after adjectified animals, e.g.
+`noble gopher` or `promoted mastodon`), run:
 
 ```bash
 make clean
 ```
 
-LXD snapshots are created during each phase of the bootstrap process, allowing one to rollback to a
-specific stage and re-run it if it failed. To do so, remove each of the marker files (e.g. `admin`,
-`base`), delete newer snapshots (if using ZFS; `lxc delete $(cat container)/admin`), and restore the
-parent of the stage you wish to re-run (`lxc info $(cat container)` provides a sequential list of
-snapshots and therefore stages): `lxc restore $(cat container) <stage>`
+LXD snapshots are created during each phase of the bootstrap process,
+allowing one to rollback to a specific stage and re-run it if it failed. To
+do so, remove each of the marker files (e.g. `admin`, `base`), delete newer
+snapshots (if using ZFS; `lxc delete $(cat container)/admin`), and restore
+the parent of the stage you wish to re-run (`lxc info $(cat container)`
+provides a sequential list of snapshots and therefore stages): `lxc restore
+$(cat container) <stage>`
 
-This current snapshot recovery process is awkward, but may prove helpful under some circumstances.
-In practice, I usually run `make clean` and start from scratch.
+This current snapshot recovery process is awkward, but may prove helpful
+under some circumstances. In practice, I usually run `make clean` and start
+from scratch.
 
-If you'd like to investigate the container after bootstrapping a specific phase, you can do this:
+If you'd like to investigate the container after bootstrapping a specific
+phase, you can do this:
 
 ```bash
-# start the container if it had been stopped, i.e. after postinstall
-lxc start $(cat container)
+# start the container if it had been stopped
+lxc start $(< container)
 
 # invoke a shell within the container
-lxc exec $(cat container) bash
+lxc exec $(< container) bash
 ```

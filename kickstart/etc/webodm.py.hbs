@@ -1,0 +1,38 @@
+import os
+
+from django.utils.deprecation import MiddlewareMixin
+
+# from settings import MIDDLEWARE
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': '{{webodm_pg_dbname}}',
+        'USER': '{{webodm_pg_owner}}',
+        'PASSWORD': '{{webodm_pg_pass}}',
+        'HOST': os.getenv('WO_PGHOST'),
+        'PORT': '5432',
+    }
+}
+
+MIDDLEWARE = [
+  'corsheaders.middleware.CorsMiddleware',
+  'django.middleware.security.SecurityMiddleware',
+  'django.contrib.sessions.middleware.SessionMiddleware',
+  'django.middleware.common.CommonMiddleware',
+  'django.middleware.csrf.CsrfViewMiddleware',
+  'django.contrib.auth.middleware.AuthenticationMiddleware',
+  'django.contrib.messages.middleware.MessageMiddleware',
+  'django.middleware.locale.LocaleMiddleware',
+  'webodm.local_settings.AutomaticLoginUserMiddleware'
+]
+
+class AutomaticLoginUserMiddleware(MiddlewareMixin):
+  def process_request(self, request):
+    from django.contrib import auth
+
+    if not request.user.is_authenticated:
+      user = auth.authenticate(username='{{webodm_user}}', password='{{webodm_password}}')
+      if user:
+        request.user = user
+        auth.login(request, user)

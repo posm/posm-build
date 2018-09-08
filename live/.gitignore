@@ -17,7 +17,6 @@ network
 nginx
 nodejs
 omk
-opendronemap
 osm
 posm
 postgis
@@ -34,3 +33,12 @@ ubuntu-14.04-desktop-amd64.iso
 wifi
 posm.tgz
 bionic-live-server-amd64.iso
+nodeodm
+webodm
+odm-worker
+posm-aux
+posm-aux.tgz
+posm-aux.iso
+superposm
+superposm.tgz
+superposm.iso

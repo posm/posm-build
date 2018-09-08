@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#
+# ifup hook script to register nodeodm workers
+
+case "$IFACE" in
+  "$(jq -r .posm_wan_netif /etc/posm.json)") ;;
+  "$(jq -r .posm_lan_netif /etc/posm.json)") ;;
+  *) exit 0 ;;
+esac
+
+register-nodeodm-worker.sh $ADDR

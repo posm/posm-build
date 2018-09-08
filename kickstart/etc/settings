@@ -24,6 +24,7 @@ posm_domain="io"
 lan_domain="lan"
 posm_fqdn="${posm_hostname}.${posm_domain}"
 osm_fqdn="osm.${posm_fqdn}"
+webodm_fqdn="webodm.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
@@ -34,12 +35,14 @@ fp_tile_base_url="${posm_base_url}/fp-tiler"
 # ports
 fp_tiler_port=8080
 fp_tasks_port=8081
-fp_web_port=3000
+fp_web_port=3001
 tessera_port=8082
 omk_server_port=3210
 posm_admin_port=3211
 osm_web_port=9000
 cgimap_port=54321
+nodeodm_port=3000
+webodm_port=11111
 
 # web
 # auth=true # uncomment this to enable web authentication
@@ -56,6 +59,10 @@ fp_mapzen_search_key=redacted
 osm_posm_user="POSM"
 osm_posm_description="Portable OpenStreetMap"
 
+# webodm
+webodm_user="POSM"
+webodm_password="awesomeposm"
+
 # databases
 fp_pg_owner="fieldpapers"
 fp_pg_pass="fieldpapers"
@@ -68,6 +75,9 @@ osm_carto_pg_temp_dbname="gis_temp"
 osm_carto_pg_owner="gis"
 osm_carto_pg_users="root fp omk"
 osm_carto_pg_pass="openstreetmap"
+webodm_pg_owner="webodm"
+webodm_pg_pass="webodm"
+webodm_pg_dbname="webodm"
 
 # tile styles [posm, osm]
 carto_styles="posm"

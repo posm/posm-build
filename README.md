@@ -14,24 +14,7 @@ The easiest way to get started is to [download the latest
 release](http://posm.s3.amazonaws.com/releases/posm-0.7.2.iso) (currently v0.7.2) and copy
 it onto a USB stick (at least 8GB).
 
-Ubuntu provides instructions on [how to create a bootable USB stick on
-Windows](https://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows) and [on
-macOS](https://www.ubuntu.com/download/desktop/create-a-usb-stick-on-mac-osx). You can use one of
-these GUI disk utilities as described or you can create your USB installer with a single command in
-Terminal using `7z`.
-
-On macOS, you can install `7z` with homebrew:
-
-```bash
-brew install p7zip
-```
-
-Extract the POSM ISO onto the USB stick. This drive should be FAT32 formatted with a GUID partition
-table. Here, we have named it `POSM_INSTALL`.
-
-```bash
-7z x path/to/posm-0.7.2.iso -o/Volumes/POSM_INSTALL
-```
+[Etcher](https://etcher.io/) is the easiest way to create a USB installer.
 
 Once you have created your installer USB stick, boot the target device from it. On the Intel NUC,
 press `F10` on startup to get to the boot device menu. You will then be prompted to select
@@ -45,11 +28,8 @@ intercepting requests to HTTP web sites and redirecting users to the POSM landin
 
 If you'd like to switch to "bridge mode" (where the POSM will act as a wireless router using its
 ethernet port as an uplink), open "POSM Admin", choose "Network", and toggle the "captive / bridged"
-setting.
-
-Some laptops running Windows 8.1/10 are unable to connect to the POSM's wireless network when using
-WPA authentication (see [#233](https://github.com/AmericanRedCross/posm/issues/233)). To work around
-this, disable wireless authentication from POSM Admin's network settings.
+setting. If "Network" is unavailable in the menu, you can navigate directly to
+`http://posm.io/posm/settings`.
 
 When connected to the `POSM` wireless network, you can `ssh` to the POSM using `ssh root@posm.io`.
 `root`'s default password is `posm`. You should also be able to connect to it when connected to the
@@ -65,12 +45,13 @@ same network as the POSM's uplink, referring to it as `posm.local`.
 
 POSM has superhuman capabilities!
 
-To add SuperPOSM capabilities (OpenDroneMap + GeoTIFF processing), add `docker redis opendronemap
-imagery` to the list of modules being deployed.
+To add SuperPOSM capabilities (OpenDroneMap + GeoTIFF processing), add `docker redis imagery nodeodm
+webodm` to the list of modules being deployed.
 
-The minimal list of modules for SuperPOSM is: `base virt nginx admin docker redis opendronemap imagery`.
+The minimal list of modules for SuperPOSM is: `base virt nginx admin docker redis imagery nodeodm
+webodm`.
 
-### Hardware Requirements
+### SuperPOSM Hardware Requirements
 
 * As much RAM as you can spare
 * Fast storage
@@ -79,6 +60,23 @@ The minimal list of modules for SuperPOSM is: `base virt nginx admin docker redi
 When building the OpenDroneMap integration, we tested using a [Skull Canyon
 NUC](http://www.intel.com/content/www/us/en/nuc/nuc-kit-nuc6i7kyk-features-configurations.html) with
 32GB RAM and a 256GB Samsung 950 Pro NVMe SSD.
+
+## POSM AUX
+
+POSMs can be clustered!
+
+If you're using POSM for drone imagery processing, you can distribute
+computation across multiple devices (just at the project level so far). To
+enable this, image additional devices with `posm-aux.iso`. When all POSMs are
+connected to the same wired network (and the primary POSM is started first),
+each POSM AUX will register itself as a
+[WebODM](https://www.opendronemap.org/webodm/) worker.
+
+To provision POSM AUX from source, use these modules: `base odm-worker`.
+
+When running POSM AUX on a network where mDNS doesn't work (i.e. a cloud
+provider), WebODM processing nodes will need to be added manually. POSM AUX
+uses port 3000 for workers.
 
 ## POSM Cloud
 
@@ -93,7 +91,7 @@ OpenStreetMap interface.
 
 Sample DNS records:
 
-```
+```text
 my-posm.example.org     A     1.2.3.4
 osm.my-posm.example.org CNAME posm.example.org
 ```
