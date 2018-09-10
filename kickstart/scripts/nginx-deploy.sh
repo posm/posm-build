@@ -19,24 +19,10 @@ deploy_nginx_ubuntu() {
   git clone --recursive --depth 1 -b dist https://github.com/posm/posm-admin-ui "$dst"
   git clone --recursive --depth 1 -b guide https://github.com/posm/posm.github.io "$dst/guide"
   git clone --recursive --depth 1 -b dist https://github.com/AmericanRedCross/OpenMapKitWebsite.git "$dst/openmapkit-website"
-  git clone --recursive --depth 1 -b dist https://github.com/posm/posm-gcpi.git "$dst/posm-gcpi"
 
   expand etc/www/config.json /opt/posm-www/config.json
 
   apps=$(jq .apps /opt/posm-www/config.json)
-  new_apps=$(cat << EOF | jq -s '.[0] + .[1] | unique'
-$apps
-[
-  {
-    "name": "ODM GCPs",
-    "icon": "layout-skew-grid",
-    "url": "//${posm_fqdn}/posm-gcpi/",
-    "description": "OpenDroneMap Ground Control Points"
-  }
-]
-EOF
-)
-
   docs=$(jq .docs /opt/posm-www/config.json)
   new_docs=$(cat << EOF | jq -s '.[0] + .[1] | unique'
 $docs
@@ -60,7 +46,7 @@ EOF
   cat << EOF | jq -s '.[0] * .[1]' > /opt/posm-www/config.json
 $config
 {
-  "apps": $new_apps,
+  "apps": $apps,
   "docs": $new_docs
 }
 EOF
