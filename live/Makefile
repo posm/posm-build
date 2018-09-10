@@ -19,7 +19,7 @@ container:
 		tail -1 | cut -d " " -f 2 > $@
 	sleep 5
 	lxc exec $$(cat container) -- apt update
-	lxc exec $$(cat container) -- apt install --no-install-recommends -y linux-generic
+	lxc exec $$(cat container) -- apt install --no-install-recommends -y linux-generic grub-pc secureboot-db grub2-common mokutil efibootmgr libefiboot1
 
 base: container
 	lxc exec $$(cat container) -- apt install -y --no-install-recommends git
@@ -184,16 +184,37 @@ posm-aux: odm-worker blink1 influxdb telegraf nginx
 	lxc snapshot $$(cat container) $@
 	touch $@
 
+cdrom: bionic-live-server-amd64.iso
+	mkdir -p cdrom
+	7z x -o$@ $< dists/ pool/
+	sudo chown -R root:root $@
+	sudo chmod -R a+rx $@
+
 posm.tgz: posm
-	sudo tar cf - -p -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
+	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
+	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
+	lxc exec $$(cat container) -- rm -f /etc/apt/sources.list
+	lxc exec $$(cat container) -- touch /etc/apt/sources.list
+	lxc exec $$(cat container) -- add-apt-repository -n "deb file:///cdrom/ bionic main restricted"
+	sudo tar cf - -p ./cdrom -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
 	sudo chown $$(whoami):$$(whoami) $@
 
 superposm.tgz: superposm
-	sudo tar cf - -p -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
+	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
+	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
+	lxc exec $$(cat container) -- rm -f /etc/apt/sources.list
+	lxc exec $$(cat container) -- touch /etc/apt/sources.list
+	lxc exec $$(cat container) -- add-apt-repository -n "deb file:///cdrom/ bionic main restricted"
+	sudo tar cf - -p ./cdrom -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
 	sudo chown $$(whoami):$$(whoami) $@
 
-posm-aux.tgz: posm-aux
-	sudo tar cf - -p -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
+posm-aux.tgz: posm-aux cdrom
+	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
+	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
+	lxc exec $$(cat container) -- rm -f /etc/apt/sources.list
+	lxc exec $$(cat container) -- touch /etc/apt/sources.list
+	lxc exec $$(cat container) -- add-apt-repository -n "deb file:///cdrom/ bionic main restricted"
+	sudo tar cf - -p ./cdrom -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
 	sudo chown $$(whoami):$$(whoami) $@
 
 bionic-live-server-amd64.iso:
@@ -210,4 +231,5 @@ posm-aux.iso: posm-aux.tgz bionic-live-server-amd64.iso
 
 clean:
 	test -f container && lxc delete $$(cat container) --force || true
+	sudo rm -rf cdrom
 	rm -rf admin base blink1 carto container docker fieldpapers gis imagery influxdb nginx nodejs omk opendronemap osm posm postgis redis ruby samba telegraf tessera tl wifi odm-worker posm.tgz posm.iso posm-aux posm-aux.tgz posm-aux.iso superposm superposm.tgz superposm.iso
