@@ -19,7 +19,7 @@ container:
 		tail -1 | cut -d " " -f 2 > $@
 	sleep 5
 	lxc exec $$(cat container) -- apt update
-	lxc exec $$(cat container) -- apt install --no-install-recommends -y linux-generic shim-signed
+	lxc exec $$(cat container) -- apt install --no-install-recommends -y linux-generic
 
 base: container
 	lxc exec $$(cat container) -- apt install -y --no-install-recommends git
