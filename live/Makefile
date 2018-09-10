@@ -171,7 +171,7 @@ superposm: posm-core docker redis webodm imagery wifi
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-posm-aux: odm-worker blink1 influxdb telegraf
+posm-aux: odm-worker blink1 influxdb telegraf nginx
 	lxc exec $$(cat container) -- apt-get autoremove -y
 	lxc exec $$(cat container) -- apt-get clean
 	echo 'root:posm' | lxc exec $$(cat container) -- chpasswd
