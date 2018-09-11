@@ -49,5 +49,7 @@
   "webodm_pg_pass": "{{webodm_pg_pass}}",
   "webodm_pg_dbname": "{{webodm_pg_dbname}}",
   "webodm_user": "{{webodm_user}}",
-  "webodm_password": "{{webodm_password}}"
+  "webodm_password": "{{webodm_password}}",
+  "webodm_webapp_digest": "{{webodm_webapp_digest}}",
+  "webodm_nodeodm_digest": "{{webodm_nodeodm_digest}}"
 }

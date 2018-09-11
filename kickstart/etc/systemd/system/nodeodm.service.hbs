@@ -13,7 +13,7 @@ ExecStart=/bin/bash -c "docker run \
     -p {{nodeodm_port}}:3000 \
     --name %n \
     --tmpfs /tmp \
-    opendronemap/node-opendronemap@sha256:3b8f2d6183e4e2a7b682c9c2f741ff2b6fc4d82dc2deb63ab608ba820d3659df"
+    opendronemap/node-opendronemap@{{webodm_nodeodm_digest}}"
 
 [Install]
 WantedBy=multi-user.target
