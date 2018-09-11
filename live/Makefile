@@ -190,7 +190,7 @@ cdrom: bionic-live-server-amd64.iso
 	sudo chown -R root:root $@
 	sudo chmod -R a+rx $@
 
-posm.tgz: posm
+posm.tgz: posm cdrom
 	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
 	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
 	lxc exec $$(cat container) -- rm -f /etc/apt/sources.list
@@ -199,7 +199,7 @@ posm.tgz: posm
 	sudo tar cf - -p ./cdrom -C /var/lib/lxd/containers/$$(cat container)/rootfs . | pigz > $@
 	sudo chown $$(whoami):$$(whoami) $@
 
-superposm.tgz: superposm
+superposm.tgz: superposm cdrom
 	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
 	lxc exec $$(cat container) -- rm -rf /etc/apt/sources.list.d/
 	lxc exec $$(cat container) -- rm -f /etc/apt/sources.list
