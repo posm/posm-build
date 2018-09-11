@@ -28,7 +28,7 @@ deploy_hotspot_ubuntu() {
     systemctl restart systemd-networkd
 
     # configure hostapd / dnsmasq if appropriate
-    if [ -f /etc/hostapd/hostapd.conf ]; then
+    if [ -d /etc/hostapd ]; then
       expand etc/hostapd.conf "/etc/hostapd/hostapd.conf"
       expand etc/dnsmasq-posm.conf "/etc/dnsmasq.d/50-posm.conf"
 
