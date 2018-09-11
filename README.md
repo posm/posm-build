@@ -11,8 +11,8 @@ POSM runs on physical hardware! Intel NUCs work best (that's what we test on), b
 that it will work elsewhere.
 
 The easiest way to get started is to [download the latest
-release](http://posm.s3.amazonaws.com/releases/posm-0.7.2.iso) (currently v0.7.2) and copy
-it onto a USB stick (at least 8GB).
+release](https://github.com/posm/posm-build/releases) and copy it onto a USB
+stick (at least 8GB).
 
 [Etcher](https://etcher.io/) is the easiest way to create a USB installer.
 
