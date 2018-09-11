@@ -11,7 +11,7 @@ deploy_webodm_ubuntu() {
   su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='ALTER DATABASE $webodm_pg_dbname SET postgis.gdal_enabled_drivers TO 'GTiff';'"
   su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='ALTER DATABASE $webodm_pg_dbname SET postgis.enable_outdb_rasters TO True;'"
 
-  docker pull opendronemap/webodm_webapp
+  docker pull opendronemap/webodm_webapp@sha256:e8f4029a88d39c692a428a606d6432ea44bedab6473a262faff331ad8286fa22
 
   expand etc/webodm.py.hbs /etc/webodm.py
 
