@@ -62,8 +62,8 @@ osm_posm_description="Portable OpenStreetMap"
 # webodm
 webodm_user="POSM"
 webodm_password="awesomeposm"
-webodm_webapp_digest="sha256:e8f4029a88d39c692a428a606d6432ea44bedab6473a262faff331ad8286fa22"
-webodm_nodeodm_digest="sha256:3b8f2d6183e4e2a7b682c9c2f741ff2b6fc4d82dc2deb63ab608ba820d3659df"
+webodm_webapp_digest="sha256:c465e1128e84fb5215d189ce456c99f31d9dce04331a95dded90837da825fa7d"
+webodm_nodeodm_digest="sha256:efa075db53fd934f49bbc30fc1db6181d1ad4a15256917992698ccd85ca6b902"
 
 # databases
 fp_pg_owner="fieldpapers"
