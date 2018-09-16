@@ -21,7 +21,7 @@ ExecStart=/bin/bash -c "docker run \
     --tmpfs /tmp \
     -v /opt/data/webodm:/webodm/app/media \
     -v /etc/webodm.py:/webodm/webodm/local_settings.py \
-    -v /opt/webodm/app/static/app/js/classes/Basemap.js:/webodm/app/static/app/js/classes/Basemap.jsx \
+    -v /opt/webodm/app/static/app/js/classes/Basemap.js:/webodm/app/static/app/js/classes/Basemap.js \
     -v /opt/webodm/plugins/osm-quickedit/public/main.js:/webodm/plugins/osm-quickedit/public/main.js \
     opendronemap/webodm_webapp@{{webodm_webapp_digest}} \
     bash -c \"webpack --mode production && python manage.py collectstatic --noinput && /webodm/start.sh\""
