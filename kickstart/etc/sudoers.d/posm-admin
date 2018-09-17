@@ -27,3 +27,5 @@ postgres ALL=(root) NOPASSWD: /usr/sbin/service osm-cgimap start
 {{user}} ALL=(osm) NOPASSWD: {{dst}}/posm-admin/scripts/osm_omk-osm.sh
 
 {{user}} ALL=(postgres) NOPASSWD: {{dst}}/posm-admin/scripts/postgres_api-db-drop-create.sh
+
+{{user}} ALL=(webodm) NOPASSWD: {{dst}}/posm-admin/scripts/webodm_backup.sh

@@ -65,6 +65,9 @@ $config
   "apps": $new_apps
 }
 EOF
+
+  mkdir -p /opt/data/backups/webodm
+  chown webodm:webodm /opt/data/backups/webodm
 }
 
 deploy webodm
