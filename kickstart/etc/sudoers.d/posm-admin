@@ -1,11 +1,6 @@
 gis ALL=(root) NOPASSWD: /usr/sbin/service tessera restart
 osm ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_change-osm-id-key.sh
 
-postgres ALL=(root) NOPASSWD: /usr/sbin/service osm-cgimap stop
-postgres ALL=(root) NOPASSWD: /usr/sbin/service osm-cgimap start
-postgres ALL=(root) NOPASSWD: /usr/sbin/service osm-web stop
-postgres ALL=(root) NOPASSWD: /usr/sbin/service osm-web start
-
 {{user}} ALL=(root) NOPASSWD: /usr/sbin/service tessera restart
 {{user}} ALL=(root) NOPASSWD: /usr/sbin/service fp-web restart
 {{user}} ALL=(root) NOPASSWD: {{dst}}/posm-admin/scripts/root_fp-production-db-backup.sh
