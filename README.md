@@ -3,7 +3,7 @@
 These are the various build scripts that are used to provision POSM instances, devices, and
 installers.
 
-For installation and usage instructions, check out [posm.io](https://posm.io/docs)!
+For installation and usage instructions, check out [posm.io](http://posm.io/docs)!
 
 ## Metal POSM
 
