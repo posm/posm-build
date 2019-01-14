@@ -44,6 +44,19 @@ access services that were started.
 
 ## ISO Creation
 
+We've tested using Amazon EC2 t2.xlarge (for 16GB RAM) running Ubuntu Server 18.04 with 60GB disk storage.
+To setup and install dependencies, run:
+```bash
+git clone https://github.com/posm/posm-build.git
+cd posm-build
+git submodule update --init 
+cd subiquity && make install_deps
+cd ../
+sudo apt install make lxd pigz snapcraft p7zip-full xorriso isolinux
+lxd init  # accepting all defaults
+```
+For the above environment, we also needed to delete `-p docker` from [line 14 of the Makefile](https://github.com/posm/posm-build/blob/master/live/Makefile#L14).
+
 To create a Live Installer ISO, run:
 
 ```bash
@@ -52,6 +65,14 @@ make
 
 This will produce `posm.iso`. If you'd like the SuperPOSM or `aux` variants,
 use `make superposm.iso` or `make posm-aux.iso`.
+
+After running `make` (either failure or success) and before running `make` again you will want to run `make clean`. So a sample workflow might be:
+1. `make`
+2. Copy out the posm.io file
+3. `make clean`
+4. `make superposm.iso`
+5. Copy out the superposm.io file
+6. `make clean superposm.iso`
 
 The git repo and branch used to bootstrap the installer can be provided as
 environment variables, allowing for builds containing experimental features:
