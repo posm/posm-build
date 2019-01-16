@@ -11,8 +11,9 @@ default: posm.iso
 .NOTPARALLEL:
 
 container:
-	lxc launch ubuntu:$(DIST)/$(ARCH) -p default -p docker \
+	lxc launch ubuntu:$(DIST)/$(ARCH) -p default \
 		-c security.privileged=true \
+		-c security.nesting=true \
 		-c environment.DEBIAN_FRONTEND=noninteractive \
 		-c environment.DEBCONF_NONINTERACTIVE_SEEN=true \
 		-c linux.kernel_modules="overlay, nf_nat, aufs" | \
