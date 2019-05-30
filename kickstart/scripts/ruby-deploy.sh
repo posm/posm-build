@@ -35,7 +35,7 @@ deploy_ruby_fromsource() {
 }
 
 deploy_ruby_generic() {
-  gem install --no-rdoc --no-ri bundler
+  gem install --no-rdoc --no-ri bundler -v 1.11.2
 }
 
 deploy ruby

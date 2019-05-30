@@ -85,7 +85,7 @@ deploy_osm_rails() {
   eval "$(rbenv init -)"
 
   # gems
-  type bundler || gem install --no-rdoc --no-ri bundler
+  type bundler || gem install --no-rdoc --no-ri bundler -v 1.11.2
 
   # npm modules
   npm install -g svgo

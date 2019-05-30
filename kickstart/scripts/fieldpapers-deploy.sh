@@ -88,7 +88,7 @@ deploy_fp_web() {
   eval "$(rbenv init -)"
 
   # gems
-  gem install --no-rdoc --no-ri bundler
+  gem install --no-rdoc --no-ri bundler -v 1.11.2
 
   # create a directory for static files
   mkdir -p "$dst/data"
