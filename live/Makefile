@@ -168,6 +168,7 @@ superposm: posm-core docker redis webodm imagery wifi
 	lxc exec $$(cat container) -- rm -f /etc/ssh/ssh_host_*
 	lxc exec $$(cat container) -- rm -f /var/lib/dbus/machine-id
 	lxc exec $$(cat container) -- userdel -r ubuntu || true
+	lxc exec $$(cat container) -- hostnamectl set-hostname posm
 	lxc delete $$(cat container)/$@ || true
 	lxc snapshot $$(cat container) $@
 	touch $@
@@ -181,6 +182,7 @@ posm-aux: odm-worker blink1 influxdb telegraf nginx
 	lxc exec $$(cat container) -- rm -f /etc/ssh/ssh_host_*
 	lxc exec $$(cat container) -- rm -f /var/lib/dbus/machine-id
 	lxc exec $$(cat container) -- userdel -r ubuntu || true
+	lxc exec $$(cat container) -- hostnamectl set-hostname posm-aux
 	lxc delete $$(cat container)/$@ || true
 	lxc snapshot $$(cat container) $@
 	touch $@
