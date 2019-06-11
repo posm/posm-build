@@ -22,8 +22,7 @@ configure_osm_replication() {
 
   expand etc/systemd/system/osmosis-replication.service /etc/systemd/system/osmosis-replication.service
   expand etc/systemd/system/osmosis-replication.timer /etc/systemd/system/osmosis-replication.timer
-  systemctl enable osmosis-replication.timer
-  systemctl start osmosis-replication.timer
+  systemctl enable --now osmosis-replication.timer
   # run the service to kick things off
   systemctl start osmosis-replication.service
 }
@@ -139,17 +138,14 @@ deploy_osm_rails() {
   # create a default user
   su - osm -c "cd '$dst/osm-web' && bundle exec rake osm:users:create display_name='${osm_posm_user}' description='${osm_posm_description}'"
 
-  # update the upstart config
+  # update the systemd unit and restart
   expand etc/systemd/system/osm-web.service.hbs /etc/systemd/system/osm-web.service
-  systemctl enable osm-web
+  systemctl enable --now osm-web
 
   # create backup directory
   mkdir -p /opt/data/backups/osm
   chown osm:osm /opt/data/backups/osm
   chmod 755 /opt/data/backups/osm
-
-  # start
-  service osm-web restart
 
   # add the nginx config for the OSM virtualhost
   expand etc/nginx-osm.conf /etc/nginx/sites-available/osm
@@ -197,8 +193,7 @@ deploy_osm_cgimap() {
   su - osm -c "cd '$dst/osm-cgimap' && make -j $(nproc)"
 
   expand etc/systemd/system/osm-cgimap.service.hbs /etc/systemd/system/osm-cgimap.service
-  systemctl enable osm-cgimap
-  service osm-cgimap restart
+  systemctl enable --now osm-cgimap
 
   true
 }

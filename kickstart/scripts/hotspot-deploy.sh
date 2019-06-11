@@ -3,7 +3,7 @@
 deploy_hotspot_ubuntu() {
   local v="`virt-what 2>/dev/null`"
   if [ $? = 0 ] && [ -z "$v" ]; then
-    # allow lo to use remote DNS servers (don't modify /etc/resolve.conf)
+    # allow lo to use remote DNS servers (don't modify /etc/resolv.conf)
     grep -qe "^DNSMASQ_EXCEPT" /etc/default/dnsmasq || echo DNSMASQ_EXCEPT=\"lo\" >> /etc/default/dnsmasq
 
     expand etc/hosts "/etc/hosts"
@@ -40,8 +40,7 @@ deploy_hotspot_ubuntu() {
       grep -qe "^DAEMON_CONF" /etc/default/hostapd || echo DAEMON_CONF=\"/etc/hostapd/hostapd.conf\" >> /etc/default/hostapd
 
       systemctl unmask hostapd.service
-      systemctl enable hostapd.service
-      systemctl start hostapd.service
+      systemctl enable --now hostapd.service
       systemctl restart dnsmasq.service
     fi
 

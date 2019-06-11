@@ -52,9 +52,8 @@ deploy_carto_posm() {
   # register a timerthat reads diffs and updates the rendering database
   expand etc/systemd/system/osm2pgsql-replication.service /etc/systemd/system/osm2pgsql-replication.service
   expand etc/systemd/system/osm2pgsql-replication.timer /etc/systemd/system/osm2pgsql-replication.timer
-  systemctl enable osm2pgsql-replication.timer
-  systemctl start osm2pgsql-replication.timer
-  # run the service to kick things off
+  systemctl enable --now osm2pgsql-replication.timer
+  # run the service to kick things off (it expects to start on boot)
   systemctl start osm2pgsql-replication.service
 
   mkdir -p /opt/data/osm/expiry
