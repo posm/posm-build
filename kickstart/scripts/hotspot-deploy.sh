@@ -8,6 +8,9 @@ deploy_hotspot_ubuntu() {
 
     expand etc/hosts "/etc/hosts"
 
+    expand etc/systemd/system/posm-hotspot.service /etc/systemd/system/posm-hotspot.service
+    systemctl enable posm-hotspot
+
     if [ -z "$posm_lan_netif" ]; then
       expand etc/systemd/network/lan.network.hbs /etc/systemd/network/lan.network
     fi

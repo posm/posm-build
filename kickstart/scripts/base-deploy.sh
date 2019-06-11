@@ -57,6 +57,10 @@ EOF
   grep -q "^UseDNS" /etc/ssh/sshd_config || echo "UseDNS no" >> /etc/ssh/sshd_config
 
   service ssh restart
+
+  expand etc/systemd/system/regenerate_ssh_host_keys.service /etc/systemd/system/regenerate_ssh_host_keys.service
+
+  systemctl enable regenerate_ssh_host_keys.service
 }
 
 deploy base
