@@ -3,11 +3,12 @@
 posm_env=production
 
 # network
-posm_network="172.16" # class B
-posm_wlan_subnet="$posm_network.1"
-posm_lan_subnet="$posm_network.2"
-posm_wlan_ip="$posm_wlan_subnet.1"
-posm_lan_ip="$posm_lan_subnet.1"
+# class B
+posm_network="172.16"
+posm_wlan_subnet="172.16.1"
+posm_lan_subnet="172.16.2"
+posm_wlan_ip="172.16.1.1"
+posm_lan_ip="172.16.2.1"
 # first ethernet interface
 posm_wan_netif="$(find /sys/class/net/ -name en* -printf '%f\n' | head -1)"
 # second ethernet interface (if present)
@@ -15,14 +16,17 @@ posm_lan_netif="$(find /sys/class/net -name en* -printf '%f\n' | tail -n +2)"
 # first wireless interface
 posm_wlan_netif="$(find /sys/class/net/ -name wl* -printf '%f\n' | head -1)"
 posm_ssid="POSM"
-posm_wpa_passphrase="awesomeposm" # 8..63 characters
+# 8..63 characters
+posm_wpa_passphrase="awesomeposm"
 posm_wifi_channel="1"
-posm_wifi_80211n="1" # set to 0 to disable 802.11n
-posm_wifi_wpa="2" # set to 0 to disable passwords
+# set to 0 to disable 802.11n
+posm_wifi_80211n="1"
+# set to 0 to disable passwords
+posm_wifi_wpa="2"
 posm_hostname="posm"
 posm_domain="io"
 lan_domain="lan"
-posm_fqdn="${posm_hostname}.${posm_domain}"
+posm_fqdn="posm.io"
 osm_fqdn="osm.${posm_fqdn}"
 webodm_fqdn="webodm.${posm_fqdn}"
 
