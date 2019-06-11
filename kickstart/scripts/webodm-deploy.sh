@@ -35,7 +35,7 @@ deploy_webodm_ubuntu() {
 
   docker exec webodm-web.service /webodm/wait-for-it.sh -t 0 localhost:8000
   docker exec webodm-web.service python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('$webodm_user', '', '$webodm_password')"
-  docker exec webodm-web.service python manage.py shell -c "from nodeodm.models import ProcessingNode; ProcessingNode.objects.update_or_create(hostname='nodeodm.service', defaults={'hostname': 'nodeodm.service', 'port': 3000})"
+  docker exec webodm-web.service python manage.py shell -c "from nodeodm.models import ProcessingNode; ProcessingNode.objects.update_or_create(hostname='clusterodm.service', defaults={'hostname': 'clusterodm.service', 'port': 3000})"
 
   # add the nginx config for the WebODM virtualhost
   expand etc/nginx-webodm.conf /etc/nginx/sites-available/webodm

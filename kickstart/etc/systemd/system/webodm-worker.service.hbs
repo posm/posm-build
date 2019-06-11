@@ -13,7 +13,7 @@ ExecStart=/bin/bash -c "docker run \
     -e WO_BROKER=redis://redis \
     -e WO_PGHOST=$(hostname -I | awk '{print $1}') \
     --link redis \
-    --link nodeodm.service \
+    --link clusterodm.service \
     --name %n \
     --tmpfs /tmp \
     -v /opt/data/webodm:/webodm/app/media \
