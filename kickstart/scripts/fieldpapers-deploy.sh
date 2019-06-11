@@ -55,10 +55,14 @@ deploy_fieldpapers_common() {
   chmod +x "$dst/bin/fp-watch.sh"
   chown -R fp:fp "$dst/bin"
 
-  expand etc/systemd/system/fp-watch.service.hbs /etc/systemd/system/fp-watch.service
-  systemctl enable fp-watch
-
-  service fp-watch restart
+  if [ -f /etc/systemd/system/fp-watch.service ]; then
+    expand etc/systemd/system/fp-watch.service.hbs /etc/systemd/system/fp-watch.service
+    systemctl daemon-reload
+    systemctl restart fp-watch
+  else
+    expand etc/systemd/system/fp-watch.service.hbs /etc/systemd/system/fp-watch.service
+    systemctl enable --now fp-watch
+  fi
 
   apps=$(jq .apps /opt/posm-www/config.json)
   new_apps=$(cat << EOF | jq -s '.[0] + .[1] | unique'
@@ -130,9 +134,14 @@ deploy_fp_web() {
   chown fp:fp "$dst/fp-web/config/providers.json"
 
   # start
-  expand etc/systemd/system/fp-web.service.hbs /etc/systemd/system/fp-web.service
-  systemctl enable fp-web
-  service fp-web restart
+  if [ -f /etc/systemd/system/fp-web.service ]; then
+    expand etc/systemd/system/fp-web.service.hbs /etc/systemd/system/fp-web.service
+    systemctl daemon-reload
+    systemctl restart fp-web
+  else
+    expand etc/systemd/system/fp-web.service.hbs /etc/systemd/system/fp-web.service
+    systemctl enable --now fp-web
+  fi
 
   true
 }
@@ -145,9 +154,14 @@ deploy_fp_tiler() {
   su - fp -c "cd '$dst/fp-tiler' && npm install --quiet"
 
   # start
-  expand etc/systemd/system/fp-tiler.service.hbs /etc/systemd/system/fp-tiler.service
-  systemctl enable fp-tiler
-  service fp-tiler restart
+  if [ -f /etc/systemd/system/fp-tiler.service ]; then
+    expand etc/systemd/system/fp-tiler.service.hbs /etc/systemd/system/fp-tiler.service
+    systemctl daemon-reload
+    systemctl restart fp-tiler
+  else
+    expand etc/systemd/system/fp-tiler.service.hbs /etc/systemd/system/fp-tiler.service
+    systemctl enable --now fp-tiler
+  fi
 
   true
 }
@@ -160,9 +174,14 @@ deploy_fp_tasks() {
   su - fp -c "cd '$dst/fp-tasks' && npm install --quiet"
 
   # start
-  expand etc/systemd/system/fp-tasks.service.hbs /etc/systemd/system/fp-tasks.service
-  systemctl enable fp-tasks
-  service fp-tasks restart
+  if [ -f /etc/systemd/system/fp-tasks.service ]; then
+    expand etc/systemd/system/fp-tasks.service.hbs /etc/systemd/system/fp-tasks.service
+    systemctl daemon-reload
+    systemctl restart fp-tasks
+  else
+    expand etc/systemd/system/fp-tasks.service.hbs /etc/systemd/system/fp-tasks.service
+    systemctl enable --now fp-tasks
+  fi
 
   true
 }

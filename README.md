@@ -45,11 +45,11 @@ same network as the POSM's uplink, referring to it as `posm.local`.
 
 POSM has superhuman capabilities!
 
-To add SuperPOSM capabilities (OpenDroneMap + GeoTIFF processing), add `docker redis imagery nodeodm
-webodm` to the list of modules being deployed.
+To add SuperPOSM capabilities (OpenDroneMap + GeoTIFF processing), add `docker redis imagery
+clusterodm nodeodm webodm` to the list of modules being deployed.
 
-The minimal list of modules for SuperPOSM is: `base virt nginx admin docker redis imagery nodeodm
-webodm`.
+The minimal list of modules for SuperPOSM is: `base virt nginx admin docker redis imagery
+clusterodm nodeodm webodm`.
 
 ### SuperPOSM Hardware Requirements
 

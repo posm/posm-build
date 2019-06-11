@@ -33,6 +33,7 @@ ubuntu-14.04-desktop-amd64.iso
 wifi
 posm.tgz
 bionic-live-server-amd64.iso
+clusterodm
 nodeodm
 webodm
 odm-worker

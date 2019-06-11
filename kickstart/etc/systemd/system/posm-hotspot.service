@@ -1,0 +1,13 @@
+[Unit]
+Description=POSM Hotspot Initialization
+Before=systemd-networkd.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/root/posm-build/kickstart/etc/settings
+ExecStart=/bin/bash -c "export posm_wlan_netif=$(ls /sys/class/net/ | grep ^wl | head -1) posm_wan_netif=$(ls /sys/class/net/ | grep ^en | head -1) posm_lan_netif=$(ls /sys/class/net/ | grep ^en | tail -n +2) && interp < /root/posm-build/kickstart/etc/dnsmasq-posm.conf > /etc/dnsmasq.d/50-posm.conf"
+ExecStart=/bin/bash -c "export posm_wlan_netif=$(ls /sys/class/net/ | grep ^wl | head -1) && interp < /root/posm-build/kickstart/etc/hostapd.conf > /etc/hostapd/hostapd.conf"
+ExecStart=/bin/bash -c "export posm_wlan_netif=$(ls /sys/class/net/ | grep ^wl | head -1) && interp < /root/posm-build/kickstart/etc/systemd/network/wlan.network.hbs > /etc/systemd/network/wlan.network"
+
+[Install]
+WantedBy=multi-user.target

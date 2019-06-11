@@ -37,7 +37,7 @@ deploy_base_ubuntu() {
     software-properties-common \
     apt-transport-https \
     virt-what \
-    default-jre-headless \
+    openjdk-8-jre-headless \
     thermald
 
   # enable mDNS (posm.local)
@@ -57,6 +57,10 @@ EOF
   grep -q "^UseDNS" /etc/ssh/sshd_config || echo "UseDNS no" >> /etc/ssh/sshd_config
 
   service ssh restart
+
+  expand etc/systemd/system/regenerate_ssh_host_keys.service /etc/systemd/system/regenerate_ssh_host_keys.service
+
+  systemctl enable regenerate_ssh_host_keys.service
 }
 
 deploy base

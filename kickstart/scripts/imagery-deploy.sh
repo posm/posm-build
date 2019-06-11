@@ -17,11 +17,8 @@ deploy_imagery_ubuntu() {
   expand etc/systemd/system/imagery-web.service.hbs /etc/systemd/system/imagery-web.service
   expand etc/systemd/system/imagery-worker.service.hbs /etc/systemd/system/imagery-worker.service
 
-  systemctl enable imagery-web
-  systemctl enable imagery-worker
-
-  service imagery-web start
-  service imagery-worker start
+  systemctl enable --now imagery-web
+  systemctl enable --now imagery-worker
 }
 
 deploy imagery

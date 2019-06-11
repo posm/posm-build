@@ -109,6 +109,11 @@ redis: docker
 	lxc snapshot $$(cat container) $@
 	touch $@
 
+clusterodm: nodeodm
+	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
+	lxc snapshot $$(cat container) $@
+	touch $@
+
 nodeodm: docker nodejs
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
@@ -119,7 +124,7 @@ odm-worker: nodeodm
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-webodm: nginx nodejs nodeodm postgis redis
+webodm: nginx nodejs clusterodm nodeodm postgis redis
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@
@@ -168,6 +173,7 @@ superposm: posm-core docker redis webodm imagery wifi
 	lxc exec $$(cat container) -- rm -f /etc/ssh/ssh_host_*
 	lxc exec $$(cat container) -- rm -f /var/lib/dbus/machine-id
 	lxc exec $$(cat container) -- userdel -r ubuntu || true
+	lxc exec $$(cat container) -- hostnamectl set-hostname posm
 	lxc delete $$(cat container)/$@ || true
 	lxc snapshot $$(cat container) $@
 	touch $@
@@ -181,6 +187,7 @@ posm-aux: odm-worker blink1 influxdb telegraf nginx
 	lxc exec $$(cat container) -- rm -f /etc/ssh/ssh_host_*
 	lxc exec $$(cat container) -- rm -f /var/lib/dbus/machine-id
 	lxc exec $$(cat container) -- userdel -r ubuntu || true
+	lxc exec $$(cat container) -- hostnamectl set-hostname posm-aux
 	lxc delete $$(cat container)/$@ || true
 	lxc snapshot $$(cat container) $@
 	touch $@
@@ -233,4 +240,4 @@ posm-aux.iso: posm-aux.tgz bionic-live-server-amd64.iso
 clean:
 	test -f container && lxc delete $$(cat container) --force || true
 	sudo rm -rf cdrom
-	rm -rf admin base blink1 carto container docker fieldpapers gis imagery influxdb nginx nodejs omk opendronemap osm posm postgis redis ruby samba telegraf tessera tl wifi odm-worker posm.tgz posm.iso posm-aux posm-aux.tgz posm-aux.iso superposm superposm.tgz superposm.iso
+	rm -rf admin base blink1 carto container docker fieldpapers gis imagery influxdb nginx nodejs omk opendronemap osm posm postgis redis ruby samba telegraf tessera tl wifi odm-worker clusterodm nodeodm webodm posm.tgz posm.iso posm-aux posm-aux.tgz posm-aux.iso superposm superposm.tgz superposm.iso

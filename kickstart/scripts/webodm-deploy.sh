@@ -2,8 +2,8 @@
 
 deploy_webodm_ubuntu() {
   useradd -c 'WebODM' -d "/opt/webodm" -m -r -s /bin/bash -U webodm
-  mkdir -p /opt/data/webodm
-  chown webodm:webodm /opt/data/webodm
+  mkdir -p /opt/data/webodm/project
+  chown -R webodm:webodm /opt/data/webodm
 
   echo -e "${webodm_pg_pass}\n${webodm_pg_pass}" | su - postgres -c "createuser --no-superuser --no-createdb --no-createrole --pwprompt '$webodm_pg_owner'"
   su - postgres -c "createdb --owner='$webodm_pg_owner' '$webodm_pg_dbname'"
@@ -24,11 +24,8 @@ deploy_webodm_ubuntu() {
   expand etc/webodm/app/static/app/js/classes/Basemaps.js /opt/webodm/app/static/app/js/classes/Basemaps.js
   expand etc/webodm/plugins/osm-quickedit/public/main.js /opt/webodm/plugins/osm-quickedit/public/main.js
 
-  systemctl enable webodm-web
-  systemctl enable webodm-worker
-
-  service webodm-web start
-  service webodm-worker start
+  systemctl enable --now webodm-web
+  systemctl enable --now webodm-worker
 
   # wait for Docker containers to come online
   echo Waiting for WebODM to become available...
@@ -38,7 +35,7 @@ deploy_webodm_ubuntu() {
 
   docker exec webodm-web.service /webodm/wait-for-it.sh -t 0 localhost:8000
   docker exec webodm-web.service python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('$webodm_user', '', '$webodm_password')"
-  docker exec webodm-web.service python manage.py shell -c "from nodeodm.models import ProcessingNode; ProcessingNode.objects.update_or_create(hostname='nodeodm.service', defaults={'hostname': 'nodeodm.service', 'port': 3000})"
+  docker exec webodm-web.service python manage.py shell -c "from nodeodm.models import ProcessingNode; ProcessingNode.objects.update_or_create(hostname='clusterodm.service', defaults={'hostname': 'clusterodm.service', 'port': 3000})"
 
   # add the nginx config for the WebODM virtualhost
   expand etc/nginx-webodm.conf /etc/nginx/sites-available/webodm

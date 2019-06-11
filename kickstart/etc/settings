@@ -3,11 +3,12 @@
 posm_env=production
 
 # network
-posm_network="172.16" # class B
-posm_wlan_subnet="$posm_network.1"
-posm_lan_subnet="$posm_network.2"
-posm_wlan_ip="$posm_wlan_subnet.1"
-posm_lan_ip="$posm_lan_subnet.1"
+# class B
+posm_network="172.16"
+posm_wlan_subnet="172.16.1"
+posm_lan_subnet="172.16.2"
+posm_wlan_ip="172.16.1.1"
+posm_lan_ip="172.16.2.1"
 # first ethernet interface
 posm_wan_netif="$(find /sys/class/net/ -name en* -printf '%f\n' | head -1)"
 # second ethernet interface (if present)
@@ -15,14 +16,17 @@ posm_lan_netif="$(find /sys/class/net -name en* -printf '%f\n' | tail -n +2)"
 # first wireless interface
 posm_wlan_netif="$(find /sys/class/net/ -name wl* -printf '%f\n' | head -1)"
 posm_ssid="POSM"
-posm_wpa_passphrase="awesomeposm" # 8..63 characters
+# 8..63 characters
+posm_wpa_passphrase="awesomeposm"
 posm_wifi_channel="1"
-posm_wifi_80211n="1" # set to 0 to disable 802.11n
-posm_wifi_wpa="2" # set to 0 to disable passwords
+# set to 0 to disable 802.11n
+posm_wifi_80211n="1"
+# set to 0 to disable passwords
+posm_wifi_wpa="2"
 posm_hostname="posm"
 posm_domain="io"
 lan_domain="lan"
-posm_fqdn="${posm_hostname}.${posm_domain}"
+posm_fqdn="posm.io"
 osm_fqdn="osm.${posm_fqdn}"
 webodm_fqdn="webodm.${posm_fqdn}"
 
@@ -35,13 +39,14 @@ fp_tile_base_url="${posm_base_url}/fp-tiler"
 # ports
 fp_tiler_port=8080
 fp_tasks_port=8081
-fp_web_port=3001
+fp_web_port=3002
 tessera_port=8082
 omk_server_port=3210
 posm_admin_port=3211
 osm_web_port=9000
 cgimap_port=54321
-nodeodm_port=3000
+clusterodm_port=3000
+nodeodm_port=3001
 webodm_port=11111
 
 # web
@@ -62,8 +67,9 @@ osm_posm_description="Portable OpenStreetMap"
 # webodm
 webodm_user="POSM"
 webodm_password="awesomeposm"
-webodm_webapp_digest="sha256:c465e1128e84fb5215d189ce456c99f31d9dce04331a95dded90837da825fa7d"
-webodm_nodeodm_digest="sha256:efa075db53fd934f49bbc30fc1db6181d1ad4a15256917992698ccd85ca6b902"
+webodm_webapp_digest="sha256:1de5a323591ca016935113142bf1feaa4476609b14ecf463b9fe6e959a7c0989"
+webodm_nodeodm_digest="sha256:3f691b040bbd560001d137c84a52e5201b710bc2c34bd2735cb6e53a601c66cf"
+webodm_clusterodm_digest="sha256:06b37645be14f50d0964147d5b1632a839d7ebdfbda222e77f94d973601d1a8a"
 
 # databases
 fp_pg_owner="fieldpapers"
