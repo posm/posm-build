@@ -47,7 +47,7 @@ osm_web_port=9000
 cgimap_port=54321
 clusterodm_port=3000
 nodeodm_port=3001
-webodm_port=11111
+webodm_port=8000
 
 # web
 # auth=true # uncomment this to enable web authentication

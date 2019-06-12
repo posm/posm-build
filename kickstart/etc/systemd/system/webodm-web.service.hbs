@@ -21,7 +21,7 @@ ExecStart=/bin/bash -c "sleep 5 && docker run \
     -v /opt/webodm/app/static/app/js/classes/Basemaps.js:/webodm/app/static/app/js/classes/Basemaps.js \
     -v /opt/webodm/plugins/osm-quickedit/public/main.js:/webodm/plugins/osm-quickedit/public/main.js \
     opendronemap/webodm_webapp@{{webodm_webapp_digest}} \
-    bash -c \"webpack --mode production && python manage.py collectstatic --noinput && /webodm/start.sh --port {{webodm_port}}\""
+    bash -c \"webpack --mode production && python manage.py collectstatic --noinput && /webodm/start.sh\""
 
 [Install]
 WantedBy=multi-user.target
