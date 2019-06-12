@@ -18,9 +18,9 @@ deploy_hotspot_ubuntu() {
     expand etc/systemd/network/wan-static.network.hbs /etc/systemd/network/20-wan-static.network
     expand etc/systemd/network/wlan.network.hbs /etc/systemd/network/wlan.network
 
-    mkdir -p /usr/lib/networkd-dispatcher/configuring.d
-    expand etc/networkd-dispatcher/configuring.d/enable-wan-timeout.hbs /usr/lib/networkd-dispatcher/configuring.d/enable-wan-timeout
-    chmod +x /usr/lib/networkd-dispatcher/configuring.d/enable-wan-timeout
+    mkdir -p /etc/networkd-dispatcher/configuring.d
+    expand etc/networkd-dispatcher/configuring.d/enable-wan-timeout.hbs /etc/networkd-dispatcher/configuring.d/enable-wan-timeout
+    chmod +x /etc/networkd-dispatcher/configuring.d/enable-wan-timeout
 
     expand etc/systemd/system/wan-timeout.service.hbs /etc/systemd/system/wan-timeout.service
     expand etc/systemd/system/wan-timeout.timer /etc/systemd/system/wan-timeout.timer

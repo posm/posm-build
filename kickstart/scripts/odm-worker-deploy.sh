@@ -7,8 +7,9 @@ deploy_worker_ubuntu() {
   expand usr/local/bin/register-nodeodm-worker.sh /usr/local/bin/register-nodeodm-worker.sh
   chmod +x /usr/local/bin/register-nodeodm-worker.sh
 
-  expand etc/networkd-dispatcher/routable.d/register-nodeodm-worker /usr/lib/networkd-dispatcher/routable.d/register-nodeodm-worker
-  chmod +x /usr/lib/networkd-dispatcher/routable.d/register-nodeodm-worker
+  mkdir -p /etc/networkd-dispatcher/configured.d
+  expand etc/networkd-dispatcher/routable.d/register-nodeodm-worker /etc/networkd-dispatcher/configured.d/register-nodeodm-worker
+  chmod +x /etc/networkd-dispatcher/configured.d/register-nodeodm-worker
 }
 
 deploy worker
