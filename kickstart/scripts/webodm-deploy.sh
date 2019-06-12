@@ -5,6 +5,12 @@ deploy_webodm_ubuntu() {
   mkdir -p /opt/data/webodm/project
   chown -R webodm:webodm /opt/data/webodm
 
+  echo -e "${webodm_pg_pass}\n${webodm_pg_pass}" | su - postgres -c "createuser --no-superuser --no-createdb --no-createrole --pwprompt '$webodm_pg_owner'"
+  su - postgres -c "createdb --owner='$webodm_pg_owner' '$webodm_pg_dbname'"
+  su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='CREATE EXTENSION postgis'"
+  su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='ALTER DATABASE $webodm_pg_dbname SET postgis.gdal_enabled_drivers TO 'GTiff';'"
+  su - postgres -c "psql --dbname='$webodm_pg_dbname' --command='ALTER DATABASE $webodm_pg_dbname SET postgis.enable_outdb_rasters TO True;'"
+
   docker pull opendronemap/webodm_webapp@${webodm_webapp_digest}
 
   expand etc/webodm.py.hbs /etc/webodm.py

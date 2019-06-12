@@ -124,7 +124,7 @@ odm-worker: nodeodm
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-webodm: nginx nodejs clusterodm nodeodm redis
+webodm: nginx nodejs clusterodm nodeodm postgis redis
 	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
 	lxc snapshot $$(cat container) $@
 	touch $@

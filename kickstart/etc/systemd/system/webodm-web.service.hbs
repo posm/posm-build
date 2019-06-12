@@ -12,6 +12,7 @@ ExecStart=/bin/bash -c "sleep 5 && docker run \
     --rm \
     -e WO_HOST=$(jq -r .posm_fqdn /etc/posm.json) \
     -e WO_BROKER=redis://localhost \
+    -e WO_PGHOST=localhost \
     --name %n \
     --tmpfs /tmp \
     --network host \

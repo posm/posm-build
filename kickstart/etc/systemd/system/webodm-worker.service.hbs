@@ -11,6 +11,7 @@ ExecStart=/bin/bash -c "docker run \
     --init \
     --rm \
     -e WO_BROKER=redis://localhost \
+    -e WO_PGHOST=localhost \
     --name %n \
     --tmpfs /tmp \
     -v /opt/data/webodm:/webodm/app/media \
