@@ -16,7 +16,6 @@ deploy_webodm_ubuntu() {
   expand etc/webodm.py.hbs /etc/webodm.py
 
   expand etc/systemd/system/webodm-web.service.hbs /etc/systemd/system/webodm-web.service
-  expand etc/systemd/system/webodm-worker.service.hbs /etc/systemd/system/webodm-worker.service
 
   mkdir -p /opt/webodm/app/static/app/js/classes
   mkdir -p /opt/webodm/plugins/osm-quickedit/public
@@ -25,7 +24,6 @@ deploy_webodm_ubuntu() {
   expand etc/webodm/plugins/osm-quickedit/public/main.js /opt/webodm/plugins/osm-quickedit/public/main.js
 
   systemctl enable --now webodm-web
-  systemctl enable --now webodm-worker
 
   # wait for Docker containers to come online
   echo Waiting for WebODM to become available...
