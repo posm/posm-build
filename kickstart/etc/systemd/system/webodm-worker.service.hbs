@@ -10,10 +10,7 @@ ExecStartPre=-/usr/bin/docker rm %n
 ExecStart=/bin/bash -c "docker run \
     --init \
     --rm \
-    -e WO_BROKER=redis://redis \
-    -e WO_PGHOST=$(hostname -I | awk '{print $1}') \
-    --link redis \
-    --link clusterodm.service \
+    -e WO_BROKER=redis://localhost \
     --name %n \
     --tmpfs /tmp \
     -v /opt/data/webodm:/webodm/app/media \

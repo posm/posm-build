@@ -10,21 +10,17 @@ ExecStartPre=-/usr/bin/docker rm %n
 ExecStart=/bin/bash -c "sleep 5 && docker run \
     --init \
     --rm \
-    -e WO_PORT=11111 \
     -e WO_HOST=$(jq -r .posm_fqdn /etc/posm.json) \
-    -e WO_BROKER=redis://redis \
-    -e WO_PGHOST=$(hostname -I | awk '{print $1}') \
-    -p {{webodm_port}}:8000 \
-    --link redis \
-    --link clusterodm.service \
+    -e WO_BROKER=redis://localhost \
     --name %n \
     --tmpfs /tmp \
+    --network host \
     -v /opt/data/webodm:/webodm/app/media \
     -v /etc/webodm.py:/webodm/webodm/local_settings.py \
     -v /opt/webodm/app/static/app/js/classes/Basemaps.js:/webodm/app/static/app/js/classes/Basemaps.js \
     -v /opt/webodm/plugins/osm-quickedit/public/main.js:/webodm/plugins/osm-quickedit/public/main.js \
     opendronemap/webodm_webapp@{{webodm_webapp_digest}} \
-    bash -c \"webpack --mode production && python manage.py collectstatic --noinput && /webodm/start.sh\""
+    bash -c \"webpack --mode production && python manage.py collectstatic --noinput && /webodm/start.sh --port {{webodm_port}}\""
 
 [Install]
 WantedBy=multi-user.target

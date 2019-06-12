@@ -10,9 +10,9 @@ ExecStartPre=-/usr/bin/docker rm %n
 ExecStart=/bin/bash -c "docker run \
     --init \
     --rm \
-    -p {{nodeodm_port}}:{{nodeodm_port}} \
     --name %n \
     --tmpfs /tmp \
+    --network host \
     opendronemap/nodeodm@{{webodm_nodeodm_digest}} \
     --port {{nodeodm_port}}"
 
