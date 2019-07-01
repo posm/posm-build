@@ -10,12 +10,11 @@ ExecStartPre=-/usr/bin/docker rm %n
 ExecStart=/bin/bash -c "docker run \
     --init \
     --rm \
-    -e WO_BROKER=redis://redis \
-    -e WO_PGHOST=$(hostname -I | awk '{print $1}') \
-    --link redis \
-    --link clusterodm.service \
+    -e WO_BROKER=redis://localhost \
+    -e WO_PGHOST=localhost \
     --name %n \
     --tmpfs /tmp \
+    --network host \
     -v /opt/data/webodm:/webodm/app/media \
     -v /etc/webodm.py:/webodm/webodm/local_settings.py \
     opendronemap/webodm_webapp@{{webodm_webapp_digest}} \

@@ -10,12 +10,9 @@ ExecStartPre=-/usr/bin/docker rm %n
 ExecStart=/bin/bash -c "docker run \
     --init \
     --rm \
-    -p 28080:28080 \
-    -p 20000:20000 \
-    -p {{clusterodm_port}}:{{clusterodm_port}} \
-    --link nodeodm.service \
     --name %n \
     --tmpfs /tmp \
+    --network host \
     -v /etc/clusterodm.json:/var/www/data/nodes.json \
     opendronemap/clusterodm@{{webodm_clusterodm_digest}} \
     --port {{clusterodm_port}} \

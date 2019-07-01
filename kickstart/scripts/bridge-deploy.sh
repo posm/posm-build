@@ -10,12 +10,12 @@ deploy_bridge_ubuntu() {
     systemctl restart systemd-sysctl
 
     # configure interface hook scripts
-    expand etc/networkd-dispatcher/routable.d/enable-port-forwarding.hbs /usr/lib/networkd-dispatcher/routable.d/enable-port-forwarding
-    expand etc/networkd-dispatcher/no-carrier.d/disable-port-forwarding.hbs /usr/lib/networkd-dispatcher/no-carrier.d/disable-port-forwarding
-    chmod +x /usr/lib/networkd-dispatcher/routable.d/enable-port-forwarding
-    chmod +x /usr/lib/networkd-dispatcher/no-carrier.d/disable-port-forwarding
+    expand etc/networkd-dispatcher/routable.d/enable-port-forwarding.hbs /etc/networkd-dispatcher/routable.d/enable-port-forwarding
+    expand etc/networkd-dispatcher/no-carrier.d/disable-port-forwarding.hbs /etc/networkd-dispatcher/no-carrier.d/disable-port-forwarding
+    chmod +x /etc/networkd-dispatcher/routable.d/enable-port-forwarding
+    chmod +x /etc/networkd-dispatcher/no-carrier.d/disable-port-forwarding
 
-    IFACE=$posm_wan_netif /usr/lib/networkd-dispatcher/routable.d/enable-port-forwarding
+    IFACE=$posm_wan_netif /etc/networkd-dispatcher/routable.d/enable-port-forwarding
 
     # disable DNS wildcarding
 

@@ -152,6 +152,7 @@ telegraf: influxdb
 posm-core: gis nginx osm fieldpapers omk tl carto tessera admin samba blink1 influxdb telegraf
 
 posm: posm-core wifi
+	lxc exec $$(cat container) -- systemctl stop docker
 	lxc exec $$(cat container) -- apt-get autoremove -y
 	lxc exec $$(cat container) -- apt-get clean
 	echo 'root:posm' | lxc exec $$(cat container) -- chpasswd
@@ -165,6 +166,7 @@ posm: posm-core wifi
 	touch $@
 
 superposm: posm-core docker redis webodm imagery wifi
+	lxc exec $$(cat container) -- systemctl stop docker
 	lxc exec $$(cat container) -- apt-get autoremove -y
 	lxc exec $$(cat container) -- apt-get clean
 	echo 'root:posm' | lxc exec $$(cat container) -- chpasswd
@@ -179,6 +181,7 @@ superposm: posm-core docker redis webodm imagery wifi
 	touch $@
 
 posm-aux: odm-worker blink1 influxdb telegraf nginx
+	lxc exec $$(cat container) -- systemctl stop docker
 	lxc exec $$(cat container) -- apt-get autoremove -y
 	lxc exec $$(cat container) -- apt-get clean
 	echo 'root:posm' | lxc exec $$(cat container) -- chpasswd
