@@ -26,7 +26,7 @@ deploy_hotspot_ubuntu() {
     expand etc/systemd/system/wan-timeout.timer /etc/systemd/system/wan-timeout.timer
 
     # we're managing networks fully ourselves
-    rm -f /etc/netplan/50-cloud-init.yaml
+    echo "network: {config: disabled}" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
 
     systemctl restart systemd-networkd
 
