@@ -12,9 +12,8 @@ ExecStart=/bin/bash -c "docker run \
     --rm \
     --add-host $(jq -r .posm_fqdn /etc/posm.json):$(hostname -I | awk '{print $1}') \
     --entrypoint celery \
-    -e REDIS_URL=redis://redis \
+    -e REDIS_URL=redis://localhost \
     -e SERVER_NAME=$(jq -r .posm_fqdn /etc/posm.json) \
-    --link redis \
     --name %n \
     --tmpfs /tmp \
     -u $(id -u posm-admin):$(id -g posm-admin) \
