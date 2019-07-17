@@ -71,6 +71,9 @@ webodm_webapp_digest="sha256:417beb021da272635c0004f8107ef42c214c624ad9d3411bebf
 webodm_nodeodm_digest="sha256:ae2345df2e4f7756e208f7b0717c6b9b95fb3a67612fa84295cdc6b4ba985eaf"
 webodm_clusterodm_digest="sha256:62e5a2073ee84adf6ee86e8744f2c34d5c70ae77ce6c7ce21e359703cb2d3fdb"
 
+# nodeodm
+nodeodm_parallel_queue=1
+
 # databases
 fp_pg_owner="fieldpapers"
 fp_pg_pass="fieldpapers"
