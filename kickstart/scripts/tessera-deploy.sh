@@ -15,7 +15,7 @@ deploy_tessera_ubuntu() {
     @mapbox/tilejson@~1.1.0 \
     @mapbox/tilelive-vector@~4.2.0 \
     tilelive-blend@~0.5.1 \
-    tessera@~0.13.1 \
+    tessera@~0.14.1 \
     @posm/posm-imagery-updater
 
   # configure
