@@ -16,6 +16,7 @@ ExecStart=/bin/bash -c "docker run \
     -e SERVER_NAME=$(jq -r .posm_fqdn /etc/posm.json) \
     --name %n \
     --tmpfs /tmp \
+    --network host \
     -u $(id -u posm-admin):$(id -g posm-admin) \
     -v /opt/data/imagery:/app/imagery \
     -v /opt/data/uploads:/app/uploads \

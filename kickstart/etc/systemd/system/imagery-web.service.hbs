@@ -16,6 +16,7 @@ ExecStart=/bin/bash -c "docker run \
     -p 10000:8000 \
     --name %n \
     --tmpfs /tmp \
+    --network host \
     -u $(id -u posm-admin):$(id -g posm-admin) \
     -v /opt/data/imagery:/app/imagery \
     -v /opt/data/uploads:/app/uploads \
