@@ -11,6 +11,7 @@ ExecStart=/bin/bash -c "docker run \
     --init \
     --rm \
     --add-host $(jq -r .posm_fqdn /etc/posm.json):$(hostname -I | awk '{print $1}') \
+    --entrypoint gunicorn \
     -e REDIS_URL=redis://localhost \
     -e SERVER_NAME=$(jq -r .posm_fqdn /etc/posm.json) \
     -p 10000:10000 \
@@ -21,7 +22,11 @@ ExecStart=/bin/bash -c "docker run \
     -v /opt/data/imagery:/app/imagery \
     -v /opt/data/uploads:/app/uploads \
     quay.io/mojodna/posm-imagery-api \
-    -b 0.0.0.0:10000"
+    -k gevent \
+    -b 0.0.0.0:10000 \
+    --timeout 300 \
+    --access-logfile - \
+    app:app"
 
 [Install]
 WantedBy=multi-user.target
