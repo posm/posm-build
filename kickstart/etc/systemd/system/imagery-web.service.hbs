@@ -13,14 +13,15 @@ ExecStart=/bin/bash -c "docker run \
     --add-host $(jq -r .posm_fqdn /etc/posm.json):$(hostname -I | awk '{print $1}') \
     -e REDIS_URL=redis://localhost \
     -e SERVER_NAME=$(jq -r .posm_fqdn /etc/posm.json) \
-    -p 10000:8000 \
+    -p 10000:10000 \
     --name %n \
     --tmpfs /tmp \
     --network host \
     -u $(id -u posm-admin):$(id -g posm-admin) \
     -v /opt/data/imagery:/app/imagery \
     -v /opt/data/uploads:/app/uploads \
-    quay.io/mojodna/posm-imagery-api"
+    quay.io/mojodna/posm-imagery-api \
+    -b 0.0.0.0:10000"
 
 [Install]
 WantedBy=multi-user.target
