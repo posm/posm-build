@@ -47,10 +47,12 @@ access services that were started.
 We've tested using Amazon EC2 t2.xlarge (for 16GB RAM) running Ubuntu Server 18.04 with 60GB disk storage.
 To setup and install dependencies, run:
 ```bash
+sudo apt-get update -y
+sudo apt install make
 git clone https://github.com/posm/posm-build.git
 cd posm-build
 git submodule update --init 
-cd subiquity && make install_deps
+cd live/subiquity && make install_deps
 cd ../
 sudo apt install make lxd pigz snapcraft p7zip-full xorriso isolinux
 lxd init  # accepting all defaults
