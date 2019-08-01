@@ -68,8 +68,8 @@ osm_posm_description="Portable OpenStreetMap"
 webodm_user="POSM"
 webodm_password="awesomeposm"
 webodm_webapp_digest="sha256:df6cd688538b5d05f84e5044f5daf05198a47a600a1f864a731969a5abdf4a5a"
-webodm_nodeodm_digest="sha256:40e36bf8876e7bbe6fd83ef2c7e7bea60b1239d7da3644b3851049c5865ea036"
-webodm_clusterodm_digest="sha256:8b669390aea3fee2c63601b1f1f2e6c7fb6d82c8983f97a050395c44806f35dc"
+webodm_nodeodm_digest="sha256:6eb84e4372ced5f3c37339a7cf82b9880d9905210fb96fe6bdcaee6b0bc3b155"
+webodm_clusterodm_digest="sha256:3ded2ad17ad86d4dc434aaf596791f791c9aa92c0798326a76381faae5b4a102"
 
 # nodeodm
 nodeodm_parallel_queue=1
