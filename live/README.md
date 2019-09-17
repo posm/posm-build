@@ -44,16 +44,16 @@ access services that were started.
 
 ## ISO Creation
 
-We've tested using Amazon EC2 t2.xlarge (for 16GB RAM) running Ubuntu Server 18.04 with 60GB disk storage.
+We've tested using Amazon EC2 m5a.2xlarge (for 32GB RAM) running Ubuntu Server 18.04 with 100GB disk storage.
 To setup and install dependencies, run:
+
 ```bash
-git clone https://github.com/posm/posm-build.git
-cd posm-build
-git submodule update --init 
-cd subiquity && make install_deps
-cd ../
-sudo apt install make lxd pigz snapcraft p7zip-full xorriso isolinux
-lxd init  # accepting all defaults
+sudo apt update && sudo apt install lxd make p7zip-full pigz snapcraft xorriso isolinux
+sudo lxd init --auto --storage-backend dir
+
+git clone --recursive https://github.com/posm/posm-build.git
+cd posm-build/live
+cd subiquity && make install_deps && cd ..
 ```
 
 To create a Live Installer ISO, run:
