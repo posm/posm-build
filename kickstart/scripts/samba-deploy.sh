@@ -20,7 +20,7 @@ deploy_samba_ubuntu() {
   expand etc/smb.conf /etc/samba/smb.conf
 
   curl -sfL https://github.com/AmericanRedCross/OpenMapKitAndroid/releases/download/v1.2/OpenMapKit_v1.2.apk -o /opt/data/public/OpenMapKit_v1.2.apk
-  curl -sfL https://github.com/opendatakit/collect/releases/download/v1.23.3/ODK-Collect-v1.23.3.apk -o /opt/data/public/ODKCollect_v1.23.3.apk
+  curl -sfL https://github.com/opendatakit/collect/releases/download/v1.25.1/ODK-Collect-v1.25.1.apk -o /opt/data/public/ODKCollect_v1.25.1.apk
 
   service smbd restart
 }
