@@ -1,0 +1,13 @@
+[Unit]
+Description=POSM Replay Tool
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+WorkingDirectory=/opt/replay-tool
+User=posm
+ExecStart=/opt/replay-tool/posm-replay-server/run.sh
+
+[Install]
+WantedBy=multi-user.target
