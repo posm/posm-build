@@ -4,10 +4,12 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-Restart=always
-WorkingDirectory=/opt/replay-tool
-User=posm
-ExecStart=/opt/replay-tool/posm-replay-server/run.sh
+# Restart=always
+Restart=on-failure
+EnvironmentFile=/opt/replay-tool/posm-replay-server/.env
+WorkingDirectory=/opt/replay-tool/posm-replay-server
+ExecStart=/bin/bash run.sh
+ExecStop=/usr/local/bin/docker-compose stop
 
 [Install]
 WantedBy=multi-user.target
