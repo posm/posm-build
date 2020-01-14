@@ -71,6 +71,26 @@ After running `make` (either failure or success) and before running `make` again
 3. `make clean superposm.iso`
 4. Copy out the superposm.iso file
 
+The build can take some time, we suggest you run it inside a `screen` so that a lost connection or closed terminal window won't terminate the process. It is also beneficial to save the log to a text file for troubleshooting and errors.
+
+
+```bash
+# start screen
+screen
+# create the file to save the log into
+touch /home/ubuntu/posm-make-log.txt
+sudo chown -R ubuntu /home/ubuntu/posm-make-log.txt
+# start the build and send the logged output to the text file
+make &>> /home/ubuntu/posm-make-log.txt
+# CTRL+A, D - to detach screen session
+# open the log file to check logging
+vim /home/ubuntu/posm-make-log.txt 
+# use `G` to go to the last line of the file
+# use `:q` to quit vim
+# if you want to resume the screen session
+screen -r 
+```
+
 The git repo and branch used to bootstrap the installer can be provided as
 environment variables, allowing for builds containing experimental features:
 
