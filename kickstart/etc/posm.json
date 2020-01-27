@@ -18,9 +18,11 @@
   "posm_domain": "{{posm_domain}}",
   "posm_fqdn": "{{posm_fqdn}}",
   "osm_fqdn": "{{osm_fqdn}}",
+  "odk_central_fqdn": "{{odk_central_fqdn}}",
   "webodm_fqdn": "{{webodm_fqdn}}",
   "posm_base_url": "{{posm_base_url}}",
   "osm_base_url": "{{osm_base_url}}",
+  "odk_central_base_url": "{{odk_central_base_url}}",
   "lan_domain": "{{lan_domain}}",
   "fp_api_base_url": "{{fp_api_base_url}}",
   "fp_tile_base_url": "{{fp_tile_base_url}}",
@@ -30,6 +32,7 @@
   "tessera_port": "{{tessera_port}}",
   "omk_server_port": "{{omk_server_port}}",
   "osm_web_port": "{{osm_web_port}}",
+  "odk_central_web_port": "{{odk_central_web_port}}",
   "cgimap_port": "{{cgimap_port}}",
   "nodeodm_port": "{{nodeodm_port}}",
   "webodm_port": "{{webodm_port}}",
@@ -51,5 +54,7 @@
   "webodm_user": "{{webodm_user}}",
   "webodm_password": "{{webodm_password}}",
   "webodm_webapp_digest": "{{webodm_webapp_digest}}",
-  "webodm_nodeodm_digest": "{{webodm_nodeodm_digest}}"
+  "webodm_nodeodm_digest": "{{webodm_nodeodm_digest}}",
+  "odk_central_user": "{{odk_central_user}}",
+  "odk_central_password": "{{odk_central_password}}"
 }

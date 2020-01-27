@@ -1,0 +1,14 @@
+[Unit]
+Description=ODK Central
+After=docker.service
+Requires=docker.service
+
+[Service]
+# Restart=always
+Restart=on-failure
+WorkingDirectory=/opt/odk-central/odk-central-repo
+ExecStart=/usr/local/bin/docker-compose up service
+ExecStop=/usr/local/bin/docker-compose stop
+
+[Install]
+WantedBy=multi-user.target
