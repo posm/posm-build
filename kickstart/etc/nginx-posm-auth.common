@@ -1,0 +1,18 @@
+error_page 401 = @error401;
+error_page 403 = @error403;
+error_page 404 = @error404;
+
+location @error401 {
+    # NOTE: Redirect to POSM-AUTH for authentication
+    return 307 http://{{posm_auth_fqdn}}/login/?next=$scheme://$http_host$request_uri;
+}
+
+location @error403 {
+    # Custom Forbidden Page
+    return 307 http://{{posm_auth_fqdn}}/403?POSMAUTH__from=$scheme://$http_host$request_uri;
+}
+
+location @error404 {
+    # Custom Not Found Page
+    return 307 http://{{posm_auth_fqdn}}/404?POSMAUTH__from=$scheme://$http_host$request_uri;
+}

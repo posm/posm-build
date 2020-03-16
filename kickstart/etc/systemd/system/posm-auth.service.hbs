@@ -1,0 +1,15 @@
+[Unit]
+Description=POSM Auth
+After=docker.service
+Requires=docker.service
+
+[Service]
+# Restart=always
+Restart=on-failure
+EnvironmentFile=/opt/posm-auth/.env
+WorkingDirectory=/opt/posm-auth
+ExecStart=/usr/local/bin/docker-compose up -d
+ExecStop=/usr/local/bin/docker-compose stop
+
+[Install]
+WantedBy=multi-user.target
