@@ -20,12 +20,18 @@ deploy_posm_auth_ubuntu() {
         cp "$dst/env_sample" "$dst/.env"
     fi
 
+    # Expand and copy nginx confs and include files
     expand etc/nginx-posm-auth.conf /etc/nginx/sites-available/posm-auth
     expand etc/nginx-posm-auth.include /etc/nginx/sites-available/posm-auth.include
     ln -s -f ../sites-available/posm-auth.include /etc/nginx/sites-enabled/
     ln -s -f ../sites-available/posm-auth /etc/nginx/sites-enabled/
 
-    # TODO: add include files
+    # Copy html and static files for error pages
+    mkdir -p $dst/assets/images
+    cp etc/posm_auth/assets/images/* $dst/assets/images/
+    # Expand the html files which contain {{auth_base_url}}
+    expand etc/posm-auth/assets/403.html $dst/assets/
+    expand etc/posm-auth/assets/404.html $dst/assets/
 
     # copy systemd unit into place, replacing template variables in the process
     expand etc/systemd/system/posm-auth.service.hbs /etc/systemd/system/posm-auth.service

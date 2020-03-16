@@ -8,8 +8,8 @@ Requires=docker.service
 Restart=on-failure
 EnvironmentFile=/opt/posm-auth/.env
 WorkingDirectory=/opt/posm-auth
-ExecStart=/usr/local/bin/docker-compose up -d
-ExecStop=/usr/local/bin/docker-compose stop
+ExecStart=/usr/local/bin/docker-compose -f docker-posm.xml up -d
+ExecStop=/usr/local/bin/docker-compose -f docker-posm.xml stop
 
 [Install]
 WantedBy=multi-user.target
