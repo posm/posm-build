@@ -1,3 +1,4 @@
+# NOTE: this is included within server section, so be kept in /etc/nginx/snippets
 error_page 401 = @error401;
 error_page 403 = @error403;
 error_page 404 = @error404;
