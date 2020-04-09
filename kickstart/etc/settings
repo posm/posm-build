@@ -29,12 +29,14 @@ lan_domain="lan"
 posm_fqdn="posm.io"
 posm_auth_fqdn="auth.${posm_fqdn}"
 osm_fqdn="osm.${posm_fqdn}"
+replay_tool_fqdn="replay-tool.${posm_fqdn}"
 webodm_fqdn="webodm.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
 posm_auth_base_url="http://${posm_auth_fqdn}"
 osm_base_url="http://${osm_fqdn}"
+replay_tool_base_url="http://${replay_tool_fqdn}"
 fp_api_base_url="${posm_base_url}/fp"
 fp_tile_base_url="${posm_base_url}/fp-tiler"
 
@@ -47,6 +49,7 @@ omk_server_port=3210
 posm_admin_port=3211
 posm_auth_port=6011
 osm_web_port=9000
+replay_tool_port=6007
 cgimap_port=54321
 clusterodm_port=3000
 nodeodm_port=3001
