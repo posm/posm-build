@@ -4,11 +4,10 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-# Restart=always
 Restart=on-failure
 EnvironmentFile=/opt/posm-auth/.env
 WorkingDirectory=/opt/posm-auth
-ExecStart=/usr/local/bin/docker-compose -f /opt/posm-auth/docker-posm.yml up -d
+ExecStart=/usr/local/bin/docker-compose -f /opt/posm-auth/docker-posm.yml up
 ExecStop=/usr/local/bin/docker-compose -f /opt/posm-auth/docker-posm.yml stop
 
 [Install]

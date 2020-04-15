@@ -27,9 +27,7 @@ deploy_posm_auth_ubuntu() {
 
     # Copy html and static files for error pages
     mkdir -p $dst/assets/images
-    cp etc/posm-auth/assets/images/403.png $dst/assets/images/
-    cp etc/posm-auth/assets/images/lost.png $dst/assets/images/
-    cp etc/posm-auth/assets/images/posm_icon.svg $dst/assets/images/
+    cp $dst/static/img/* $dst/assets/images/
     # Expand the html files which contain {{auth_base_url}}
     expand etc/posm-auth/assets/403.html $dst/assets/403.html
     expand etc/posm-auth/assets/404.html $dst/assets/404.html
