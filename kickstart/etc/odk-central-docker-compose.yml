@@ -3,7 +3,7 @@ services:
   postgres:
     image: "postgres:9.6"
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - ./central-data/db-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: odk
       POSTGRES_PASSWORD: odk
@@ -15,6 +15,8 @@ services:
       - ./files/dkim/rsa.private:/etc/exim4/domain.key:ro
     environment:
       - MAILNAME={{odk_central_fqdn}}
+  pyxform:
+    image: 'yanokwa/pyxform-http:v0.3.0'
   service:
     build:
       context: .
@@ -22,10 +24,12 @@ services:
     depends_on:
       - postgres
       - mail
+      - pyxform
     volumes:
-      - /data/transfer:/data/transfer
+      - ./central-data/transfer:/data/transfer
     environment:
       - DOMAIN={{odk_central_fqdn}}
+      - DOMAIN_PROTOCOL=http
     command: [ "./wait-for-it.sh", "postgres:5432", "--", "./start-odk.sh" ]
     ports:
       - "8383:8383"
@@ -33,8 +37,3 @@ services:
     build:
       context: .
       dockerfile: nginx.dockerfile
-  pyxform:
-    image: 'yanokwa/pyxform-http:v0.3.0'
-volumes:
-  transfer:
-  db-data:
