@@ -29,6 +29,7 @@ lan_domain="lan"
 posm_fqdn="posm.io"
 osm_fqdn="osm.${posm_fqdn}"
 webodm_fqdn="webodm.${posm_fqdn}"
+posm_docs_fqdn = "docs.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
