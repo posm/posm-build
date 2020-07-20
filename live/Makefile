@@ -149,7 +149,12 @@ telegraf: influxdb
 	lxc snapshot $$(cat container) $@
 	touch $@
 
-posm-core: gis nginx osm fieldpapers omk tl carto tessera admin samba blink1 influxdb telegraf
+posm-docs: base
+	lxc exec $$(cat container) -- /root/posm-build/kickstart/scripts/bootstrap.sh $@
+	lxc snapshot $$(cat container) $@
+	touch $@
+
+posm-core: gis nginx osm fieldpapers omk tl carto tessera admin samba blink1 influxdb telegraf posm-docs
 
 posm: posm-core wifi
 	lxc exec $$(cat container) -- systemctl stop docker
