@@ -28,11 +28,13 @@ posm_domain="io"
 lan_domain="lan"
 posm_fqdn="posm.io"
 osm_fqdn="osm.${posm_fqdn}"
+odk_central_fqdn="odk-central.${posm_fqdn}"
 webodm_fqdn="webodm.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
 osm_base_url="http://${osm_fqdn}"
+odk_central_base_url="http://${odk_central_fqdn}"
 fp_api_base_url="${posm_base_url}/fp"
 fp_tile_base_url="${posm_base_url}/fp-tiler"
 
@@ -44,6 +46,7 @@ tessera_port=8082
 omk_server_port=3210
 posm_admin_port=3211
 osm_web_port=9000
+odk_central_web_port=8383
 cgimap_port=54321
 clusterodm_port=3000
 nodeodm_port=3001
@@ -70,6 +73,10 @@ webodm_password="awesomeposm"
 webodm_webapp_digest="sha256:df6cd688538b5d05f84e5044f5daf05198a47a600a1f864a731969a5abdf4a5a"
 webodm_nodeodm_digest="sha256:b46bda1e357695ac7b8eeb6da2de6a3285c7e0ce67e9def0543deebf24fd5c93"
 webodm_clusterodm_digest="sha256:76499f059af9ada4bf5e36a7a56ca3a00db3608dab3f39510c40ceefe9d94c78"
+
+# odk-central
+odk_central_user="posm@posm.io"
+odk_central_password="awesomeposm"
 
 # nodeodm
 nodeodm_parallel_queue=1
