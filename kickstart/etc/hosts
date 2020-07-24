@@ -1,5 +1,5 @@
 127.0.0.1       localhost
-{{posm_wlan_ip}}      {{posm_fqdn}} {{osm_fqdn}} {{webodm_fqdn}} {{posm_hostname}}.{{lan_domain}} {{posm_hostname}} {{odk_central_fqdn}}
+{{posm_wlan_ip}}      {{posm_fqdn}} {{osm_fqdn}} {{webodm_fqdn}} {{posm_hostname}}.{{lan_domain}} {{posm_hostname}} {{posm_auth_fqdn}} {{replay_tool_fqdn}} {{odk_central_fqdn}}
 ::1		localhost6.localdomain6	localhost6
 
 # The following lines are desirable for IPv6 capable hosts
