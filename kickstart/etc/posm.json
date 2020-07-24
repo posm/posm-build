@@ -22,6 +22,7 @@
   "replay_tool_fqdn": "{{replay_tool_fqdn}}",
   "odk_central_fqdn": "{{odk_central_fqdn}}",
   "webodm_fqdn": "{{webodm_fqdn}}",
+  "posm_docs_fqdn": "{{posm_docs_fqdn}}",
   "posm_base_url": "{{posm_base_url}}",
   "posm_auth_base_url": "{{posm_auth_base_url}}",
   "osm_base_url": "{{osm_base_url}}",
