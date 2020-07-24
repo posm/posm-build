@@ -39,7 +39,6 @@ deploy_odk_central_ubuntu() {
     # Copy and enable nginx configuration
     expand etc/nginx-odk-central.conf /etc/nginx/sites-available/odk-central
     ln -s -f ../sites-available/odk-central /etc/nginx/sites-enabled/
-    service nginx restart
 }
 
 deploy odk_central

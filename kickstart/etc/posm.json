@@ -17,7 +17,7 @@
   "posm_hostname": "{{posm_hostname}}",
   "posm_domain": "{{posm_domain}}",
   "posm_fqdn": "{{posm_fqdn}}",
-  "posm_auth_fqdn": "{{posm_fqdn}}",
+  "posm_auth_fqdn": "{{posm_auth_fqdn}}",
   "osm_fqdn": "{{osm_fqdn}}",
   "replay_tool_fqdn": "{{replay_tool_fqdn}}",
   "odk_central_fqdn": "{{odk_central_fqdn}}",
