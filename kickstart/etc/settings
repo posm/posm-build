@@ -27,13 +27,19 @@ posm_hostname="posm"
 posm_domain="io"
 lan_domain="lan"
 posm_fqdn="posm.io"
+posm_auth_fqdn="auth.${posm_fqdn}"
 osm_fqdn="osm.${posm_fqdn}"
+replay_tool_fqdn="replay-tool.${posm_fqdn}"
+odk_central_fqdn="odk-central.${posm_fqdn}"
 webodm_fqdn="webodm.${posm_fqdn}"
 posm_docs_fqdn = "docs.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
+posm_auth_base_url="http://${posm_auth_fqdn}"
 osm_base_url="http://${osm_fqdn}"
+replay_tool_base_url="http://${replay_tool_fqdn}"
+odk_central_base_url="http://${odk_central_fqdn}"
 fp_api_base_url="${posm_base_url}/fp"
 fp_tile_base_url="${posm_base_url}/fp-tiler"
 
@@ -44,7 +50,10 @@ fp_web_port=3002
 tessera_port=8082
 omk_server_port=3210
 posm_admin_port=3211
+posm_auth_port=6011
 osm_web_port=9000
+replay_tool_port=6007
+odk_central_web_port=8383
 cgimap_port=54321
 clusterodm_port=3000
 nodeodm_port=3001
@@ -69,8 +78,12 @@ osm_posm_description="Portable OpenStreetMap"
 webodm_user="POSM"
 webodm_password="awesomeposm"
 webodm_webapp_digest="sha256:df6cd688538b5d05f84e5044f5daf05198a47a600a1f864a731969a5abdf4a5a"
-webodm_nodeodm_digest="sha256:6eb84e4372ced5f3c37339a7cf82b9880d9905210fb96fe6bdcaee6b0bc3b155"
-webodm_clusterodm_digest="sha256:3ded2ad17ad86d4dc434aaf596791f791c9aa92c0798326a76381faae5b4a102"
+webodm_nodeodm_digest="sha256:b46bda1e357695ac7b8eeb6da2de6a3285c7e0ce67e9def0543deebf24fd5c93"
+webodm_clusterodm_digest="sha256:76499f059af9ada4bf5e36a7a56ca3a00db3608dab3f39510c40ceefe9d94c78"
+
+# odk-central
+odk_central_user="posm@posm.io"
+odk_central_password="awesomeposm"
 
 # nodeodm
 nodeodm_parallel_queue=1
