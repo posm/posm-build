@@ -32,7 +32,7 @@ osm_fqdn="osm.${posm_fqdn}"
 replay_tool_fqdn="replay-tool.${posm_fqdn}"
 odk_central_fqdn="odk-central.${posm_fqdn}"
 webodm_fqdn="webodm.${posm_fqdn}"
-posm_docs_fqdn = "docs.${posm_fqdn}"
+posm_docs_fqdn="docs.${posm_fqdn}"
 
 # urls
 posm_base_url="http://${posm_fqdn}"
