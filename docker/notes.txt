@@ -1,0 +1,14 @@
+/Applications/Postgres.app/Contents/Versions/12/bin/psql -h $(hostname) -U postgres
+
+#run PG
+PG_CONTAINER_NAME=posm-pg PG_DATA_DIR=/Users/cvonsee/temp/pg_data POSM_NET_NAME=posm-net PG_ADMIN_USER=postgres PG_ADMIN_PASSWORD=openstreetmap PG_DOCKER_TAG=posm/posm-pg:0.1 bash -c 'docker run --name  $PG_CONTAINER_NAME -it --volume pg_data:$PG_DATA_DIR --network=$POSM_NET_NAME -e POSTGRES_USER=$PG_ADMIN_USER -e POSTGRES_PASSWORD=$PG_ADMIN_PASSWORD $PG_DOCKER_TAG'
+
+
+# build OSM
+osm_pg_owner="openstreetmap" osm_pg_pass="openstreetmap" osm_pg_dbname="openstreetmap" OSM_DOCKER_TAG=posm/posm-osm:0.1 PG_ADMIN_USER=postgres PG_ADMIN_PASSWORD=openstreetmap bash -c 'docker build --file ./dockerfile-osm --network=posm-net --build-arg PG_HOST=posm-pg --build-arg OSM_USER=$osm_pg_owner --build-arg OSM_PASSWORD=$osm_pg_pass --build-arg OSM_DB=$osm_pg_dbname --build-arg PG_ADMIN_USER=$PG_ADMIN_USER --build-arg PG_ADMIN_PASSWORD=$PG_ADMIN_PASSWORD --tag $OSM_DOCKER_TAG .'
+# run OSM
+OSM_DOCKER_TAG=posm/posm-osm:0.1 OSM_CONTAINER_NAME=posm-osm bash -c 'docker run --name $OSM_CONTAINER_NAME -it --network=posm-net -p 80:3000 -e OSM_DST=/opt/osm $OSM_DOCKER_TAG'
+
+
+# delete all stopped containers
+docker rm $(docker ps --filter "status=exited" -q)

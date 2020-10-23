@@ -1,0 +1,4 @@
+ARG PGSQL_VER=12
+
+FROM postgres:${PGSQL_VER}
+VOLUME /pg_data

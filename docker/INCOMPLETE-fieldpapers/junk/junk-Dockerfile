@@ -1,0 +1,99 @@
+FROM ruby:2.2
+
+# TODO
+# -- The current install script creates a user called "fp" and assigns ownership of all assets to it.  Do we need to do this?
+# -- The current install script has a section in function deploy_fp_web() that says something about 'install vendored deps'.  
+#    Not sure this needs to be done since we are starting from a Ruby image.
+
+ENV dst /opt/fp
+ENV ETC_DIR ${dst}/kickstart/etc
+ENV BACKUP_DIR /opt/data/backups/fieldpapers
+
+# TODO move this stuff somewhere else (as in posm-build/kickstart/etc/settings - maybe run/source this file?)
+ENV posm_env production
+ENV fp_pg_owner fieldpapers
+ENV fp_pg_pass fieldpapers
+ENV fp_pg_dbname fieldpapers_${posm_env}
+
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    ghostscript \
+    git \
+    libcurl4-openssl-dev \
+    libffi-dev \
+    libpq-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libyaml-dev \    
+    sqlite3 \
+    zlib1g-dev \
+    inotify-tools 
+
+# create a directory for static files
+RUN mkdir -p "$dst/data" 
+
+# create backup directory
+RUN mkdir -p ${BACKUP_DIR} && \
+    chmod 755 ${BACKUP_DIR}
+
+# install FP WEB
+RUN git clone "https://github.com/posm/fp-web" "${dst}/fp-web" && \
+    chmod -R a+rwx "$dst/fp-web/config" && \
+    local rbver=`ruby -e 'print RUBY_VERSION'` && \
+    sed -i -e "s/2\\.2\\.[0-9]/$rbver/" "$dst/fp-web/.ruby-version" "$dst/fp-web/Gemfile"
+
+ # configure FP
+COPY ${ETC_DIR}/fp-web.env "${dst}/fp-web/.env"
+COPY $ETC_DIR}/fieldpapers/database.yml "${dst}/fp-web/config/database.yml"
+
+# init database
+RUN echo -e "${fp_pg_pass}\n${fp_pg_pass}" | \
+       su - postgres -c "createuser --no-superuser --no-createdb --no-createrole --pwprompt '$fp_pg_owner'" && \
+    su - postgres -c "createdb --owner='$fp_pg_owner' '$fp_pg_dbname'" && \
+    su - fp -c "cd '$dst/fp-web' && bundle exec rake db:schema:load"
+
+# fp assets
+RUN cd '${dst}/fp-web' && \
+    bundle exec rake assets:precompile
+
+# fp tile providers
+COPY ${ETC_DIR/fp-providers.json "${dst}/fp-web/config/providers.json"
+
+
+
+
+WORKDIR /opt/myapp
+ENV RAILS_ENV ${posm_env}
+
+# Add Gemfile stuff first as a build optimization
+# This way the `bundle install` is only run when either Gemfile or Gemfile.lock is changed
+# This is because `bundle install` can take a long time
+# Without this optimization `bundle install` would run if _any_ file is changed within the project, no bueno
+ADD Gemfile /opt/myapp/
+ADD Gemfile.lock /opt/myapp/
+RUN bundle install
+
+# This will now install anything in Gemfile.tip
+# This way you can add new gems without rebuilding _everything_ to add 1 gem
+# Anything that was already installed from the main Gemfile will be re-used
+ADD Gemfile.tip /opt/myapp/
+RUN bundle install
+
+
+# Add rake and its dependencies
+ADD config /opt/myapp/config
+ADD Rakefile /opt/myapp/
+
+# Add everything else
+# Any change to any file after this point (if not in .dockerignore) will cause the build cache to be busted here
+# This includes changes to the Dockerfile itself
+# Goal here is to do as little as possible after this entry
+ADD . /opt/myapp
+
+ENV PATH /opt/myapp/bin:$PATH
+ENTRYPOINT ["/opt/myapp/bin/start.rb"]
+CMD ["server"]
