@@ -83,12 +83,18 @@ RUN PGPASSWORD=$OSM_PASSWORD psql -h $PG_HOST -U $OSM_USER -d $OSM_DB -c "CREATE
 RUN cd $OSM_DST/osm-web && \
     bundle exec rake db:migrate 
 
+# Required because we're running in production mode?  This step takes a while...
+# See https://github.com/openstreetmap/openstreetmap-website/issues/2016
+RUN cd $OSM_DST/osm-web && \
+    bundle exec rake i18n:js:export && \
+    bundle exec rake assets:precompile
+
 # Set up the command that will run when the container is started.
-ADD osm/run_osm.sh $OSM_DST/
-RUN chmod u+x $OSM_DST/run_osm.sh
+ADD osm/run_osm.sh /
+RUN chmod u+x /run_osm.sh
 
 # TODO https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md recommends using the
 # Phusion Passenger server instead of Rails in production.
-CMD ["run_osm.sh"]
+CMD ["sh", "-c", "/run_osm.sh"]
 
 EXPOSE 3000

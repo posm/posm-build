@@ -1,3 +1,30 @@
+#
+# TODO general
+#
+==> Figure out why we get these errors on starting OSM in the container, and fix them if they're important:
+root@da90e2169bb8:~# $OSM_DST/run_osm.sh
+=> Booting Puma
+=> Rails 6.0.3.4 application starting in production 
+=> Run `rails server --help` for more startup options
+pngcrush worker: `pngcrush` not found; please provide proper binary or disable this worker (--no-pngcrush argument or `:pngcrush => false` through options)
+advpng worker: `advpng` not found; please provide proper binary or disable this worker (--no-advpng argument or `:advpng => false` through options)
+optipng worker: `optipng` not found; please provide proper binary or disable this worker (--no-optipng argument or `:optipng => false` through options)
+pngquant worker: `pngquant` not found; please provide proper binary or disable this worker (--no-pngquant argument or `:pngquant => false` through options)
+jhead worker: `jhead` not found, `jpegtran` not found; please provide proper binary or disable this worker (--no-jhead argument or `:jhead => false` through options)
+jpegoptim worker: `jpegoptim` not found; please provide proper binary or disable this worker (--no-jpegoptim argument or `:jpegoptim => false` through options)
+jpegtran worker: `jpegtran` not found; please provide proper binary or disable this worker (--no-jpegtran argument or `:jpegtran => false` through options)
+gifsicle worker: `gifsicle` not found; please provide proper binary or disable this worker (--no-gifsicle argument or `:gifsicle => false` through options)
+Puma starting in single mode...
+* Version 5.0.2 (ruby 2.7.2-p137), codename: Spoony Bard
+* Min threads: 5, max threads: 5
+* Environment: production
+* Listening on http://0.0.0.0:3000
+Use Ctrl-C to stop
+
+
+
+
+
 /Applications/Postgres.app/Contents/Versions/12/bin/psql -h $(hostname) -U postgres
 
 #run PG
@@ -6,7 +33,9 @@ PG_CONTAINER_NAME=posm-pg PG_DATA_DIR=/Users/cvonsee/temp/pg_data POSM_NET_NAME=
 
 # build OSM
 osm_pg_owner="openstreetmap" osm_pg_pass="openstreetmap" osm_pg_dbname="openstreetmap" OSM_DOCKER_TAG=posm/posm-osm:0.1 PG_ADMIN_USER=postgres PG_ADMIN_PASSWORD=openstreetmap bash -c 'docker build --file ./dockerfile-osm --network=posm-net --build-arg PG_HOST=posm-pg --build-arg OSM_USER=$osm_pg_owner --build-arg OSM_PASSWORD=$osm_pg_pass --build-arg OSM_DB=$osm_pg_dbname --build-arg PG_ADMIN_USER=$PG_ADMIN_USER --build-arg PG_ADMIN_PASSWORD=$PG_ADMIN_PASSWORD --tag $OSM_DOCKER_TAG .'
-# run OSM
+# run OSM with bash shell
+OSM_DOCKER_TAG=posm/posm-osm:0.1 OSM_CONTAINER_NAME=posm-osm bash -c 'docker run --name $OSM_CONTAINER_NAME -it --network=posm-net -p 80:3000 -e OSM_DST=/opt/osm $OSM_DOCKER_TAG /bin/bash'
+# run OSM as specified in dockerfile ("run_osm.sh", which in turn runs "bundle exec rails server")
 OSM_DOCKER_TAG=posm/posm-osm:0.1 OSM_CONTAINER_NAME=posm-osm bash -c 'docker run --name $OSM_CONTAINER_NAME -it --network=posm-net -p 80:3000 -e OSM_DST=/opt/osm $OSM_DOCKER_TAG'
 
 
