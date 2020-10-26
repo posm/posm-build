@@ -77,7 +77,9 @@ RUN  cd $OSM_DST/osm-web && \
 # https://github.com/openstreetmap/openstreetmap-website/blob/master/INSTALL.md section entitled 
 # 'Installing compiled shared library database functions (optional)' for details.  This is especially
 # recommended if applications make a lot of OSM '/changes' API calls (see https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md)
-RUN PGPASSWORD=$OSM_PASSWORD psql -h $PG_HOST -U $OSM_USER -d $OSM_DB -c "CREATE EXTENSION btree_gist" && \
+RUN PGPASSWORD=$OSM_PASSWORD psql -h $PG_HOST -U $OSM_USER -d $OSM_DB -c "CREATE EXTENSION postgis" && \
+    PGPASSWORD=$OSM_PASSWORD psql -h $PG_HOST -U $OSM_USER -d $OSM_DB -c "CREATE EXTENSION hstore" && \
+    PGPASSWORD=$OSM_PASSWORD psql -h $PG_HOST -U $OSM_USER -d $OSM_DB -c "CREATE EXTENSION btree_gist" && \
     PGPASSWORD=$OSM_PASSWORD psql -h $PG_HOST -U $OSM_USER -d $OSM_DB -f $OSM_DST/osm-web/db/functions/functions.sql
 
 RUN cd $OSM_DST/osm-web && \

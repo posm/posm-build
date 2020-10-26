@@ -27,7 +27,9 @@ Use Ctrl-C to stop
 
 /Applications/Postgres.app/Contents/Versions/12/bin/psql -h $(hostname) -U postgres
 
-#run PG
+# build PG
+PGSQL_VER=12 POSTGIS_VER=3 PG_DOCKER_TAG=posm/posm-pg:0.1 bash -c 'docker build --file ./dockerfile-postgres12 --build-arg PGSQL_VER=$PGSQL_VER --build-arg POSTGIS_VER=$POSTGIS_VER --tag $PG_DOCKER_TAG .'
+# run PG
 PG_CONTAINER_NAME=posm-pg PG_DATA_DIR=/Users/cvonsee/temp/pg_data POSM_NET_NAME=posm-net PG_ADMIN_USER=postgres PG_ADMIN_PASSWORD=openstreetmap PG_DOCKER_TAG=posm/posm-pg:0.1 bash -c 'docker run --name  $PG_CONTAINER_NAME -it --volume pg_data:$PG_DATA_DIR --network=$POSM_NET_NAME -e POSTGRES_USER=$PG_ADMIN_USER -e POSTGRES_PASSWORD=$PG_ADMIN_PASSWORD $PG_DOCKER_TAG'
 
 

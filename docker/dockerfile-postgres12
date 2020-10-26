@@ -1,4 +1,21 @@
+#
+# VERY IMPORTANT!
+# You'll note that the ARG statements are repeted both before AND after the FROM statement.  That's because FROM is the boundary
+# of a build stage, and the ARG values get reset at the beginning of each build stage.  Go figure.
 ARG PGSQL_VER=12
+ARG POSTGIS_VER=3
 
 FROM postgres:${PGSQL_VER}
+
+# SEE THE VERY IMPORTANT NOTE AT THE TOP OF THIS DOCKERFILE.
+ARG PGSQL_VER=12
+ARG POSTGIS_VER=3
+
 VOLUME /pg_data
+
+# Install postgis
+RUN apt update && \
+    apt install --no-install-recommends -y \
+        "postgis" \
+        "postgresql-${PGSQL_VER}-postgis-${POSTGIS_VER}" \
+        "postgresql-${PGSQL_VER}-postgis-${POSTGIS_VER}-scripts"        

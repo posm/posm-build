@@ -9,6 +9,7 @@ POSM_NET_NAME=posm-net
 
 # Note that since PGSQL_VER is concatenated to various module names in the OSM dockerfile, we can only use major versions.
 PGSQL_VER=12
+POSTGIS_VER=3
 PG_DOCKER_TAG=posm/posm-pg:0.1
 PG_CONTAINER_NAME=posm-pg
 PG_DATA_DIR=/Users/cvonsee/temp/pg_data
@@ -61,6 +62,7 @@ docker network create -d bridge $POSM_NET_NAME
 docker build \
         --file ./dockerfile-postgres12 \
         --build-arg PGSQL_VER=$PGSQL_VER \
+        --build-arg POSTGIS_VER=$POSTGIS_VER \
         --tag $PG_DOCKER_TAG \
         .
 
