@@ -12,12 +12,20 @@ PGSQL_VER=12
 POSTGIS_VER=3
 PG_DOCKER_TAG=posm/posm-pg:0.1
 PG_CONTAINER_NAME=posm-pg
-PG_DATA_DIR=/Users/cvonsee/temp/pg_data
+PG_HOST_DATA_DIR=/Users/cvonsee/temp/pg_data
+PG_CONTAINER_DATA_DIR=/var/lib/postgresql/data
 PG_ADMIN_USER=postgres
 PG_ADMIN_PASSWORD=openstreetmap
 
 OSM_DOCKER_TAG=posm/posm-osm:0.1
 OSM_CONTAINER_NAME=posm-osm
+OSM_IMPORT_DIR=/Users/cvonsee/temp/osm_import
+OSM_EXPORT_DIR=/Users/cvonsee/temp/osm_export
+
+ARG OSMOSIS_VER=0.48.3
+ARG JAVA_VER=8u272-jre-buster
+OSMOSIS_CONTAINER_NAME=posm-osmosis
+OSMOSIS_DOCKER_TAG=posm/posm-osmosis:0.1
 
 osm_pg_owner="openstreetmap"
 osm_pg_pass="openstreetmap"
@@ -33,7 +41,6 @@ osm_carto_pg_pass="openstreetmap"
 # GENERAL SETUP
 # ============================================
 mkdir -p $TMP_DIR
-mkdir -p $PG_DATA_DIR
 
 git clone https://github.com/posm/posm-build $TMP_DIR/posm-build
 
@@ -75,10 +82,12 @@ docker build \
 # Documentation: https://registry.hub.docker.com/_/postgres/
 # TODO Capture the container ID from 'docker run' so that it can be stopped later.
 #
+mkdir -p $PG_HOST_DATA_DIR
+
 docker run --name  $PG_CONTAINER_NAME \
        --detach \
-       --volume pg_data:$PG_DATA_DIR \
-       --network=$POSM_NET_NAME
+       --volume $PG_HOST_DATA_DIR:$PG_CONTAINER_DATA_DIR \
+       --network=$POSM_NET_NAME \
        -e POSTGRES_USER=$PG_ADMIN_USER \ 
        -e POSTGRES_PASSWORD=$PG_ADMIN_PASS \ 
        $PG_DOCKER_TAG
@@ -88,14 +97,6 @@ docker run --name  $PG_CONTAINER_NAME \
 # ============================================
 # CREATE OSM
 # ============================================
-#
-# Install osmosis.  
-# IMPORTANT: According to the announcements on https://wiki.openstreetmap.org/wiki/Osmosis this tool is now in 
-# "light maintenance mode" and has been replaced/superceded by other tools, particularly Osmium.  We may want to strongly
-# consider replacing Osmosis with Osmium or another tool, but in the meantime we'll see about supporting it.
-# The existing ISO-based install uses http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-0.46.tgz, which is at least three years old.
-# https://github.com/kartoza/docker-osm may be helpful.
-
 #
 # Build OSM image.  Note that the build process requires network access for RUN commands (provided by '--network' param)
 # so that it can access the running PostgreSQL instance.
@@ -113,15 +114,13 @@ docker build \
         .
 
 # TODO
-# -- Figure out how to do the equivalent of su - osm -c "cd '$dst/osm-web' && bundle exec rake db:migrate"
-# -- Figure out how to do the 'rake db:migrate', 'rake assets:precompile', and handle the web site portion of OSM (including nginx config).
 # -- Figure out how to create the data backup directories 
 # -- https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md recommends using Phusion Passenger instead of Rails Server.
 # -- https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md recommends using CGIMap to alleviate issues related to 
 #    'map' call performance and memory utilization.
 
 #
-# Start OSM
+# Start OSM.
 # TODO Move to docker-compose
 #
 #       -e POSTGRES_USER=$osm_pg_owner \ 
@@ -133,6 +132,42 @@ docker run --name $OSM_CONTAINER_NAME \
        --network=$POSM_NET_NAME \
        -p 80:3000 \
        $OSM_DOCKER_TAG
+
+
+# ============================================
+# CREATE OSMOSIS
+# ============================================
+#
+# Install osmosis as a container that can be run via 'docker run' to import data into the local OSM.  
+# IMPORTANT: According to the announcements on https://wiki.openstreetmap.org/wiki/Osmosis this tool is now in 
+# "light maintenance mode" and has been replaced/superceded by other tools.  I mentioned this on the "HOT OSM" and "OSM World"
+# chats, and the consensus seems to be that there is no real replacement for "osmosis" and that it's not going anywhere any time soon.
+#
+# The LXC-based POSM used "http://bretth.dev.openstreetmap.org/osmosis-build/osmosis-${osmosis_ver}.tgz"; note that we're using the 
+# official Github-based releases instead.
+docker build \
+        --file ./dockerfile-osmosis \
+        --network=$POSM_NET_NAME \
+        --build-arg OSMOSIS_VER=0.48.3 \
+        --build-arg JAVA_VER=8u272-jre-buster \
+        --build-arg OSM_CONTAINER_NAME=$OSM_CONTAINER_NAME \
+        --build-arg OSM_USER=$osm_pg_owner \ 
+        --build-arg OSM_PASSWORD=$osm_pg_pass \ 
+        --build-arg OSM_DB=$osm_pg_dbname \
+        --tag $OSMOSIS_DOCKER_TAG \
+        .
+
+# 
+# Run osmosis
+mkdir -p $OSM_IMPORT_DIR
+mkdir -p $OSM_EXPORT_DIR
+docker run --name $OSMOSIS_CONTAINER_NAME \
+       --detach \
+       --network=$POSM_NET_NAME \
+        --volume osm_import:$OSM_IMPORT_DIR \
+        --volume osm_export:$OSM_EXPORT_DIR \
+       $OSMOSIS_DOCKER_TAG
+
 
 
 # ============================================

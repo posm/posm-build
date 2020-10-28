@@ -2,10 +2,6 @@
 # TODO general
 #
 ==> Figure out why we get these errors on starting OSM in the container, and fix them if they're important:
-root@da90e2169bb8:~# $OSM_DST/run_osm.sh
-=> Booting Puma
-=> Rails 6.0.3.4 application starting in production 
-=> Run `rails server --help` for more startup options
 pngcrush worker: `pngcrush` not found; please provide proper binary or disable this worker (--no-pngcrush argument or `:pngcrush => false` through options)
 advpng worker: `advpng` not found; please provide proper binary or disable this worker (--no-advpng argument or `:advpng => false` through options)
 optipng worker: `optipng` not found; please provide proper binary or disable this worker (--no-optipng argument or `:optipng => false` through options)
@@ -14,12 +10,9 @@ jhead worker: `jhead` not found, `jpegtran` not found; please provide proper bin
 jpegoptim worker: `jpegoptim` not found; please provide proper binary or disable this worker (--no-jpegoptim argument or `:jpegoptim => false` through options)
 jpegtran worker: `jpegtran` not found; please provide proper binary or disable this worker (--no-jpegtran argument or `:jpegtran => false` through options)
 gifsicle worker: `gifsicle` not found; please provide proper binary or disable this worker (--no-gifsicle argument or `:gifsicle => false` through options)
-Puma starting in single mode...
-* Version 5.0.2 (ruby 2.7.2-p137), codename: Spoony Bard
-* Min threads: 5, max threads: 5
-* Environment: production
-* Listening on http://0.0.0.0:3000
-Use Ctrl-C to stop
+==> Write logs from containers to some directory on the host in order to facilitate access.
+==> Figure out a better way to handle secrets / credentials.  Perhaps use "docker secret"?
+==> Building OSM is a bit tricky because cached images contain stuff that needs to happen on every build (PG-related stuff in particular).  Restructure.
 
 
 
@@ -29,17 +22,24 @@ Use Ctrl-C to stop
 
 # build PG
 PGSQL_VER=12 POSTGIS_VER=3 PG_DOCKER_TAG=posm/posm-pg:0.1 bash -c 'docker build --file ./dockerfile-postgres12 --build-arg PGSQL_VER=$PGSQL_VER --build-arg POSTGIS_VER=$POSTGIS_VER --tag $PG_DOCKER_TAG .'
-# run PG
-PG_CONTAINER_NAME=posm-pg PG_DATA_DIR=/Users/cvonsee/temp/pg_data POSM_NET_NAME=posm-net PG_ADMIN_USER=postgres PG_ADMIN_PASSWORD=openstreetmap PG_DOCKER_TAG=posm/posm-pg:0.1 bash -c 'docker run --name  $PG_CONTAINER_NAME -it --volume pg_data:$PG_DATA_DIR --network=$POSM_NET_NAME -e POSTGRES_USER=$PG_ADMIN_USER -e POSTGRES_PASSWORD=$PG_ADMIN_PASSWORD $PG_DOCKER_TAG'
+# run PG and remove container at exit.
+PG_CONTAINER_NAME=posm-pg PG_HOST_DATA_DIR=/Users/cvonsee/temp/pg_data PG_CONTAINER_DATA_DIR=/var/lib/postgresql/data POSM_NET_NAME=posm-net PG_ADMIN_USER=postgres PG_ADMIN_PASSWORD=openstreetmap PG_DOCKER_TAG=posm/posm-pg:0.1 bash -c 'docker run --name  $PG_CONTAINER_NAME -it --volume $PG_HOST_DATA_DIR:$PG_CONTAINER_DATA_DIR --network=$POSM_NET_NAME -e POSTGRES_USER=$PG_ADMIN_USER -e POSTGRES_PASSWORD=$PG_ADMIN_PASSWORD --rm $PG_DOCKER_TAG'
 
 
 # build OSM
 osm_pg_owner="openstreetmap" osm_pg_pass="openstreetmap" osm_pg_dbname="openstreetmap" OSM_DOCKER_TAG=posm/posm-osm:0.1 PG_ADMIN_USER=postgres PG_ADMIN_PASSWORD=openstreetmap bash -c 'docker build --file ./dockerfile-osm --network=posm-net --build-arg PG_HOST=posm-pg --build-arg OSM_USER=$osm_pg_owner --build-arg OSM_PASSWORD=$osm_pg_pass --build-arg OSM_DB=$osm_pg_dbname --build-arg PG_ADMIN_USER=$PG_ADMIN_USER --build-arg PG_ADMIN_PASSWORD=$PG_ADMIN_PASSWORD --tag $OSM_DOCKER_TAG .'
-# run OSM with bash shell
-OSM_DOCKER_TAG=posm/posm-osm:0.1 OSM_CONTAINER_NAME=posm-osm bash -c 'docker run --name $OSM_CONTAINER_NAME -it --network=posm-net -p 80:3000 -e OSM_DST=/opt/osm $OSM_DOCKER_TAG /bin/bash'
-# run OSM as specified in dockerfile ("run_osm.sh", which in turn runs "bundle exec rails server")
-OSM_DOCKER_TAG=posm/posm-osm:0.1 OSM_CONTAINER_NAME=posm-osm bash -c 'docker run --name $OSM_CONTAINER_NAME -it --network=posm-net -p 80:3000 -e OSM_DST=/opt/osm $OSM_DOCKER_TAG'
+# run OSM with bash shell and remove container at exit
+OSM_DOCKER_TAG=posm/posm-osm:0.1 OSM_CONTAINER_NAME=posm-osm bash -c 'docker run --name $OSM_CONTAINER_NAME -it --network=posm-net -p 80:3000 --rm -e OSM_DST=/opt/osm $OSM_DOCKER_TAG /bin/bash'
+# run OSM as specified in dockerfile ("run_osm.sh", which in turn runs "bundle exec rails server") and remove container at exit
+OSM_DOCKER_TAG=posm/posm-osm:0.1 OSM_CONTAINER_NAME=posm-osm bash -c 'docker run --name $OSM_CONTAINER_NAME -it --network=posm-net -p 80:3000 --rm -e OSM_DST=/opt/osm $OSM_DOCKER_TAG'
+
+# build Osmosis
+osm_pg_owner="openstreetmap" osm_pg_pass="openstreetmap" osm_pg_dbname="openstreetmap" OSMOSIS_DOCKER_TAG=posm/posm-osmosis:0.1 POSM_NET_NAME=posm-net OSM_CONTAINER_NAME=posm-osm bash -c 'docker build --file ./dockerfile-osmosis --network=$POSM_NET_NAME --build-arg OSMOSIS_VER=0.48.3 --build-arg JAVA_VER=8u272-jre-buster --build-arg OSM_CONTAINER_NAME=$OSM_CONTAINER_NAME --build-arg OSM_USER=$osm_pg_owner  --build-arg OSM_PASSWORD=$osm_pg_pass  --build-arg OSM_DB=$osm_pg_dbname --tag $OSMOSIS_DOCKER_TAG .'
+# run Osmosis with bash shell
+OSMOSIS_CONTAINER_NAME=posm-osmosis OSMOSIS_DOCKER_TAG=posm/posm-osmosis:0.1 POSM_NET_NAME=posm-net OSM_IMPORT_DIR=/Users/cvonsee/temp/osm_import OSM_EXPORT_DIR=/Users/cvonsee/temp/osm_export bash -c 'docker run --rm --name $OSMOSIS_CONTAINER_NAME -it --network=$POSM_NET_NAME --volume osm_import:$OSM_IMPORT_DIR --volume osm_export:$OSM_EXPORT_DIR $OSMOSIS_DOCKER_TAG /bin/bash'
 
 
 # delete all stopped containers
 docker rm $(docker ps --filter "status=exited" -q)
+# clear out all dangling images
+docker rmi -f $(docker images -a --filter=dangling=true -q)
