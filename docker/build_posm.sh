@@ -19,8 +19,10 @@ PG_ADMIN_PASSWORD=openstreetmap
 
 OSM_DOCKER_TAG=posm/posm-osm:0.1
 OSM_CONTAINER_NAME=posm-osm
-OSM_IMPORT_DIR=/Users/cvonsee/temp/osm_import
-OSM_EXPORT_DIR=/Users/cvonsee/temp/osm_export
+OSM_HOST_IMPORT_DIR=/Users/cvonsee/temp/osm_import
+OSM_HOST_EXPORT_DIR=/Users/cvonsee/temp/osm_export
+OSM_CONTAINER_IMPORT_DIR=/osm_import
+OSM_CONTAINER_EXPORT_DIR=/osm_export
 
 ARG OSMOSIS_VER=0.48.3
 ARG JAVA_VER=8u272-jre-buster
@@ -150,7 +152,7 @@ docker build \
         --network=$POSM_NET_NAME \
         --build-arg OSMOSIS_VER=0.48.3 \
         --build-arg JAVA_VER=8u272-jre-buster \
-        --build-arg OSM_CONTAINER_NAME=$OSM_CONTAINER_NAME \
+        --build-arg PG_CONTAINER_NAME=$PG_CONTAINER_NAME \
         --build-arg OSM_USER=$osm_pg_owner \ 
         --build-arg OSM_PASSWORD=$osm_pg_pass \ 
         --build-arg OSM_DB=$osm_pg_dbname \
@@ -164,8 +166,8 @@ mkdir -p $OSM_EXPORT_DIR
 docker run --name $OSMOSIS_CONTAINER_NAME \
        --detach \
        --network=$POSM_NET_NAME \
-        --volume osm_import:$OSM_IMPORT_DIR \
-        --volume osm_export:$OSM_EXPORT_DIR \
+        --volume $OSM_HOST_IMPORT_DIR:$OSM_CONTAINER_IMPORT_DIR \
+        --volume $OSM_HOST_EXPORT_DIR:$OSM_CONTAINER_EXPORT_DIR \
        $OSMOSIS_DOCKER_TAG
 
 

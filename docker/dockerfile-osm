@@ -9,6 +9,14 @@ ARG OSM_DB
 ARG PG_ADMIN_USER
 ARG PG_ADMIN_PASSWORD
 
+# default posm user info
+ARG osm_posm_user="POSM"
+ARG osm_posm_description="Portable OpenStreetMap"
+ARG osm_posm_password=awesomeposm
+# base URL for iD app definition
+ARG osm_fqdn=localhost
+ARG osm_base_url="http://${osm_fqdn}"
+
 WORKDIR /opt/osm
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
@@ -35,7 +43,8 @@ RUN apt update && \
         libffi-dev \
         libgd-dev \
         libarchive-dev \
-        libbz2-dev
+        libbz2-dev \
+        jq
 
 # Needed by something in 'rake db:create'
 # TODO I get the following weird error when I build this image - need to check nodejs and npm versions installed above:
@@ -60,6 +69,8 @@ RUN cd $OSM_DST/osm-web && \
 # Add our config/database.yml, which has the appropriate user/pass/host set.
 # TODO Generate this dynamically in build_posm.sh
 ADD osm/config/database.yml $OSM_DST/osm-web/config/database.yml 
+ADD osm/config/initializers/action_mailer.rb $OSM_DST/osm-web/config/initializers/action_mailer.rb
+ADD osm/lib/tasks/osm.rake $OSM_DST/osm-web/lib/tasks/osm.rake
 
 # Create an OSM user.  The username must match what's in the Rails 'database.yml'. 
 RUN PGPASSWORD=$PG_ADMIN_PASSWORD psql -h $PG_HOST -U $PG_ADMIN_USER -c "CREATE ROLE $OSM_USER WITH SUPERUSER PASSWORD '$OSM_PASSWORD' LOGIN;"
@@ -89,7 +100,9 @@ RUN cd $OSM_DST/osm-web && \
 # See https://github.com/openstreetmap/openstreetmap-website/issues/2016
 RUN cd $OSM_DST/osm-web && \
     bundle exec rake i18n:js:export && \
-    bundle exec rake assets:precompile
+    bundle exec rake assets:precompile && \
+    export osm_id_key=$(bundle exec rake osm:apps:create name="OSM iD" url="${osm_base_url}" | jq -r .key) && \
+    bundle exec rake osm:users:create display_name="${osm_posm_user}" description="${osm_posm_description}" password="${osm_posm_password}"
 
 # Set up the command that will run when the container is started.
 ADD osm/run_osm.sh /

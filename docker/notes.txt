@@ -1,6 +1,7 @@
 #
 # TODO general
 #
+==> docker-compose file for all containers 
 ==> Figure out why we get these errors on starting OSM in the container, and fix them if they're important:
 pngcrush worker: `pngcrush` not found; please provide proper binary or disable this worker (--no-pngcrush argument or `:pngcrush => false` through options)
 advpng worker: `advpng` not found; please provide proper binary or disable this worker (--no-advpng argument or `:advpng => false` through options)
@@ -12,7 +13,15 @@ jpegtran worker: `jpegtran` not found; please provide proper binary or disable t
 gifsicle worker: `gifsicle` not found; please provide proper binary or disable this worker (--no-gifsicle argument or `:gifsicle => false` through options)
 ==> Write logs from containers to some directory on the host in order to facilitate access.
 ==> Figure out a better way to handle secrets / credentials.  Perhaps use "docker secret"?
-==> Building OSM is a bit tricky because cached images contain stuff that needs to happen on every build (PG-related stuff in particular).  Restructure.
+==> Building OSM is a bit tricky because cached images contain stuff that needs to happen if/when the database gets deleted (PG-related stuff in particular, such 
+    as 'rake db:create' and 'rake db:migrate').  Restructure.
+==> Be sure to go through the comments in the various Dockerfiles to address potential issues, such as the compilation of functions related to 'map' OSM call and 
+    the recommendation to run OSM on Phusion Passenger
+==> Play around with Java and PG options to improve Osmosis performance, especially JVM memory and PG checkpoint-related params.  Performance on database import 
+    (and export, presumably) seems to be worse than I would expect.  Docker Desktop settings may also be a factor.
+==> Look into how OSM handles sending confirmation emails.  Can/should this be done a different way?  The current posm/openstreetmap-website disables emails
+    sending in ActionMailer by copying a special config file from kickstart/etc.
+==> Networking support - allow use of "posm.io" as local host name?
 
 
 
@@ -34,12 +43,23 @@ OSM_DOCKER_TAG=posm/posm-osm:0.1 OSM_CONTAINER_NAME=posm-osm bash -c 'docker run
 OSM_DOCKER_TAG=posm/posm-osm:0.1 OSM_CONTAINER_NAME=posm-osm bash -c 'docker run --name $OSM_CONTAINER_NAME -it --network=posm-net -p 80:3000 --rm -e OSM_DST=/opt/osm $OSM_DOCKER_TAG'
 
 # build Osmosis
-osm_pg_owner="openstreetmap" osm_pg_pass="openstreetmap" osm_pg_dbname="openstreetmap" OSMOSIS_DOCKER_TAG=posm/posm-osmosis:0.1 POSM_NET_NAME=posm-net OSM_CONTAINER_NAME=posm-osm bash -c 'docker build --file ./dockerfile-osmosis --network=$POSM_NET_NAME --build-arg OSMOSIS_VER=0.48.3 --build-arg JAVA_VER=8u272-jre-buster --build-arg OSM_CONTAINER_NAME=$OSM_CONTAINER_NAME --build-arg OSM_USER=$osm_pg_owner  --build-arg OSM_PASSWORD=$osm_pg_pass  --build-arg OSM_DB=$osm_pg_dbname --tag $OSMOSIS_DOCKER_TAG .'
+osm_pg_owner="openstreetmap" osm_pg_pass="openstreetmap" osm_pg_dbname="openstreetmap" OSMOSIS_DOCKER_TAG=posm/posm-osmosis:0.1 POSM_NET_NAME=posm-net PG_CONTAINER_NAME=posm-pg bash -c 'docker build --file ./dockerfile-osmosis --network=$POSM_NET_NAME --build-arg OSMOSIS_VER=0.48.3 --build-arg JAVA_VER=8u272-jre-buster --build-arg PG_CONTAINER_NAME=$PG_CONTAINER_NAME --build-arg OSM_USER=$osm_pg_owner  --build-arg OSM_PASSWORD=$osm_pg_pass  --build-arg OSM_DB=$osm_pg_dbname --tag $OSMOSIS_DOCKER_TAG .'
 # run Osmosis with bash shell
-OSMOSIS_CONTAINER_NAME=posm-osmosis OSMOSIS_DOCKER_TAG=posm/posm-osmosis:0.1 POSM_NET_NAME=posm-net OSM_IMPORT_DIR=/Users/cvonsee/temp/osm_import OSM_EXPORT_DIR=/Users/cvonsee/temp/osm_export bash -c 'docker run --rm --name $OSMOSIS_CONTAINER_NAME -it --network=$POSM_NET_NAME --volume osm_import:$OSM_IMPORT_DIR --volume osm_export:$OSM_EXPORT_DIR $OSMOSIS_DOCKER_TAG /bin/bash'
+OSMOSIS_CONTAINER_NAME=posm-osmosis OSMOSIS_DOCKER_TAG=posm/posm-osmosis:0.1 POSM_NET_NAME=posm-net OSM_HOST_IMPORT_DIR=/Users/cvonsee/temp/osm_import OSM_HOST_EXPORT_DIR=/Users/cvonsee/temp/osm_export OSM_CONTAINER_IMPORT_DIR=/osm_import OSM_CONTAINER_EXPORT_DIR=/osm_export bash -c 'docker run --rm --name $OSMOSIS_CONTAINER_NAME -it --network=$POSM_NET_NAME --volume $OSM_HOST_IMPORT_DIR:$OSM_CONTAINER_IMPORT_DIR --volume $OSM_HOST_EXPORT_DIR:$OSM_CONTAINER_EXPORT_DIR $OSMOSIS_DOCKER_TAG /bin/bash'
 
+# run Osmosis on docker container (must be run from bash shell within container)
+/opt/osmosis/bin/osmosis --read-pbf-fast /osm_import/us-west-latest.osm.pbf --log-progress --write-apidb authFile=/opt/osmosis/osm.properties validateSchemaVersion=no
 
 # delete all stopped containers
 docker rm $(docker ps --filter "status=exited" -q)
 # clear out all dangling images
 docker rmi -f $(docker images -a --filter=dangling=true -q)
+
+
+
+
+
+DATA LOADS
+===========
+1st run: No tuning; base Docker Desktop on Mac
+INFO: Total execution time: 178728639 milliseconds.
