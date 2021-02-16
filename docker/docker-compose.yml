@@ -1,0 +1,142 @@
+version: '3.2'
+
+services:
+  osm-db:
+    image: posm/osm-pg:0.1
+    build:
+      context: ./osm-web/postgres
+      args:
+        PGSQL_VER: 12
+        POSTGIS_VER: 3
+    environment:
+      POSTGRES_USER: $OSM_PG_ADMIN_USER
+      POSTGRES_PASSWORD: $OSM_PG_ADMIN_PASSWORD
+    networks:
+      - osm
+
+  osm-web:
+    image: posm/posm-osm:0.1
+    build:
+      context: ./osm-web
+      args:
+        # FIXME: use environment variable for posm.io
+        OSM_FQDN: osm.posm.io
+    environment:
+      OSM_DST: /opt/osm
+      PG_HOST: osm-db
+      PG_ADMIN_USER: $OSM_PG_ADMIN_USER
+      PG_ADMIN_PASSWORD: $OSM_PG_ADMIN_PASSWORD
+      OSM_USER: $OSM_PG_OWNER
+      OSM_PASSWORD: $OSM_PG_PASS
+      OSM_DB: $OSM_PG_DBNAME
+    volumes:
+      - osm-web-static:/web-static/
+      - ./osm-web/config/database.yml:/opt/osm/osm-web/config/database.yml
+      - ./osm-web/run_osm.sh:/run_osm.sh
+    networks:
+      - osm
+    depends_on:
+      - osm-db
+
+  osmosis:
+    image: posm/posm-osmosis:0.1
+    build:
+      context: ./osmosis
+      args:
+        OSMOSIS_VER: 0.48.3
+        JAVA_VER: 8u272-jre-buster
+    environment:
+      OSM_DST: /opt/osm
+      OSMOSIS_INSTALL_DIR: /opt/osmosis
+      OSM_PG_HOST: osm-db
+      PG_CONTAINER_NAME: $PG_CONTAINER_NAME
+      OSM_USER: $OSM_PG_OWNER
+      OSM_PASSWORD: $OSM_PG_PASS
+      OSM_DB: $OSM_PG_DBNAME
+    volumes:
+      - ./.temp/osm_import/:/osm_import
+      - ./.temp/osm_export/:/osm_export
+    networks:
+      - osm
+    depends_on:
+      - osm-db
+
+  replay-tool-db:
+    image: postgres:9.5
+    env_file: ./replay-tool/server.env
+    environment:
+      POSTGRES_DB: $REPLAY_TOOL_PG_DB
+      POSTGRES_USER: $REPLAY_TOOL_PG_USER
+      POSTGRES_PASSWORD: $REPLAY_TOOL_PG_PASSOWRD
+    networks:
+      - replay-tool
+    restart: always
+    volumes:
+      - replay-tool-db-data:/var/lib/postgresql/data
+
+  replay-tool-redis:
+    image: redis:latest
+    environment:
+      POSM_DB_NAME: $REPLAY_TOOL_PG_DB
+      POSM_DB_USER: $REPLAY_TOOL_PG_USER
+      POSM_DB_PASSWORD: $REPLAY_TOOL_PG_PASSOWRD
+      POSM_DB_HOST: replay-tool-db
+    networks:
+      - replay-tool
+    restart: always
+    volumes:
+      - replay-tool-redis-data:/data
+
+  replay-tool-server:
+    image: docker.pkg.github.com/posm/posm-replay-server/posm-replay-server:v1.0
+    environment:
+      REPLAY_TOOL_CLIENT_VERSION: 1.0
+      DATABASE_HOST: replay-tool-db
+      DATABASE_NAME: $REPLAY_TOOL_PG_DB
+      DATABASE_USER: $REPLAY_TOOL_PG_USER
+      DATABASE_PASSWORD: $REPLAY_TOOL_PG_PASSOWRD
+    env_file: ./replay-tool/server.env
+    command: >
+      bash -c "
+      [ -f posm-build.zip ] || \
+        ( \
+          curl -o posm-build.zip -L \
+            "https://github.com/posm/posm-replay-client/releases/download/posm-build-v1.0/posm-build.zip" \
+          && rm -rf /client/* && unzip posm-build.zip -d /client/ \
+      ) && bash -c '/code/scripts/wait-for-it.sh replay-tool-db:5432 && /code/scripts/prod_exec.sh'
+      "
+    volumes:
+      # - /opt/data/aoi/:/aoi
+      - replay-tool-media:/media
+      - replay-tool-client:/client
+    restart: always
+    networks:
+      - replay-tool
+    depends_on:
+      - replay-tool-db
+      - replay-tool-redis
+
+  nginx:
+    image: nginx
+    volumes:
+      - replay-tool-client:/etc/nginx/templates/replay-tool
+      - osm-web-static:/etc/nginx/templates/osm-web
+      - ./nginx/sites-available/:/etc/nginx/conf.d/
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      - replay-tool
+      - osm
+
+networks:
+  replay-tool:
+  osm:
+
+volumes:
+  # replay-tool volumes
+  replay-tool-client:
+  replay-tool-media:
+  replay-tool-db-data:
+  replay-tool-redis-data:
+  osm-web-static:
