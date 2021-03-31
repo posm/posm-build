@@ -21,6 +21,8 @@ done
 OSM_POSM_USER="POSM"
 OSM_POSM_DESCRIPTION="Portable OpenStreetMap"
 OSM_POSM_PASSWORD=awesomeposm
+ARG OSM_FQDN=posm.io
+ARG OSM_BASE_URL="http://${OSM_FQDN}"
 
 
 # Create an OSM user.  The username must match what's in the Rails 'database.yml'.
@@ -49,6 +51,8 @@ bundle exec rake osm:users:create \
     display_name="${OSM_POSM_USER}" \
     description="${OSM_POSM_DESCRIPTION}" \
     password="${OSM_POSM_PASSWORD}" || true
+
+export OSM_ID_KEY=$(bundle exec rake osm:apps:create name="OSM iD" url="${OSM_BASE_URL}" | jq -r .key)
 cd ../
 
 # FIXME: Run this only once initially ---------------------------------

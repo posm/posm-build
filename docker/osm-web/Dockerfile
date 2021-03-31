@@ -3,7 +3,7 @@ FROM ruby:2.7.2
 ARG OSM_DST=/opt/osm
 
 # base URL for iD app definition
-ARG OSM_FQDN=localhost
+ARG OSM_FQDN=posm.io
 ARG OSM_BASE_URL="http://${OSM_FQDN}"
 
 WORKDIR /opt/osm
@@ -12,8 +12,8 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 # firefox-geckodriver equivalent needed?
-RUN apt update && \
-    apt install --no-install-recommends -y \
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
         libmagickwand-dev \
         libxml2-dev \
         libxslt1-dev \
@@ -69,14 +69,12 @@ ENV DISABLE_DATABASE_ENVIRONMENT_CHECK 1
 
 # Required because we're running in production mode?  This step takes a while...
 # See https://github.com/openstreetmap/openstreetmap-website/issues/2016
-RUN cd $OSM_DST/osm-web && \
-    bundle exec rake i18n:js:export && \
-    bundle exec rake assets:precompile && \
-    export osm_id_key=$(bundle exec rake osm:apps:create name="OSM iD" url="${OSM_BASE_URL}" | jq -r .key)
+RUN cd $OSM_DST/osm-web \
+    && bundle exec rake i18n:js:export \
+    && bundle exec rake assets:precompile
 
 # Set up the command that will run when the container is started.
 ADD run_osm.sh /
-RUN chmod u+x /run_osm.sh
 
 # TODO https://github.com/openstreetmap/openstreetmap-website/blob/master/CONFIGURE.md recommends using the
 # Phusion Passenger server instead of Rails in production.

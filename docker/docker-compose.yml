@@ -19,8 +19,7 @@ services:
     build:
       context: ./osm-web
       args:
-        # FIXME: use environment variable for posm.io
-        OSM_FQDN: osm.posm.io
+        OSM_FQDN: $OSM_FQDN
     environment:
       OSM_DST: /opt/osm
       PG_HOST: osm-db
@@ -49,11 +48,14 @@ services:
       OSM_DST: /opt/osm
       OSMOSIS_INSTALL_DIR: /opt/osmosis
       OSM_PG_HOST: osm-db
-      PG_CONTAINER_NAME: $PG_CONTAINER_NAME
       OSM_USER: $OSM_PG_OWNER
       OSM_PASSWORD: $OSM_PG_PASS
       OSM_DB: $OSM_PG_DBNAME
+    command: /pipe_reader_writer.sh
     volumes:
+      - replay-tool-osmosis:/opt/data/aoi
+      - ./osmosis/pipe_reader_writer.sh:/pipe_reader_writer.sh
+      - ./.tmp/osmosis_command/:/tmp/osmosis_command/
       - ./.temp/osm_import/:/osm_import
       - ./.temp/osm_export/:/osm_export
     networks:
@@ -63,7 +65,6 @@ services:
 
   replay-tool-db:
     image: postgres:9.5
-    env_file: ./replay-tool/server.env
     environment:
       POSTGRES_DB: $REPLAY_TOOL_PG_DB
       POSTGRES_USER: $REPLAY_TOOL_PG_USER
@@ -76,26 +77,30 @@ services:
 
   replay-tool-redis:
     image: redis:latest
-    environment:
-      POSM_DB_NAME: $REPLAY_TOOL_PG_DB
-      POSM_DB_USER: $REPLAY_TOOL_PG_USER
-      POSM_DB_PASSWORD: $REPLAY_TOOL_PG_PASSOWRD
-      POSM_DB_HOST: replay-tool-db
     networks:
       - replay-tool
     restart: always
     volumes:
       - replay-tool-redis-data:/data
 
-  replay-tool-server:
-    image: docker.pkg.github.com/posm/posm-replay-server/posm-replay-server:v1.0
+  replay-tool-server: &replay-tool-server
+    image: docker.pkg.github.com/posm/posm-replay-server/posm-replay-server:v1.1
     environment:
       REPLAY_TOOL_CLIENT_VERSION: 1.0
       DATABASE_HOST: replay-tool-db
       DATABASE_NAME: $REPLAY_TOOL_PG_DB
       DATABASE_USER: $REPLAY_TOOL_PG_USER
       DATABASE_PASSWORD: $REPLAY_TOOL_PG_PASSOWRD
-    env_file: ./replay-tool/server.env
+      CELERY_REDIS_URL: redis://replay-tool-redis:6379/0
+      # OSM Related CONFIGS
+      AOI_ROOT: /aoi/
+      OSM_BASE_URL: http://osm-web::3000
+      OSMOSIS_DB_HOST: osm-db
+      OSMOSIS_AOI_ROOT: /opt/data/aoi
+      POSM_DB_HOST: osm-db
+      POSM_DB_NAME: $OSM_PG_DBNAME
+      POSM_DB_USER: $OSM_PG_OWNER
+      POSM_DB_PASSWORD: $OSM_PG_PASS
     command: >
       bash -c "
       [ -f posm-build.zip ] || \
@@ -106,15 +111,29 @@ services:
       ) && bash -c '/code/scripts/wait-for-it.sh replay-tool-db:5432 && /code/scripts/prod_exec.sh'
       "
     volumes:
-      # - /opt/data/aoi/:/aoi
+      - ./.tmp/osmosis_command/:/tmp/osmosis_command/
+      - ./.tmp/replay-tool-logs/:/var/log/
+      - replay-tool-osmosis:/aoi
       - replay-tool-media:/media
       - replay-tool-client:/client
     restart: always
     networks:
+      - osm
       - replay-tool
     depends_on:
       - replay-tool-db
       - replay-tool-redis
+      - osm-web
+      - osm-db
+
+  replay-tool-worker:
+    <<: *replay-tool-server
+    command: >
+      bash -c "
+        /code/scripts/wait-for-it.sh replay-tool-db:5432 \
+        && mkdir -p /var/log/celery/ \
+        && celery -A posm_replay worker -f /var/log/celery/celery.log
+      "
 
   nginx:
     image: nginx
@@ -139,4 +158,5 @@ volumes:
   replay-tool-media:
   replay-tool-db-data:
   replay-tool-redis-data:
+  replay-tool-osmosis:
   osm-web-static:
