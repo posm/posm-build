@@ -3,3 +3,6 @@ kickstart/bootstrap.log
 kickstart/sources/
 .vscode
 **/.DS_Store
+
+docker/.tmp/
+docker/osmosis/pipe_reader_writer.sh

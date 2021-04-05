@@ -18,4 +18,4 @@ RUN apt update && \
     apt install --no-install-recommends -y \
         "postgis" \
         "postgresql-${PGSQL_VER}-postgis-${POSTGIS_VER}" \
-        "postgresql-${PGSQL_VER}-postgis-${POSTGIS_VER}-scripts"        
+        "postgresql-${PGSQL_VER}-postgis-${POSTGIS_VER}-scripts"

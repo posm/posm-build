@@ -15,10 +15,6 @@ ARG OSMOSIS_VER=0.46
 ARG JAVA_VER=8u272-jre-buster
 
 ARG OSMOSIS_INSTALL_DIR=/opt/osmosis
-ARG PG_CONTAINER_NAME 
-ARG OSM_USER 
-ARG OSM_PASSWORD 
-ARG OSM_DB
 
 RUN mkdir -p /osm_import && \
     mkdir -p /osm_export
@@ -33,8 +29,6 @@ RUN wget https://github.com/openstreetmap/osmosis/releases/download/${OSMOSIS_VE
     rm osmosis-${OSMOSIS_VER}.tgz && \
     chmod a+x bin/osmosis
 
-ADD osmosis/osm.properties $OSMOSIS_INSTALL_DIR
-RUN sed -i -e "s/{{PG_CONTAINER_NAME}}/${PG_CONTAINER_NAME}/" $OSMOSIS_INSTALL_DIR/osm.properties && \
-    sed -i -e "s/{{OSM_DB}}/${OSM_DB}/" $OSMOSIS_INSTALL_DIR/osm.properties && \
-    sed -i -e "s/{{OSM_USER}}/${OSM_USER}/" $OSMOSIS_INSTALL_DIR/osm.properties && \
-    sed -i -e "s/{{OSM_PASSWORD}}/${OSM_PASSWORD}/" $OSMOSIS_INSTALL_DIR/osm.properties
+ADD entry_point.sh osm-sample.properties /
+
+ENTRYPOINT ["/entry_point.sh"]
